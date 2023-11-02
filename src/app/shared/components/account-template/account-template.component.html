@@ -1,0 +1,33 @@
+<div class="align-items-start">
+  <h4 class="h3 strong py-4 font-weight-bold">{{ accountName }}</h4>
+  <div class="row px-3">
+    <div class="justify-content-start inside-search-box rounded-2 col-9">
+      <input
+        matInput
+        [(ngModel)]="searchText"
+        type="search"
+        class="bg-light ps-4"
+        placeholder="{{ searchPlaceHolder }}"
+      />
+      <button
+        type="button"
+        id="searchButton"
+        class="btn btn-danger rounded text-center px-5 bold"
+        (click)="searchEvent()"
+      >
+        SEARCH
+      </button>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        id="createButton"
+        class="btn rounded btn-outline-danger btn-lg"
+        (click)="createEvent()"
+      >
+        {{ buttonName }}
+      </button>
+    </div>
+  </div>
+  <div class="pb-3"></div>
+</div>

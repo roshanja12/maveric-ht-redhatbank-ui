@@ -1,0 +1,21 @@
+<div class="background-customise pt-5">
+    <div class="account-container col-xl-10 offset-lg-1 p-4">
+      <app-account-template
+        [searchText]="searchText"
+        (onSearchClick)="getSearch($event)"
+        (onCreateClick)="createNewSavingsAccount($event)"
+        accountName="Savings Account"
+        buttonName="+Create Saving Account"
+        searchPlaceHolder="Search By: Customer Name / Customer Id  / Customer Email / Customer Phone"
+      />
+      <app-table-template
+        [columns]="tableColumns"
+        [visibleColumnsElements]="visibleColumnElements"
+        [dataTable]="currentSavingsAccounts"
+        [collectionSize]="collectionSize"
+        [pageSize]="pageSize"
+        [rowOptions]="rowOptions"
+      />
+    </div>
+  </div>
+  

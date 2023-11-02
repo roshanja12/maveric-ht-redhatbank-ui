@@ -1,0 +1,94 @@
+<div class="row justify-content-center px-3">
+  <div *ngIf="dataTable == undefined; else showTable">
+    <app-no-content-result></app-no-content-result>
+  </div>
+  <ng-template #showTable>
+    <div class="pt-5">
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table align-middle table-responsive">
+          <thead class="table-light px-3">
+            <tr>
+              <th
+                class="fw-normal text-muted text-center"
+                scope="col"
+                appSortColumns
+                [appSort]="dataTable"
+                data-order="desc"
+                data-type="text"
+                [attr.data-name]="visibleColumnsElements[i]"
+                *ngFor="let head of columns; let i = index"
+              >
+                {{ head }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="px-3 text-justify text-center">
+            <tr
+              scope="row"
+              class="m-3"
+              *ngFor="
+                let item of dataTable
+                  | slice : (page - 1) * pageSize : page * pageSize
+              "
+            >
+              <td *ngFor="let header of visibleColumnsElements">
+                {{ item[header] }}
+              </td>
+              <td *ngIf="numberOfRowOptions != 0" ngbDropdown>
+                <button class="btn btn-light bi-three-dots" ngbDropdownToggle>
+                  <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                    <button
+                      *ngFor="let menuItem of rowOptions"
+                      ngbDropdownItem
+                      (click)="sendEventBack(item, menuItem)"
+                    >
+                      {{ menuItem }}
+                    </button>
+                  </div>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-end mr-3">
+        <div ngbDropdown class="mr-3">
+          <div>
+            Show
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="dropdownConfig"
+              ngbDropdownToggle
+            >
+              {{ selectedDropdownValue }}
+              <span class="bi bi-caret-up-fill"></span>
+            </button>
+
+            <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+              <button ngbDropdownItem (click)="updateDropdownValue(25)">
+                25
+              </button>
+              <button ngbDropdownItem (click)="updateDropdownValue(50)">
+                50
+              </button>
+              <button ngbDropdownItem (click)="updateDropdownValue(75)">
+                75
+              </button>
+              <button ngbDropdownItem (click)="updateDropdownValue(100)">
+                100
+              </button>
+            </div>
+          </div>
+        </div>
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="page"
+          [maxSize]="5"
+          [pageSize]="pageSize"
+          class="px-2"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </ng-template>
+</div>
