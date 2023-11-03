@@ -1,0 +1,20 @@
+<div class="background-customise pt-5">
+  <div class="account-container col-xl-10 offset-lg-1 p-4">
+    <app-account-template
+      [searchText]="searchText"
+      (onSearchClick)="getSearch($event)"
+      (onCreateClick)="createNewCustomer($event)"
+      accountName="Customer Account"
+      buttonName="+Create Customer"
+      searchPlaceHolder="Search By: User Name / User Id / User Id / User Email / User Phone"
+    />
+    <app-table-template
+      [columns]="tableColumns"
+      [visibleColumnsElements]="visibleColumnElements"
+      [dataTable]="currentCustomers"
+      [collectionSize]="collectionSize"
+      [pageSize]="pageSize"
+      [rowOptions]="rowOptions"
+    />
+  </div>
+</div>
