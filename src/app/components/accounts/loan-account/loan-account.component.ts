@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Options } from '@popperjs/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AddLoanAccountComponent } from 'src/app/forms/add-loan-account/add-loan-account.component';
 import { CustomerResponse } from 'src/app/models/customer-response.model';
+import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 
@@ -14,10 +16,14 @@ import { SavingsAccountsService } from 'src/app/services/savings-accounts.servic
 export class LoanAccountComponent {
   searchForm: FormGroup;
   modalRef!: BsModalRef;
-  currentLoanAccounts!: any;
+  currentLoanAccounts: LoanAccountsModel[] = [];
   tableColumns!: string[];
+  visibleColumnElements!: string[];
   options!: Options;
+  pageSize = 4;
   searchText!: string;
+  collectionSize: number = 0;
+  rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Withdraw'];
   constructor(
     private formBuilder: FormBuilder,
     private accountService: LoanAccountsService,
@@ -35,15 +41,37 @@ export class LoanAccountComponent {
       'Name',
       'Email ID',
       'Phone Number',
-      'Status',
+      'Loan Status',
+    ];
+    this.visibleColumnElements = [
+      'applicationId',
+      'customerId',
+      'name',
+      'emailId',
+      'phoneNumber',
+      'loanStatus',
     ];
     this.tableColumns = tableColumns;
-
+    this.currentLoanAccounts = [];
+    return;
     this.getAllLoanAccounts();
   }
 
-  getAllLoanAccounts() {}
+  getAllLoanAccounts() {
+    this.accountService.getAllLoanAccounts().subscribe((res) => {
+      this.currentLoanAccounts = res;
+      this.collectionSize = this.currentLoanAccounts.length;
+    });
+  }
 
-  getSearch(searchText: string) {}
-  createNewLoanAccount(createButtonClicked: Event) {}
+  getSearch(searchText: string) {
+    this.accountService.getSearchLoanAccounts(searchText).subscribe((res) => {
+      this.currentLoanAccounts = res;
+      this.collectionSize = this.currentLoanAccounts.length;
+    });
+  }
+  createNewLoanAccount(createButtonClicked: Event) {
+    console.log('Create loan account button ');
+    this.modalRef = this.modalService.show(AddLoanAccountComponent);
+  }
 }

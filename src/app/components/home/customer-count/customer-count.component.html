@@ -1,1 +1,43 @@
-<p>customer-count works!</p>
+<div class="container ">
+  <div class="container-fluid">
+    <div class="shadow rounded p-3">
+      <div class="h4 strong bold">Customer Count</div>
+      <div class="container py-3">
+        <div class="d-flex justify-content-between">
+          <div class="">Total Counts</div>
+          <div class="h2 strong">{{ totalCustomerCount }}</div>
+        </div>
+        <div class="d-flex justify-content-end align-items-center">
+          <div class="px-3">{{ currentYearChosen }}</div>
+          <div ngbDropdown>
+            <button class="btn" ngbDropdownToggle>
+              <i class="bi bi-calendar4-event" style="color: red"></i>
+              Year
+              <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                <button
+                  *ngFor="let menuItem of yearAvailable"
+                  ngbDropdownItem
+                  (click)="customerCountYearChoose(menuItem)"
+                >
+                  {{ menuItem }}
+                </button>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Bar Graph Canvas -->
+      <div>
+        <canvas
+          baseChart
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [legend]="lineChartLegend"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

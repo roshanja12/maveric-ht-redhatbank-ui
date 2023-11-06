@@ -1,11 +1,11 @@
 export interface SavingsAccountModel {
   applicationId: number;
   customerId: number;
-  customerName: string;
+  name: string;
   phoneNumber: string;
-  minOpeningBalance: number;
-  interestCompoundPeriod: string;
-  isAllowOverDraft: boolean;
-  overDraftLimit: number;
+  minOpeningBalance?: number;
+  interestCompoundPeriod?: string;
+  isAllowOverDraft?: boolean;
+  overDraftLimit?: number;
   [key: string]: any;
 }
