@@ -6,7 +6,7 @@
       (onCreateClick)="createNewCustomer($event)"
       accountName="Customer Account"
       buttonName="+Create Customer"
-      searchPlaceHolder="Search By: User Name / User Id / User Id / User Email / User Phone"
+      searchPlaceHolder="Search By: Customer Name / Customer Id / Customer Email / Customer Phone"
     />
     <app-table-template
       [columns]="tableColumns"
@@ -15,6 +15,7 @@
       [collectionSize]="collectionSize"
       [pageSize]="pageSize"
       [rowOptions]="rowOptions"
+      (onRowOptionClick)="rowOptionEvent($event)"
     />
   </div>
 </div>

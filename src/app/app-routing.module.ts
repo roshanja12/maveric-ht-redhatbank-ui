@@ -28,8 +28,9 @@ const routes: Routes = [
     component: LoanAccountComponent,
   },
   {
-    path:'',
-    redirectTo:'/login', pathMatch: 'full'
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
 ];
 

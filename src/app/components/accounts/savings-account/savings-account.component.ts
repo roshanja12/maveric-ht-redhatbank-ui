@@ -4,6 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Options } from 'ngx-bootstrap/positioning/models';
 import { AddSavingsAccountComponent } from 'src/app/forms/add-savings-account/add-savings-account.component';
 import { CustomerResponse } from 'src/app/models/customer-response.model';
+import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { SavingsAccountsService } from 'src/app/services/savings-accounts.servic
 export class SavingsAccountComponent {
   searchForm: FormGroup;
   modalRef!: BsModalRef;
-  currentSavingsAccounts!: any;
+  currentSavingsAccounts: SavingsAccountModel[] = [];
   tableColumns!: string[];
   visibleColumnElements!: string[];
   options!: Options;
@@ -52,7 +53,7 @@ export class SavingsAccountComponent {
     this.tableColumns = tableColumns;
     this.currentSavingsAccounts = [
       {
-        applicationName: 1000,
+        applicationId: 1000,
         customerId: 1,
         name: 'Boomer',
         emailId: 'kdsfksdm@kdmsfk.com',
@@ -69,12 +70,17 @@ export class SavingsAccountComponent {
       this.collectionSize = this.currentSavingsAccounts.length;
     });
   }
+  getAllSearchAccounts(searchText: string) {
+    this.accountService.getSearchSavingsAccounts(searchText).subscribe((res) => {
+      this.currentSavingsAccounts = res;
+      this.collectionSize = this.currentSavingsAccounts.length;
+    })
+  }
 
   getSearch(searchText: string) {
     this.searchText = searchText;
     console.log('search button clicked ' + searchText);
-    this.currentSavingsAccounts =
-      this.accountService.getSearchSavingsAccounts(searchText);
+    this.accountService.getSearchSavingsAccounts(searchText);
   }
   createNewSavingsAccount(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);

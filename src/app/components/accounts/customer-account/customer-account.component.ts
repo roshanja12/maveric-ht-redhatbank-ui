@@ -14,6 +14,7 @@ import { Options } from 'src/app/models/options.model';
 import { CustomerResponse } from 'src/app/models/customer-response.model';
 import { TableTemplateComponent } from 'src/app/shared/components/table-template/table-template.component';
 import { CustomerModel } from 'src/app/models/customer.model';
+import { ModifyCustomerComponent } from 'src/app/forms/modify-customer/modify-customer.component';
 
 @Component({
   selector: 'app-customer-account',
@@ -31,6 +32,7 @@ export class CustomerAccountComponent {
   response!: CustomerResponse;
   rowOptions: string[] = ['Modify'];
   searchText!: string;
+  actionIntended: string = '';
   collectionSize: number = 0;
   constructor(
     private formBuilder: FormBuilder,
@@ -55,7 +57,7 @@ export class CustomerAccountComponent {
     this.visibleColumnElements = [
       'firstName',
       'lastName',
-      'emailId',
+      'email',
       'phoneNumber',
       'city',
       'customerId',
@@ -63,17 +65,17 @@ export class CustomerAccountComponent {
     this.currentCustomers = [
       {
         customerId: 1,
-        firstName: 'Kamal',
+        firstName: 'Ranjit',
         lastName: 'Yadav',
-        emailId: 'sdjkf@kjd.com',
+        email: 'sdjkf@kjd.com',
         phoneNumber: '9184278214',
         city: 'Bengaluru',
       },
       {
         customerId: 2,
-        firstName: 'Kamal',
+        firstName: 'Subash',
         lastName: 'Yadav',
-        emailId: 'sdjkf@kjd.com',
+        email: 'sdjkf@kjd.com',
         phoneNumber: '9184278214',
         city: 'Bengaluru',
       },
@@ -81,7 +83,329 @@ export class CustomerAccountComponent {
         customerId: 3,
         firstName: 'Kamal',
         lastName: 'Yadav',
-        emailId: 'sdjkf@kjd.com',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },{
+        customerId: 1,
+        firstName: 'Ranjit',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 2,
+        firstName: 'Subash',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
+        phoneNumber: '9184278214',
+        city: 'Bengaluru',
+      },
+      {
+        customerId: 3,
+        firstName: 'Kamal',
+        lastName: 'Yadav',
+        email: 'sdjkf@kjd.com',
         phoneNumber: '9184278214',
         city: 'Bengaluru',
       },
@@ -98,13 +422,37 @@ export class CustomerAccountComponent {
     });
   }
 
+  getSearchCustomers(searchText: string) {
+    this.customerService.getSearchCustomers(searchText).subscribe((res) => {
+      this.currentCustomers = res;
+      this.collectionSize = this.currentCustomers.length;
+    });
+  }
+
   getSearch(searchText: string) {
     this.searchText = searchText;
     console.log('search button clicked ' + searchText);
-    this.getAllCustomers();
+    this.getSearchCustomers(searchText);
   }
   createNewCustomer(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);
     this.modalRef = this.modalService.show(AddCustomerComponent);
+  }
+
+  rowOptionEvent(receivedEvent: any) {
+    this.actionIntended = receivedEvent[1];
+    if (this.actionIntended === 'Modify') {
+      console.log(this.actionIntended);
+      // Get the selected customer object from receivedEvent[0]
+      const selectedCustomer: CustomerModel = receivedEvent[0];
+
+      // Open the ModifyCustomerComponent modal and pass the selected customer data
+      const initialState = {
+        customerData: selectedCustomer,
+      };
+      this.modalRef = this.modalService.show(ModifyCustomerComponent, {
+        initialState,
+      });
+    }
   }
 }

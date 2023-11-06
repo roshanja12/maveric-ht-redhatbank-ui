@@ -17,10 +17,31 @@ export class AddCustomerComponent {
     private customerService: CustomerAccountsService
   ) {
     this.addCustomerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      emailId: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      firstName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
+      ],
       selectCity: [''],
     });
   }

@@ -35,6 +35,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralFormSkeletonComponent } from './shared/forms/general-form-skeleton/general-form-skeleton.component';
 import { NoContentResultComponent } from './shared/components/no-content-result/no-content-result.component';
 import { AddSavingsAccountComponent } from './forms/add-savings-account/add-savings-account.component';
+import { ModifyCustomerComponent } from './forms/modify-customer/modify-customer.component';
+import { AddLoanAccountComponent } from './forms/add-loan-account/add-loan-account.component';
+import { LoanIndividualAccountComponent } from './components/individual/loan-individual-account/loan-individual-account.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,9 @@ import { AddSavingsAccountComponent } from './forms/add-savings-account/add-savi
     GeneralFormSkeletonComponent,
     NoContentResultComponent,
     AddSavingsAccountComponent,
+    ModifyCustomerComponent,
+    AddLoanAccountComponent,
+    LoanIndividualAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +77,7 @@ import { AddSavingsAccountComponent } from './forms/add-savings-account/add-savi
     AlertModule,
     FormsModule,
     NgbModule,
+    NgChartsModule,
   ],
   providers: [
     AlertConfig,

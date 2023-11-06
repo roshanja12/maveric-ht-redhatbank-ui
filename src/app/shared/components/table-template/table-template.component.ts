@@ -20,6 +20,7 @@ export class TableTemplateComponent implements OnInit {
   @Input() pageSize!: number;
   @Input() rowOptions: string[] = [];
   @Input() page: number = 1;
+  @Output() onRowOptionClick = new EventEmitter<[Data, string]>();
 
   ngOnInit() {
     console.log(this.columns);
@@ -38,5 +39,8 @@ export class TableTemplateComponent implements OnInit {
   }
   sendEventBack(item: Data, action: string) {
     console.log(item, action);
+    // emit event to parent component with the item and the action performed
+    console.log("Emitting event "+item, " action "+action)
+    this.onRowOptionClick.emit([item, action]);
   }
 }

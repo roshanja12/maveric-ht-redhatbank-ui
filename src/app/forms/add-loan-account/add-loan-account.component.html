@@ -1,0 +1,93 @@
+<div class="justify-content-center align-items-center">
+  <div class="jumbotron h-100 d-flex">
+    <div class="container-fluid">
+      <div class="container-fluid p-3 w-90">
+        <button
+          type="button"
+          class="btn-close btn-close-red float-end"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+
+        <h3 class="h3 text-center bold strong py-4">Create Loan Account</h3>
+        <form
+          [formGroup]="addLoanAccountForm"
+          class="form-floating mb-3"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="customerId"
+              formControlName="customerId"
+            />
+            <label class="form-label" for="customerId">Customer ID</label>
+            <div
+              class=""
+              *ngIf="addLoanAccountForm.get('customerId')?.hasError('required')"
+            >
+              Customer ID is required
+            </div>
+            <div
+              class=""
+              *ngIf="addLoanAccountForm.get('customerId')?.hasError('pattern')"
+            >
+              Customer ID is number only
+            </div>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control bg-light"
+              id="name"
+              formControlName="name"
+              readonly
+            />
+            <label class="form-label" for="name">Name</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control bg-light"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              readonly
+            />
+            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <div
+              class=""
+              *ngIf="addLoanAccountForm.get('phoneNumber')?.hasError('pattern')"
+            >
+              Phone Number is numeric only
+            </div>
+          </div>
+          <div class="form-floating mb-2">
+            <select
+              id="savingsAccount"
+              formControlName="savingsAccount"
+              class="form-select"
+              [disabled]="savingsAccountsAvailable.length==0"
+            >
+              <option *ngFor="let savingsAccount of savingsAccountsAvailable">
+                {{ savingsAccount }}
+              </option>
+            </select>
+            <label for="minOpeningBalance">Min Opening Balance</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="file" class="form-control-file" id="documentUpload" />
+          </div>
+          <button
+            type="submit"
+            [disabled]="addLoanAccountForm.invalid"
+            class="btn btn-danger w-100"
+          >
+            CREATE
+          </button>
+          <div class="pt-4"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
