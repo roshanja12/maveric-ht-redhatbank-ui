@@ -5,6 +5,8 @@ import { HomeComponent } from './components/home/home.component';
 import { CustomerAccountComponent } from './components/accounts/customer-account/customer-account.component';
 import { SavingsAccountComponent } from './components/accounts/savings-account/savings-account.component';
 import { LoanAccountComponent } from './components/accounts/loan-account/loan-account.component';
+import { CustomerSavingsAccountComponent } from './components/accounts/customer-savings-account/customer-savings-account.component';
+import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
 
 const routes: Routes = [
   {
@@ -32,6 +34,19 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full',
   },
+  {
+    path: 'customer-savings-account',
+    component: CustomerSavingsAccountComponent,
+  },
+  {
+    path: 'savings-account',
+    component: SavingsAccountComponent,
+  },
+  {
+    path: 'customer-payment-history',
+    component: CustomerPaymentHistoryComponent,
+  }
+
 ];
 
 @NgModule({
