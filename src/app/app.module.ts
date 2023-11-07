@@ -35,18 +35,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralFormSkeletonComponent } from './shared/forms/general-form-skeleton/general-form-skeleton.component';
 import { NoContentResultComponent } from './shared/components/no-content-result/no-content-result.component';
 import { AddSavingsAccountComponent } from './forms/add-savings-account/add-savings-account.component';
-<<<<<<< Updated upstream
+
 import { ModifyCustomerComponent } from './forms/modify-customer/modify-customer.component';
 import { AddLoanAccountComponent } from './forms/add-loan-account/add-loan-account.component';
 import { LoanIndividualAccountComponent } from './components/individual/loan-individual-account/loan-individual-account.component';
 import { NgChartsModule } from 'ng2-charts';
-=======
 import { CustomerSavingsAccountComponent } from './components/accounts/customer-savings-account/customer-savings-account.component';
 import { DialogModule } from "primeng/dialog"; 
 import { ButtonModule } from "primeng/button";
 import { TableModule } from 'primeng/table';
 import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -71,14 +69,11 @@ import { CustomerPaymentHistoryComponent } from './components/accounts/customer-
     GeneralFormSkeletonComponent,
     NoContentResultComponent,
     AddSavingsAccountComponent,
-<<<<<<< Updated upstream
     ModifyCustomerComponent,
     AddLoanAccountComponent,
     LoanIndividualAccountComponent,
-=======
     CustomerSavingsAccountComponent,
     CustomerPaymentHistoryComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
@@ -90,13 +85,10 @@ import { CustomerPaymentHistoryComponent } from './components/accounts/customer-
     AlertModule,
     FormsModule,
     NgbModule,
-<<<<<<< Updated upstream
     NgChartsModule,
-=======
     TableModule,
     ButtonModule,
     DialogModule
->>>>>>> Stashed changes
   ],
   providers: [
     AlertConfig,
