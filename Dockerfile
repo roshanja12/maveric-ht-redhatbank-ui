@@ -1,6 +1,5 @@
-# Specify the base image
-
-FROM node:16-alpine
+# Specify the base image for Node.js
+FROM node:16-alpine AS build
 
 # Create a working directory
 WORKDIR /app
@@ -14,12 +13,17 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Build the application
+# Build the Angular application
 RUN npm run build
 
-# Expose the port on which the application will run
-EXPOSE 3000
+# Stage 2: Serve the Angular app using a web server
+FROM nginx:alpine
 
-# Start the application
+# Copy the built Angular app from the previous stage to the Nginx directory
+COPY --from=build /app/dist/* /usr/share/nginx/html/
 
-CMD ["npm", "start"]
+# Expose the port on which the application will run (usually 80)
+EXPOSE 80
+
+# Start the Nginx web server
+CMD ["nginx", "-g", "daemon off;"]
