@@ -1,29 +1,26 @@
-# Specify the base image for Node.js
-FROM node:16-alpine AS build
+# Stage 1: Build the Angular app
+FROM node:14 AS builder
 
-# Create a working directory
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
 COPY . .
 
-# Build the Angular application
-RUN npm run build
+# Install Angular CLI globally if not already installed
+RUN npm install -g @angular/cli
 
-# Stage 2: Serve the Angular app using a web server
-FROM nginx:alpine
+# Install project dependencies
+RUN npm install
 
-# Copy the built Angular app from the previous stage to the Nginx directory
-COPY --from=build /app/dist/* /usr/share/nginx/html/
+# Build the Angular app for production
+RUN ng build --prod
 
-# Expose the port on which the application will run (usually 80)
-EXPOSE 80
+# Stage 2: Serve the Angular app
+FROM nginx:latest
 
-# Start the Nginx web server
+# Copy the built Angular app from the builder stage
+COPY --from=builder /app/dist/red-hat-bank /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 4200
+
+# Start Nginx when the container runs
 CMD ["nginx", "-g", "daemon off;"]
