@@ -1,23 +1,23 @@
-# Stage 1: Build the Angular app
-FROM node:14 AS builder
+# # Stage 1: Build the Angular app
+# FROM node:14 AS builder
 
-WORKDIR /app
-COPY . .
+# WORKDIR /app
+# COPY . .
 
-# Install Angular CLI globally if not already installed
-RUN npm install -g @angular/cli
+# # Install Angular CLI globally if not already installed
+# RUN npm install -g @angular/cli
 
-# Install project dependencies
-RUN npm install
+# # Install project dependencies
+# RUN npm install
 
-# Build the Angular app for production
-RUN ng build --prod
+# # Build the Angular app for production
+# RUN ng build --prod
 
 # Stage 2: Serve the Angular app
 FROM nginx:latest
 
 # Copy the built Angular app from the builder stage
-COPY --from=builder /app/dist/red-hat-bank /usr/share/nginx/html
+COPY --from=builder ./dist/red-hat-bank /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 4200
