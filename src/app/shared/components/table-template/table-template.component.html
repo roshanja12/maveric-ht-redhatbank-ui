@@ -1,5 +1,5 @@
 <div class="row justify-content-center px-3">
-  <div *ngIf="collectionSize == 0; else showTable">
+  <div *ngIf="dataTable.length == 0; else showTable">
     <app-no-content-result></app-no-content-result>
   </div>
   <ng-template #showTable>

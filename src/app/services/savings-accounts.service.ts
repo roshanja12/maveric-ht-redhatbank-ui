@@ -30,10 +30,7 @@ export class SavingsAccountsService {
   addSavingsAccount(body: any) {
     return this.http.post(this.addSavingsAccountUrl, body);
   }
-  modifySavingsAccount(applicationId: number, body: any) {
-    return this.http.put(
-      this.modifySavingsAccountUrl + '/' + applicationId,
-      body
-    );
+  modifySavingsAccount(body: any) {
+    return this.http.put(this.modifySavingsAccountUrl, body);
   }
 }

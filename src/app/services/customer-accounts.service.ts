@@ -8,12 +8,12 @@ import { CustomerModel } from '../models/customer.model';
 })
 export class CustomerAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://localhost:8085';
+  apiGateWayUrl = 'http://52.90.228.22:8080';
   apiVersion = '/api/v1';
   getAllCustomersUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/customers';
+    this.apiGateWayUrl + this.apiVersion + '/customers/search';
   getSearchCustomersUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/customers';
+    this.apiGateWayUrl + this.apiVersion + '/customers/search';
   addCustomerUrl: string = this.apiGateWayUrl + this.apiVersion + '/customers';
   modifyCustomerUrl: string =
     this.apiGateWayUrl + this.apiVersion + '/customers';

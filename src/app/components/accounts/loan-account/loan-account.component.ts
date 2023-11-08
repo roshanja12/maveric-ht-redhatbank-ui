@@ -3,10 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Options } from '@popperjs/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddLoanAccountComponent } from 'src/app/forms/add-loan-account/add-loan-account.component';
-import { CustomerResponse } from 'src/app/models/customer-response.model';
 import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
-import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 
 @Component({
   selector: 'app-loan-account',
