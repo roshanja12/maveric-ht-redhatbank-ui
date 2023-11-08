@@ -35,10 +35,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralFormSkeletonComponent } from './shared/forms/general-form-skeleton/general-form-skeleton.component';
 import { NoContentResultComponent } from './shared/components/no-content-result/no-content-result.component';
 import { AddSavingsAccountComponent } from './forms/add-savings-account/add-savings-account.component';
+
 import { ModifyCustomerComponent } from './forms/modify-customer/modify-customer.component';
 import { AddLoanAccountComponent } from './forms/add-loan-account/add-loan-account.component';
 import { LoanIndividualAccountComponent } from './components/individual/loan-individual-account/loan-individual-account.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CustomerSavingsAccountComponent } from './components/accounts/customer-savings-account/customer-savings-account.component';
+import { DialogModule } from "primeng/dialog"; 
+import { ButtonModule } from "primeng/button";
+import { TableModule } from 'primeng/table';
+import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,8 @@ import { NgChartsModule } from 'ng2-charts';
     ModifyCustomerComponent,
     AddLoanAccountComponent,
     LoanIndividualAccountComponent,
+    CustomerSavingsAccountComponent,
+    CustomerPaymentHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +86,9 @@ import { NgChartsModule } from 'ng2-charts';
     FormsModule,
     NgbModule,
     NgChartsModule,
+    TableModule,
+    ButtonModule,
+    DialogModule
   ],
   providers: [
     AlertConfig,

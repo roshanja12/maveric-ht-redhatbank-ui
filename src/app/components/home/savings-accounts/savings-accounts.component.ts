@@ -8,6 +8,11 @@ import { Router } from '@angular/router';
 })
 export class SavingsAccountsComponent {
 
+
+  routeToSavingsTable(){
+    this.router.navigateByUrl('/customer-savings-account');
+  }
+
   constructor(private router: Router){}
 
   openSavingsAccounts(){

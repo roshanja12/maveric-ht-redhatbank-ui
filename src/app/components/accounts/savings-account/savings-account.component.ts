@@ -52,25 +52,6 @@ export class SavingsAccountComponent {
       'status',
     ];
     this.tableColumns = tableColumns;
-    this.currentSavingsAccounts = [
-      {
-        savingsAccountId: 1000,
-        customerId: 1,
-        customerName: 'Boomer',
-        emailId: 'kdsfksdm@kdmsfk.com',
-        phoneNumber: '012301',
-        status: 'Approved',
-      },
-      {
-        savingsAccountId: 1000,
-        customerId: 1,
-        customerName: 'Boomer',
-        emailId: 'kdsfksdm@kdmsfk.com',
-        phoneNumber: '012301',
-        status: 'Approved',
-      },
-    ];
-    return;
     this.getAllSavingsAccounts();
   }
   getAllSavingsAccounts() {
@@ -104,13 +85,13 @@ export class SavingsAccountComponent {
       console.log(this.actionIntended);
     } else if (this.actionIntended === 'Approve') {
       console.log(this.actionIntended);
-      let currentSavingsAccount: SavingsAccountModel = receivedEvent[0]
-      if(currentSavingsAccount.status?.toLowerCase()==="blocked"){
+      let currentSavingsAccount: SavingsAccountModel = receivedEvent[0];
+      if (currentSavingsAccount.status?.toLowerCase() === 'blocked') {
         // not possible to change
-        return
+        return;
       }
       this.accountService.modifySavingsAccount(currentSavingsAccount);
-      return
+      return;
     } else if (this.actionIntended === 'Reject') {
       console.log(this.actionIntended);
     } else if (this.actionIntended === 'Block') {

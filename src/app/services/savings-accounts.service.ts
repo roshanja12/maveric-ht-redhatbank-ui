@@ -8,16 +8,16 @@ import { SavingsAccountModel } from '../models/savings-account.model';
 })
 export class SavingsAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://localhost:8085/accounts';
-  apiVersion = '';
+  apiGateWayUrl = 'http://52.90.228.22:8081/';
+  apiVersion = 'api/v1/';
   getAllSavingsAccountsUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/saving';
+    this.apiGateWayUrl + this.apiVersion + 'saving';
   getSearchSavingsAccountsUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/saving';
+    this.apiGateWayUrl + this.apiVersion + 'saving';
   addSavingsAccountUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/saving';
+    this.apiGateWayUrl + this.apiVersion + 'saving';
   modifySavingsAccountUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/saving';
+    this.apiGateWayUrl + this.apiVersion + 'saving';
 
   getAllSavingsAccounts(): Observable<SavingsAccountModel[]> {
     return this.http.get<SavingsAccountModel[]>(this.getAllSavingsAccountsUrl);

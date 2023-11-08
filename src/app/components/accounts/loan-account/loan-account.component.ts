@@ -49,9 +49,6 @@ export class LoanAccountComponent {
       'phoneNumber',
       'loanStatus',
     ];
-    this.tableColumns = tableColumns;
-    this.currentLoanAccounts = [];
-    return;
     this.getAllLoanAccounts();
   }
 
