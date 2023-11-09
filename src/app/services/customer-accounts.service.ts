@@ -5,12 +5,14 @@ import { CustomerModel } from '../models/customer.model';
 import { ManyCustomerApiResponse } from '../models/many-customer-api-response.model';
 import { CustomerResponse } from '../models/customer-response.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://52.90.228.22:8080';
+  apiGateWayUrl = environment.customerAccountBaseUrl;
   apiVersion = '/api/v1';
   getAllCustomersUrl: string =
     this.apiGateWayUrl + this.apiVersion + '/customers/search';
