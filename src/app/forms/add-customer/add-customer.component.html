@@ -25,7 +25,10 @@
             <label class="form-label" for="firstName">First Name</label>
             <div
               class=""
-              *ngIf="addCustomerForm.get('firstName')?.hasError('required')"
+              *ngIf="
+                addCustomerForm.get('firstName')?.hasError('required') &&
+                addCustomerForm.get('firstName')?.touched
+              "
             >
               First name is required
             </div>
@@ -40,7 +43,10 @@
             <label class="form-label" for="lastName">Last Name</label>
             <div
               class=""
-              *ngIf="addCustomerForm.get('lastName')?.hasError('required')"
+              *ngIf="
+                addCustomerForm.get('lastName')?.hasError('required') &&
+                addCustomerForm.get('lastName')?.touched
+              "
             >
               Last name is required
             </div>
@@ -55,7 +61,10 @@
             <label class="form-label" for="email">Email ID</label>
             <div
               class=""
-              *ngIf="addCustomerForm.get('email')?.hasError('required')"
+              *ngIf="
+                addCustomerForm.get('email')?.hasError('required') &&
+                addCustomerForm.get('email')?.touched
+              "
             >
               Email ID is required
             </div>
@@ -67,25 +76,32 @@
               id="phoneNumber"
               formControlName="phoneNumber"
             />
-            <label class="form-label" for="phoneNumber">Last Name</label>
+            <label class="form-label" for="phoneNumber">Phone Number</label>
             <div
               class=""
-              *ngIf="addCustomerForm.get('phoneNumber')?.hasError('required')"
+              *ngIf="
+                addCustomerForm.get('phoneNumber')?.hasError('required') &&
+                addCustomerForm.get('phoneNumber')?.touched
+              "
             >
               Phone Number is required
             </div>
           </div>
           <div class="form-floating mb-3">
-            <select
-              id="selectCity"
-              formControlName="selectCity"
-              class="form-select"
-            >
+            <select id="city" formControlName="city" class="form-select">
               <option *ngFor="let city of citiesAvailable">
                 {{ city }}
               </option>
             </select>
-            <label for="selectCity">Select City</label>
+            <div
+              *ngIf="
+                addCustomerForm.get('city')?.hasError('required') &&
+                addCustomerForm.get('city')?.touched
+              "
+            >
+              Please select a city.
+            </div>
+            <label for="city">Select City</label>
           </div>
           <button
             type="submit"

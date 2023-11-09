@@ -1,7 +1,7 @@
 export interface LoanAccountsModel {
     applicationId: number;
     customerId: number;
-    name: string;
+    customerName: string;
     emailId:string;
     phoneNumber: string;
     loanStatus: string;

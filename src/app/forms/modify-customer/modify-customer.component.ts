@@ -26,44 +26,40 @@ export class ModifyCustomerComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      selectCity: [''],
+      city: ['', [Validators.required]],
     });
   }
 
   ngOnInit() {
-    console.log(this.customerData); 
-    this.customerFound = {
-      customerId: 1,
-      firstName: 'Kamal',
-      lastName: 'Yadav',
-      email: 'sdjkf@kjd.com',
-      phoneNumber: '9184278214',
-      city: 'Bengaluru',
-    };
-
+    console.log('Customer data fetched and patching now');
+    console.log(this.customerData);
+    this.customerId = this.customerData.customerId;
+    this.getCustomer(this.customerData.customerId);
     this.modifyCustomerForm.patchValue({
       customerId: this.customerData.customerId,
-      firstName: this.customerFound.firstName,
-      lastName: this.customerFound.lastName,
-      email: this.customerFound.email,
-      phoneNumber: this.customerFound.phoneNumber,
-      selectCity: this.customerFound.city
+      firstName: this.customerData.firstName,
+      lastName: this.customerData.lastName,
+      email: this.customerData.email,
+      phoneNumber: this.customerData.phoneNumber,
+      city: this.customerData.city,
     });
   }
 
   getCustomer(customerId: number) {
     return this.customerService.getCustomer(customerId).subscribe((res) => {
+      console.log('Get Customer Called');
       this.customerFound = res;
+      console.log(this.customerFound);
     });
   }
 
   onSubmit() {
     this.customerService
-      .modifyCustomer(this.modifyCustomerForm.value)
+      .modifyCustomer(this.customerId, this.modifyCustomerForm.value)
       .subscribe(
         (response) => {
           console.log(response);
-          return response;
+          this.bsModalRef.hide();
         },
         (error) => {
           this.bsModalRef.hide();

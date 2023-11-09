@@ -42,7 +42,7 @@ export class AddCustomerComponent {
           Validators.maxLength(10),
         ],
       ],
-      selectCity: [''],
+      city: ['', [Validators.required]],
     });
   }
 
@@ -50,7 +50,7 @@ export class AddCustomerComponent {
     this.customerService.addCustomer(this.addCustomerForm.value).subscribe(
       (response) => {
         console.log(response);
-        return response;
+        this.bsModalRef.hide();
       },
       (error) => {
         this.bsModalRef.hide();
@@ -60,6 +60,8 @@ export class AddCustomerComponent {
   }
 
   onCancel() {
+    console.log('Create customer cancelled');
+
     this.bsModalRef.hide();
     return;
   }
