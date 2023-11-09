@@ -17,6 +17,7 @@ export class AccountTemplateComponent {
     console.log('sent event emit for search text ' + this.searchText);
     if (this.searchText != undefined || this.searchText != null) {
       this.onSearchClick.emit(this.searchText);
+      return
     }
     console.log('Search Bar empty');
   }

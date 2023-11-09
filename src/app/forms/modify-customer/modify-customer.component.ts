@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CustomerModel } from 'src/app/models/customer.model';
@@ -14,6 +14,8 @@ export class ModifyCustomerComponent {
   modifyCustomerForm: FormGroup;
   customerFound!: CustomerModel;
   customerId: number = 0;
+  @Output() customerModified: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune'];
   constructor(
     private formBuilder: FormBuilder,
@@ -60,6 +62,7 @@ export class ModifyCustomerComponent {
         (response) => {
           console.log(response);
           this.bsModalRef.hide();
+          this.customerModified.emit(true);
         },
         (error) => {
           this.bsModalRef.hide();
@@ -70,6 +73,6 @@ export class ModifyCustomerComponent {
 
   onCancel() {
     this.bsModalRef.hide();
-    return;
+    this.customerModified.emit(false);
   }
 }

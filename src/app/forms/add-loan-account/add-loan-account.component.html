@@ -10,19 +10,25 @@
         ></button>
 
         <h3 class="h3 text-center bold strong py-4">Create Loan Account</h3>
-        <form
-          [formGroup]="addLoanAccountForm"
-          class="form-floating mb-3"
-          (ngSubmit)="onSubmit()"
-        >
-          <div class="form-floating mb-2">
-            <input
-              type="text"
-              class="form-control"
-              id="customerId"
-              formControlName="customerId"
-            />
+        <form [formGroup]="addLoanAccountForm" class="form-floating mb-3">
+          <div class="">
+            <div class="form-floating mb-2 inside-search-box">
+              <input
+                type="text"
+                class="form-control"
+                id="customerId"
+                formControlName="customerId"
+              />
+              <button
+                type="button"
+                id="searchButton"
+                class="btn btn-danger rounded text-center px-5 bold"
+                (click)="searchCustomer()"
+              >
+                SEARCH
+              </button>
             <label class="form-label" for="customerId">Customer ID</label>
+            </div>
             <div
               class=""
               *ngIf="addLoanAccountForm.get('customerId')?.hasError('required')"
@@ -63,22 +69,58 @@
             </div>
           </div>
           <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control bg-light"
+              id="loanAmount"
+              formControlName="loanAmount"
+            />
+            <label class="form-label" for="loanAmount">Loan Amount</label>
+            <div
+              class=""
+              *ngIf="addLoanAccountForm.get('loanAmount')?.hasError('pattern')"
+            >
+              Loan Amount is numeric only
+            </div>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control bg-light"
+              id="emi"
+              formControlName="emi"
+            />
+            <label class="form-label" for="emi">EMI</label>
+            <div
+              class=""
+              *ngIf="addLoanAccountForm.get('emi')?.hasError('pattern')"
+            >
+              EMI is numeric only
+            </div>
+          </div>
+          <div class="form-floating mb-2">
             <select
               id="savingsAccount"
               formControlName="savingsAccount"
               class="form-select"
-              [disabled]="savingsAccountsAvailable.length==0"
+              [disabled]="savingsAccountsAvailable.length == 0"
             >
               <option *ngFor="let savingsAccount of savingsAccountsAvailable">
                 {{ savingsAccount }}
               </option>
             </select>
-            <label for="minOpeningBalance">Min Opening Balance</label>
+            <label for="savingsAccount">Savings Accounts</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="file" class="form-control-file" id="documentUpload" />
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              class="form-control-file"
+              id="documentUpload"
+            />
           </div>
           <button
+            (click)="onSubmit()"
             type="submit"
             [disabled]="addLoanAccountForm.invalid"
             class="btn btn-danger w-100"
