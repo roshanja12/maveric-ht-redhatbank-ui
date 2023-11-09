@@ -23,7 +23,7 @@ import { ModifyCustomerComponent } from 'src/app/forms/modify-customer/modify-cu
 })
 export class CustomerAccountComponent {
   searchForm: FormGroup;
-  modalRef!: BsModalRef;
+  modalRef: BsModalRef | undefined;
   currentCustomers: CustomerModel[] = [];
   page = 2;
   pageSize = 4;
@@ -69,6 +69,7 @@ export class CustomerAccountComponent {
     this.customerService.getAllCustomers().subscribe((res) => {
       this.currentCustomers = res;
       this.collectionSize = this.currentCustomers.length;
+      console.log('Getting All Customers');
     });
   }
 
@@ -87,6 +88,16 @@ export class CustomerAccountComponent {
   createNewCustomer(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);
     this.modalRef = this.modalService.show(AddCustomerComponent);
+    if (this.modalRef != undefined) {
+      this.modalRef?.content?.bsModalRef?.onHide?.subscribe(
+        (customerCreatedMessage: boolean) => {
+          console.log(customerCreatedMessage);
+          if (customerCreatedMessage) {
+            this.getAllCustomers();
+          }
+        }
+      );
+    }
   }
 
   rowOptionEvent(receivedEvent: any) {
@@ -95,14 +106,22 @@ export class CustomerAccountComponent {
       console.log(this.actionIntended);
       // Get the selected customer object from receivedEvent[0]
       const selectedCustomer: CustomerModel = receivedEvent[0];
-
       // Open the ModifyCustomerComponent modal and pass the selected customer data
       const initialState = {
         customerData: selectedCustomer,
       };
-      this.modalRef = this.modalService.show(ModifyCustomerComponent, {
+      const modalRef = this.modalService.show(ModifyCustomerComponent, {
         initialState,
       });
+      if (modalRef.content) {
+        modalRef.content.customerModified.subscribe(
+          (customerModified: boolean) => {
+            if (customerModified) {
+              this.getAllCustomers();
+            }
+          }
+        );
+      }
     }
   }
 }

@@ -1,10 +1,9 @@
 export interface LoanAccountsModel {
-    applicationId: number;
-    customerId: number;
-    customerName: string;
-    emailId:string;
-    phoneNumber: string;
-    loanStatus: string;
-    [key: string]: any;
-  }
-  
+  loanId: number;
+  customerId: number;
+  customerName: string;
+  email: string;
+  phoneNumber: string;
+  status: string;
+  [key: string]: any;
+}

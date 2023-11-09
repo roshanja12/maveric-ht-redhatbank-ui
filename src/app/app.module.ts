@@ -41,10 +41,12 @@ import { AddLoanAccountComponent } from './forms/add-loan-account/add-loan-accou
 import { LoanIndividualAccountComponent } from './components/individual/loan-individual-account/loan-individual-account.component';
 import { NgChartsModule } from 'ng2-charts';
 import { CustomerSavingsAccountComponent } from './components/accounts/customer-savings-account/customer-savings-account.component';
-import { DialogModule } from "primeng/dialog"; 
-import { ButtonModule } from "primeng/button";
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DialogSkeletonComponent } from './shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { CustomerPaymentHistoryComponent } from './components/accounts/customer-
     LoanIndividualAccountComponent,
     CustomerSavingsAccountComponent,
     CustomerPaymentHistoryComponent,
+    DialogSkeletonComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,7 +91,8 @@ import { CustomerPaymentHistoryComponent } from './components/accounts/customer-
     NgChartsModule,
     TableModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
+    MatSnackBarModule,
   ],
   providers: [
     AlertConfig,
