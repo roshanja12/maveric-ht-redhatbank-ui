@@ -5,6 +5,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CustomerModel } from 'src/app/models/customer.model';
 import { CustomerAccountsService } from 'src/app/services/customer-accounts.service';
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
+import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-add-loan-account',
@@ -14,52 +16,29 @@ import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
 export class AddLoanAccountComponent {
   addLoanAccountForm: FormGroup;
   private selectedFile!: File;
-  private _savingsAccountsAvailable: string[] = [];
+  savingsAccountsAvailable: number[] = [];
   private customerFound!: CustomerModel;
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
-    private snakBar: MatSnackBar,
-    private savingsService: LoanAccountsService,
+    private snackBarService: SnackbarService,
+    private loanService: LoanAccountsService,
+    private savingsService: SavingsAccountsService,
     private customerService: CustomerAccountsService
   ) {
     this.addLoanAccountForm = this.formBuilder.group({
       customerId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      name: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+
       loanAmount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       emi: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      savingsAccount: [
-        { value: '', disabled: this.savingsAccountsAvailable.length === 0 },
-        [Validators.required],
-      ],
+      savingsAccount: [null, [Validators.required]],
     });
-  }
-
-  // Use a setter to handle savingsAccountsAvailable changes
-  set savingsAccountsAvailable(value: string[]) {
-    this._savingsAccountsAvailable = value;
-    // Check and disable the form control based on savingsAccountsAvailable array length
-    if (this._savingsAccountsAvailable.length === 0) {
-      this.addLoanAccountForm.get('savingsAccount')?.disable();
-    } else {
-      this.addLoanAccountForm.get('savingsAccount')?.enable();
-    }
-  }
-
-  // Getter for savingsAccountsAvailable
-  get savingsAccountsAvailable(): string[] {
-    return this._savingsAccountsAvailable;
-  }
-
-  ngOnInit() {
-    console.log(this.savingsAccountsAvailable);
   }
 
   searchCustomer() {
     const customerId = this.addLoanAccountForm.get('customerId')?.value;
     if (customerId == null) {
-      this.snakBar.open('Customer Id is null', 'Close', { duration: 3000 });
+      this.snackBarService.showSnackBar('Provide customerId');
       return;
     }
     this.patchValuesIntoForm();
@@ -67,13 +46,30 @@ export class AddLoanAccountComponent {
   patchValuesIntoForm() {
     this.customerService
       .getCustomer(this.addLoanAccountForm.value.customerId)
+      .subscribe(
+        (res) => {
+          // this.addLoanAccountForm.controls['name'].setValue(
+          //   res.firstName + ' ' + res.lastName
+          // );
+          // this.addLoanAccountForm.controls['phoneNumber'].setValue(
+          //   res.phoneNumber
+          // );
+          this.getSavingsAccounts(this.addLoanAccountForm.value.customerId);
+        },
+        (error) => {
+          this.snackBarService.showSnackBar(
+            'Unable to get customer with that ID ' +
+              this.addLoanAccountForm.value.customerId
+          );
+        }
+      );
+  }
+  getSavingsAccounts(customerId: number) {
+    this.savingsService
+      .getSavingsAccountsByCustomerId(customerId)
       .subscribe((res) => {
-        this.addLoanAccountForm.controls['name'].setValue(
-          res.firstName + res.lastName
-        );
-        this.addLoanAccountForm.controls['phoneNumber'].setValue(
-          res.phoneNumber
-        );
+        this.savingsAccountsAvailable = [];
+        this.savingsAccountsAvailable.push(res.savingsAccountId);
       });
   }
 
@@ -85,7 +81,7 @@ export class AddLoanAccountComponent {
   }
 
   onSubmit() {
-    this.savingsService
+    this.loanService
       .addLoanAccount(this.selectedFile, this.addLoanAccountForm.value)
       .subscribe(
         (response) => {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Options } from '@popperjs/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddLoanAccountComponent } from 'src/app/forms/add-loan-account/add-loan-account.component';
@@ -29,7 +30,8 @@ export class LoanAccountComponent {
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
     private accountService: LoanAccountsService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) {
     this.searchForm = this.formBuilder.group({
       searchBar: [''],
@@ -91,7 +93,11 @@ export class LoanAccountComponent {
     this.actionIntended = receivedEvent[1];
     let loanAccountDetails: LoanAccountsModel = receivedEvent[0];
     if (this.actionIntended === 'Open') {
-      console.log('Opening loan account of customer');
+      const customerId = loanAccountDetails.customerId;
+      const customerName = loanAccountDetails.customerName; 
+      console.log('Opening loan account of customer transaction history');
+      // I want to call that Transaction history and send the inputs fom here
+      this.router.navigate(['/customer-payment-history', customerId, customerName]);
     } else {
       if (this.actionIntended == 'Approve') {
         this.actionIntended = 'APPROVED';
