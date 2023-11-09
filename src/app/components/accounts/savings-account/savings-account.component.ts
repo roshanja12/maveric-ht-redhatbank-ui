@@ -22,6 +22,7 @@ export class SavingsAccountComponent {
   pageSize = 4;
   searchText!: string;
   collectionSize: number = 0;
+  actionIntended: string = '';
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Block', 'UnBlock'];
   constructor(
     private formBuilder: FormBuilder,
@@ -43,25 +44,14 @@ export class SavingsAccountComponent {
       'Status',
     ];
     this.visibleColumnElements = [
-      'applicationName',
+      'applicationId',
       'customerId',
-      'name',
+      'customerName',
       'emailId',
       'phoneNumber',
       'status',
     ];
     this.tableColumns = tableColumns;
-    this.currentSavingsAccounts = [
-      {
-        applicationId: 1000,
-        customerId: 1,
-        name: 'Boomer',
-        emailId: 'kdsfksdm@kdmsfk.com',
-        phoneNumber: '012301',
-        status: 'Approved',
-      },
-    ];
-    return;
     this.getAllSavingsAccounts();
   }
   getAllSavingsAccounts() {
@@ -71,10 +61,12 @@ export class SavingsAccountComponent {
     });
   }
   getAllSearchAccounts(searchText: string) {
-    this.accountService.getSearchSavingsAccounts(searchText).subscribe((res) => {
-      this.currentSavingsAccounts = res;
-      this.collectionSize = this.currentSavingsAccounts.length;
-    })
+    this.accountService
+      .getSearchSavingsAccounts(searchText)
+      .subscribe((res) => {
+        this.currentSavingsAccounts = res;
+        this.collectionSize = this.currentSavingsAccounts.length;
+      });
   }
 
   getSearch(searchText: string) {
@@ -85,5 +77,27 @@ export class SavingsAccountComponent {
   createNewSavingsAccount(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);
     this.modalRef = this.modalService.show(AddSavingsAccountComponent);
+  }
+
+  rowOptionEvent(receivedEvent: any) {
+    this.actionIntended = receivedEvent[1];
+    if (this.actionIntended === 'Open') {
+      console.log(this.actionIntended);
+    } else if (this.actionIntended === 'Approve') {
+      console.log(this.actionIntended);
+      let currentSavingsAccount: SavingsAccountModel = receivedEvent[0];
+      if (currentSavingsAccount.status?.toLowerCase() === 'blocked') {
+        // not possible to change
+        return;
+      }
+      this.accountService.modifySavingsAccount(currentSavingsAccount);
+      return;
+    } else if (this.actionIntended === 'Reject') {
+      console.log(this.actionIntended);
+    } else if (this.actionIntended === 'Block') {
+      console.log(this.actionIntended);
+    } else if (this.actionIntended === 'UnBlock') {
+      console.log(this.actionIntended);
+    }
   }
 }

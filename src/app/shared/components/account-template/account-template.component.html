@@ -1,6 +1,6 @@
 <div class="align-items-start">
-  <h4 class="h3 strong py-4 font-weight-bold">{{ accountName }}</h4>
-  <div class="row px-3">
+  <h4 class="h3 strong py-4 font-weight-bold h3-pad">{{ accountName }}</h4>
+  <div class="row px-3 pad-align">
     <div class="justify-content-start inside-search-box rounded-2 col-9">
       <input
         matInput
@@ -12,7 +12,7 @@
       <button
         type="button"
         id="searchButton"
-        class="btn btn-danger rounded text-center px-5 bold"
+        class="btn btn-danger rounded text-center px-5 bold "
         (click)="searchEvent()"
       >
         SEARCH
@@ -22,7 +22,7 @@
       <button
         type="button"
         id="createButton"
-        class="btn rounded btn-outline-danger btn-lg"
+        class="btn rounded btn-outline-danger btn-lg btn"
         (click)="createEvent()"
       >
         {{ buttonName }}

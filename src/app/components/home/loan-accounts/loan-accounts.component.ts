@@ -4,16 +4,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-loan-accounts',
   templateUrl: './loan-accounts.component.html',
-  styleUrls: ['./loan-accounts.component.css']
+  styleUrls: ['./loan-accounts.component.css'],
 })
 export class LoanAccountsComponent {
-  constructor(public router: Router){
-    
+  constructor(private router: Router) {}
+
+  openLoanAccounts() {
+    this.router.navigateByUrl('/loan-accounts');
   }
-
-
-  routeToLoanTable(){
-    this.router.navigateByUrl('/customer-payment-history');
-  }
-
 }

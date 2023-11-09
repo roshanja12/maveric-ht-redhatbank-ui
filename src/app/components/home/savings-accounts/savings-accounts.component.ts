@@ -7,15 +7,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./savings-accounts.component.css']
 })
 export class SavingsAccountsComponent {
- 
-
-  constructor(public router: Router){
-    
-  }
 
 
   routeToSavingsTable(){
     this.router.navigateByUrl('/customer-savings-account');
+  }
+
+  constructor(private router: Router){}
+
+  openSavingsAccounts(){
+    this.router.navigateByUrl("/savings-accounts")
   }
 
 }

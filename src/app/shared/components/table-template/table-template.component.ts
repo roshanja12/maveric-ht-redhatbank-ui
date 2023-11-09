@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomerModel } from 'src/app/models/customer.model';
+import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 
-type Data = CustomerModel | SavingsAccountModel;
+type Data = CustomerModel | SavingsAccountModel | LoanAccountsModel;
 @Component({
   selector: 'app-table-template',
   templateUrl: './table-template.component.html',
@@ -40,7 +41,7 @@ export class TableTemplateComponent implements OnInit {
   sendEventBack(item: Data, action: string) {
     console.log(item, action);
     // emit event to parent component with the item and the action performed
-    console.log("Emitting event "+item, " action "+action)
+    console.log('Emitting event ' + item, ' action ' + action);
     this.onRowOptionClick.emit([item, action]);
   }
 }

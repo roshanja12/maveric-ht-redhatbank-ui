@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class LoanAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://localhost:8085/accounts';
-  apiVersion = '';
+  apiGateWayUrl = 'http://52.90.228.22:8082/';
+  apiVersion = 'api/v1/';
   getAllLoanAccountsUrl: string =
-    this.apiGateWayUrl + this.apiVersion + '/loan';
+    this.apiGateWayUrl + this.apiVersion + 'loan?page=0&size=10';
   getSearchLoanAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + '/loan';
   addLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + '/loan';
