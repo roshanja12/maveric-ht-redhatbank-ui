@@ -94,10 +94,14 @@ export class LoanAccountComponent {
     let loanAccountDetails: LoanAccountsModel = receivedEvent[0];
     if (this.actionIntended === 'Open') {
       const customerId = loanAccountDetails.customerId;
-      const customerName = loanAccountDetails.customerName; 
+      const customerName = loanAccountDetails.customerName;
       console.log('Opening loan account of customer transaction history');
       // I want to call that Transaction history and send the inputs fom here
-      this.router.navigate(['/customer-payment-history', customerId, customerName]);
+      this.router.navigate([
+        '/customer-payment-history',
+        customerId,
+        customerName,
+      ]);
     } else {
       if (this.actionIntended == 'Approve') {
         this.actionIntended = 'APPROVED';
@@ -113,6 +117,7 @@ export class LoanAccountComponent {
         loanAccountDetails.loanId,
         this.actionIntended
       );
+      this.getAllLoanAccounts();
     }
     console.log('Row option event finished');
   }

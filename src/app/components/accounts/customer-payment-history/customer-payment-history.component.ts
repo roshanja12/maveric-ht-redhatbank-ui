@@ -28,6 +28,7 @@ export class CustomerPaymentHistoryComponent {
   currentTransactionHistory!: LoanTransactionHistoryModel[];
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private loanService: LoanAccountsService
   ) {}
@@ -37,11 +38,8 @@ export class CustomerPaymentHistoryComponent {
       this.customerId = params['customerId'];
       this.customerName = params['customerName'];
 
-      // Now you have customerId and customerName available for use in this component
       console.log('Customer ID:', this.customerId);
       console.log('Customer Name:', this.customerName);
-
-      // Implement the logic to fetch and display transaction history based on customerId and customerName
     });
     const tableColumns = ['Date', 'Amount', 'Status', 'Balance'];
     this.tableColumns = tableColumns;
@@ -53,6 +51,11 @@ export class CustomerPaymentHistoryComponent {
     ];
     this.getAllTransactionHistory();
   }
+
+  navigateToLoanAccounts() {
+    this.router.navigateByUrl('/loan-accounts');
+  }
+
   getAllTransactionHistory() {
     console.log('Started Fetching transaction History');
 
@@ -63,7 +66,6 @@ export class CustomerPaymentHistoryComponent {
         this.collectionSize = this.currentTransactionHistory.length;
         console.log('Getting All Transaction History');
       });
-      console.log('Finished Fetching Transaction History');
-      
+    console.log('Finished Fetching Transaction History');
   }
 }

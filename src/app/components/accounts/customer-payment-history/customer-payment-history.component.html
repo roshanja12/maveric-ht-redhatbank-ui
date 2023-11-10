@@ -1,22 +1,26 @@
+
+
 <div class="background-customise pt-5">
+  <a (click)="navigateToLoanAccounts()" class="col-xl-10 offset-lg-1 text-muted">Back</a>
+  <div class="pb-2"></div>
   <div class="account-container col-xl-10 offset-lg-1 p-4 px-5">
-    <h1 class="h1 pb-3 font-weight-bold">Payment History</h1>
+    <h1 class="h1 pb-3 fw-bolder">Payment History</h1>
     <div class="container-fluid px-4 py-3 data-container">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column pe-5">
           <div class="h6 text-muted">Customer ID</div>
-          <div class="strong font-weight-bold h1 pt-2">
+          <div class="strong fw-bolder h1 pt-2">
             {{ customerId }}
           </div>
         </div>
         <div class="d-flex flex-column pe-5">
           <div class="h6 text-muted">Customer Name</div>
-          <div class="strong font-weight-bold h1 pt-2">
+          <div class="strong fw-bolder h1 pt-2">
             {{ customerName }}
           </div>
         </div>
         <div
-          class="h5 strong green-pill rounded-4 align-items-center my-4 px-4"
+          class="h5 strong green-pill rounded-4 align-items-center my-5 px-4"
         >
           ACTIVE
         </div>
@@ -26,7 +30,7 @@
         >
           <div class="d-flex flex-column align-items-end">
             <div class="h6 text-muted">Balance Due</div>
-            <div class="strong font-weight-bold h1">$ {{ totalBalance }}</div>
+            <div class="strong fw-bolder h1">$ {{ totalBalance }}</div>
           </div>
         </div>
       </div>

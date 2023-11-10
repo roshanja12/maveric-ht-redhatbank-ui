@@ -21,7 +21,7 @@ export class LoanAccountsService {
     'loan/search?page=0&size=10000&searchValue';
 
   addLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan';
-  modifyLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan';
+  modifyLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan/';
 
   getAllLoanAccounts(): Observable<LoanAccountsModel[]> {
     return this.http
@@ -49,14 +49,15 @@ export class LoanAccountsService {
       .pipe(map((response) => response.data));
   }
   addLoanAccount(file: File, body: any) {
-    const formData: FormData = new FormData();
+    let formData: FormData = new FormData();
+    if (file != undefined) {
+      formData.append('supportingDoc', file, file.name);
+    }
     formData.append(
       'loanDto',
-      new Blob([JSON.stringify(body)], { type: 'application/json' })
+      JSON.stringify(body)
     );
-    // formData.append('supportingDoc', file, file.name);
     console.log(body);
-
     console.log(formData);
     return this.http.post(this.addLoanAccountUrl, formData);
   }

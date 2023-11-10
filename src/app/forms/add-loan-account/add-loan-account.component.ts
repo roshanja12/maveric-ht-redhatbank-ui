@@ -48,12 +48,6 @@ export class AddLoanAccountComponent {
       .getCustomer(this.addLoanAccountForm.value.customerId)
       .subscribe(
         (res) => {
-          // this.addLoanAccountForm.controls['name'].setValue(
-          //   res.firstName + ' ' + res.lastName
-          // );
-          // this.addLoanAccountForm.controls['phoneNumber'].setValue(
-          //   res.phoneNumber
-          // );
           this.getSavingsAccounts(this.addLoanAccountForm.value.customerId);
         },
         (error) => {

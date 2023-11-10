@@ -8,18 +8,23 @@
   border-radius: 12px;
   opacity: 1;
 }
-.data-container{
+.data-container {
   background-color: white;
   box-shadow: 0px 0px 9px #afafaf29;
   border-radius: 4px;
   opacity: 1;
 }
 .balance-container {
-  background-color: #F5F6F8;
+  background-color: #f5f6f8;
   border-radius: 12px;
 }
 
 .green-pill {
   color: #1bb077;
   background-color: #c3eadb;
+}
+
+a,
+u {
+  text-decoration: none;
 }
