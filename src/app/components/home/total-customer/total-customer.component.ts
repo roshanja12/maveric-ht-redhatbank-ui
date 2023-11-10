@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { InsightsService } from 'src/app/services/insights.service';
 
 @Component({
   selector: 'app-total-customer',
@@ -8,20 +9,33 @@ import { Component } from '@angular/core';
 export class TotalCustomerComponent {
   cities = ['Hyderabad', 'Bangalore', 'Chennai', 'Mumbai'];
 
-  //fillPercentage: number = 0;
+  currentValue = 60;
+  constructor(private insightsService: InsightsService) {}
 
   get fillPercentage(): number {
-    return Math.min(100, 80);
-  }
-
-  get percentage(): number {
-    return this.fillPercentage / 100;
+    return this.currentValue;
   }
 
   getBackground(count: number) {
-    const percentage = (count / 100) * 100;
-    return `linear-gradient(270deg, #6672FA ${percentage}%, transparent ${percentage}%), linear-gradient(0deg, #6672FA ${percentage}%, lightgray ${percentage}%)`;
+    const percentage = count;
+    const verticalGradient = `linear-gradient(180deg, transparent ${percentage}%, #6672FA ${percentage}%)`;
+    const horizontalGradient = `linear-gradient(90deg, transparent ${percentage}%, #6672FA ${percentage}%)`;
+    return `${verticalGradient}, ${horizontalGradient}`;
   }
 
-  getGraph(city: string) {}
+  getTotalCustomerPercentageByCity(city: string) {
+    this.insightsService.getTotalCustomerPercentageByCity(city).subscribe(
+      (res) => {
+        console.log(res);
+        this.currentValue = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getGraph(city: string) {
+    this.getTotalCustomerPercentageByCity(city);
+  }
 }
