@@ -1,5 +1,5 @@
-<div class="login-background">
-  <div class="figure-container container-lg col-lg-10 d-flex">
+<div class="login-background d-flex flex-row">
+  <div class="figure-container container-lg col-lg-10 offset-lg-1">
     <figure class="figure mx-3 pt-5 d-none d-md-block">
       <img
         src="assets/images/welcome-login-image.svg"
@@ -9,12 +9,14 @@
       <h1 class="display-2">
         <strong><b>Welcome Back!</b></strong>
       </h1>
-      <p>Welcome to the red hat bank</p>
+      <p>Welcome to the red hat bank! Your Money is safe with Us</p>
     </figure>
-    <div
-      class="container-lg login-container text-center position-relative justify-content-end d-inline-block"
+    
+  </div>
+  <div
+      class="container-xl login-container text-center px-4"
     >
-      <h1 class="mt-2 mb-4 pb-4 login-text-customise">Login</h1>
+      <h1 class="mt-2 mb-4 pb-4 login-text-customise display-4">Login</h1>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="">
         <div class="form-group my-2">
           <input
@@ -57,5 +59,4 @@
         </button>
       </form>
     </div>
-  </div>
 </div>

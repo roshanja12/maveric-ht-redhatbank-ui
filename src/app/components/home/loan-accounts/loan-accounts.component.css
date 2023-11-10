@@ -3,8 +3,10 @@
     background-image: url("src/assets/images/loan-accounts-home/loan-account-main.png");
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
     padding: 0; 
     min-height: 30vh;
+    border-radius: 14%;
 }
 
 .loan-accounts-image{

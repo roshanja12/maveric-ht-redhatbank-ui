@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { ChartDataset, ChartOptions } from 'chart.js';
+import { InsightsService } from 'src/app/services/insights.service';
 
 @Component({
   selector: 'app-customer-count',
@@ -9,6 +10,7 @@ import { ChartDataset, ChartOptions } from 'chart.js';
 })
 export class CustomerCountComponent {
   totalCustomerCount: number = 0;
+  data: number[] = [45, 65, 22, 33, 55, 58, 23, 44, 67, 59, 60, 69];
   yearAvailable: number[] = this.createNumberArray(2019, 2024);
   currentYearChosen: number = this.yearAvailable[0];
   public lineChartOptions: ChartOptions = {
@@ -49,7 +51,7 @@ export class CustomerCountComponent {
   public lineChartLegend = false;
   public lineChartData: ChartDataset[] = [
     {
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      data: this.data,
       label: 'Customer Count',
       backgroundColor: 'rgba(255, 165, 0, 0.6)', // Orange color with 60% opacity
       borderColor: 'rgba(255, 165, 0, 1)', // Border color (optional)
@@ -60,10 +62,10 @@ export class CustomerCountComponent {
     },
   ];
 
-  constructor() {}
+  constructor(private insightsService: InsightsService) {}
 
   ngOnInit() {
-    this.updateChartData();
+    this.updateChartData(this.yearAvailable[0]);
   }
 
   createNumberArray(x: number, y: number): number[] {
@@ -71,13 +73,23 @@ export class CustomerCountComponent {
     return Array.from({ length: y - x + 1 }, (_, index) => index + x);
   }
 
-  updateChartData() {
-    // Call your API endpoint to get customer count data based on the selected year
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    // Update the datasets property of barChartData with the new data
-    this.lineChartData[0].data = data;
+  getCustomerCountByYear(year: number) {
+    this.insightsService.getCustomerCount(year).subscribe(
+      (res) => {
+        console.log(res);
+        this.data = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  updateChartData(yearChosen: number) {
+    this.getCustomerCountByYear(yearChosen);
+    this.lineChartData[0].data = this.data;
   }
   customerCountYearChoose(yearChosen: number) {
     this.currentYearChosen = yearChosen;
+    this.updateChartData(this.currentYearChosen);
   }
 }

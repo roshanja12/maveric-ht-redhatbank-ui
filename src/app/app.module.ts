@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +47,8 @@ import { TableModule } from 'primeng/table';
 import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogSkeletonComponent } from './shared/dialogs/dialog-skeleton/dialog-skeleton.component';
+import { initializer } from './components/login-page/keycloack.login-func';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 @NgModule({
   declarations: [
@@ -93,12 +95,19 @@ import { DialogSkeletonComponent } from './shared/dialogs/dialog-skeleton/dialog
     ButtonModule,
     DialogModule,
     MatSnackBarModule,
+    KeycloakAngularModule,
   ],
   providers: [
     AlertConfig,
     BsDatepickerConfig,
     BsDropdownConfig,
     BsModalService,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializer,
+    //   deps: [KeycloakService],
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent],
 })

@@ -1,28 +1,27 @@
-
-.savings-accounts-bg-image{
-    background-image: url("src/assets/images/savings-account-home/savings-account-main.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 0; 
-    min-height: 30vh;
+.savings-accounts-bg-image {
+  background-image: url("src/assets/images/savings-account-home/savings-account-main.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 0;
+  min-height: 30vh;
+  border-radius: 14%;
 }
 
-.savings-accounts-image{
-    background-image: url("src/assets/images/savings-account-home/savings-accounts-inside.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    
+.savings-accounts-image {
+  background-image: url("src/assets/images/savings-account-home/savings-accounts-inside.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
-  .custom-btn {
-    background-color: white;
-    color: red;
-    text-align: center;
-    font-size: small;
-    font-weight: bolder;
+.custom-btn {
+  background-color: white;
+  color: red;
+  text-align: center;
+  font-size: small;
+  font-weight: bolder;
 }
 
 .thin-text {
-    font-weight: 300; /* Adjust the font-weight to make text thinner */
-  }
-
+  font-weight: 300; /* Adjust the font-weight to make text thinner */
+}
