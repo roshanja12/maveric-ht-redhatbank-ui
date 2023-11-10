@@ -43,7 +43,7 @@ const routes: Routes = [
     component: SavingsAccountComponent,
   },
   {
-    path: 'customer-payment-history',
+    path: 'customer-payment-history/:customerId/:customerName',
     component: CustomerPaymentHistoryComponent,
   }
 

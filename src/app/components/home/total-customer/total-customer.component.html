@@ -1,13 +1,25 @@
-<div class="count p-4 container-fluid">
-    <div>
-        <h1 class ="header">Total Customer % by City</h1>
-    </div>
-    <div class="s1">
-        <h1 class="header-1">Total Customers</h1>    
-        <select name="cars" id="cars" class="dropdown" placeholder="filter"  >
-            <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-          </select>
-    </div>   
+<div class="container">
+    <div class="shadow rounded p-3">
+      <div class="h4 strong bold">Total Customer % by City</div>
+      <div class="container pt-3">
+        <div class="d-flex flex-column">
+          <div class="">Total Customers</div>
+        </div>
+        <div ngbDropdown>
+          <button class="btn" ngbDropdownToggle>
+            Filter By City
+            <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+              <button
+                *ngFor="let menuItem of cities"
+                ngbDropdownItem
+                (click)="getGraph(menuItem)"
+              >
+                {{ menuItem }}
+              </button>
+            </div>
+          </button>
+        </div>
+      </div>
       <div class="">
         <!-- <div class="t1" [style.background]="getBackground(80)">
         <div class="circle-container">  
@@ -17,5 +29,6 @@
           <div class="circle"></div>
           <div class="percentage">{{ fillPercentage }}%</div>
         </div>
-      </div>   
-</div>
+      </div>
+    </div>
+  </div>

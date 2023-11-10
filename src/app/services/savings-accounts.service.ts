@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SavingsAccountModel } from '../models/savings-account.model';
 
 @Injectable({
@@ -18,6 +18,8 @@ export class SavingsAccountsService {
     this.apiGateWayUrl + this.apiVersion + 'saving';
   modifySavingsAccountUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'saving';
+  getSavingsAccountByCustomerIdUrl: string =
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
 
   getAllSavingsAccounts(): Observable<SavingsAccountModel[]> {
     return this.http.get<SavingsAccountModel[]>(this.getAllSavingsAccountsUrl);
@@ -32,5 +34,12 @@ export class SavingsAccountsService {
   }
   modifySavingsAccount(body: any) {
     return this.http.put(this.modifySavingsAccountUrl, body);
+  }
+  getSavingsAccountsByCustomerId(
+    customerId: number
+  ): Observable<SavingsAccountModel> {
+    return this.http
+      .get<any>(this.getSavingsAccountByCustomerIdUrl + '/' + customerId)
+      .pipe(map((response) => response.data));
   }
 }
