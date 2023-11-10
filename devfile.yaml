@@ -17,7 +17,7 @@ components:
         image: registry.access.redhat.com/ubi8/nodejs-16:1-129.1698060573
       source:
         contextDir: /build
-    id: builder
+    name: builder
 commands:
   - exec:
       commandLine: npm install
@@ -27,12 +27,3 @@ commands:
         kind: build
       workingDir: /build
     id: install
-  - exec:
-      commandLine: npm run start
-      component: runtime
-      group:
-        isDefault: true
-        kind: run
-      hotReloadCapable: true
-      workingDir: /build
-    id: run
