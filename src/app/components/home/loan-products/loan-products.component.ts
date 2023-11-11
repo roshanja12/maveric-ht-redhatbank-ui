@@ -1,0 +1,33 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-loan-products',
+  templateUrl: './loan-products.component.html',
+  styleUrls: ['./loan-products.component.css']
+})
+export class LoanProductsComponent {
+  years = [2023, 2022, 2021, 2020];
+
+
+  monthsData:{ [key: string]: number }={"Jan":90,"Feb":40,"March":60,"April":60,"May":45,"June":75,"July":62,"August":23,
+"September":43,"October":49,"Novemeber":29,"December":39};
+
+getFirstHalfMonths() {
+  const halfLength = Math.ceil(Object.keys(this.monthsData).length / 2);
+  const monthsArray = Object.keys(this.monthsData).slice(0, halfLength);
+  return monthsArray.map((month:string) => ({ name: month, count: this.monthsData[month] }));
+}
+
+getSecondHalfMonths() {
+  const halfLength = Math.ceil(Object.keys(this.monthsData).length / 2);
+  const monthsArray = Object.keys(this.monthsData).slice(halfLength);
+  return monthsArray.map(month => ({ name: month, count: this.monthsData[month] }));
+}
+
+getBackground(count:number) {
+  const percentage = (count / 100) * 100;
+  return `linear-gradient(to right, #00E38C ${percentage}%, #F5F6F8 ${percentage}%)`;
+}
+
+
+}

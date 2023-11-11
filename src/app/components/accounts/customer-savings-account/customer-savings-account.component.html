@@ -1,0 +1,158 @@
+<div class="main-customer">
+    <span style="margin-left: 10rem;" (click)="routeToSavingsTable()">Back</span>
+    <div class="sceond-main">
+        <div>
+            <h3 style="margin-top: 2.5rem; margin-left: 2.5rem;
+             padding-top: 2rem;">Savings Account</h3>
+            <div class="customer">
+                <div style="padding-top: 1.25rem;">
+                    <div style="background: #F5F6F8 0% 0% no-repeat padding-box; margin-top: 1.5rem;">
+                        <div class="parent">
+                            <p class="child">
+                                Customer ID
+                            </p>
+                            <p class="child">
+                                Customer Name
+                            </p>
+                        </div>
+                        <div class="parent" style="padding-top: 0 !important;">
+                            <h3 class="child">
+                                1234567890
+                            </h3>
+                            <h3 class="child">
+                                Senthil Kumar
+                            </h3>
+                            <p class="child active">
+                                Active
+                            </p>
+                            <span (click)="onModify()" style="color: #EE0200; margin-left: 68%; text-decoration: underline;
+                            font: normal normal bold 16px/19px Wallop;">MODIFY <i *ngIf="!isModifyClicked"
+                                    class="bi bi-chevron-down"></i> <i *ngIf="isModifyClicked"
+                                    class="bi bi-chevron-up"></i></span>
+
+                        </div>
+                    </div>
+
+                    <div  *ngIf="!isModifyClicked" class="modify-class">
+                       <div class="modify-parent">
+                         <div class="modify-parent modify-amount">
+                         <div style="margin-left: 0.25rem;">
+                          <p style="margin-bottom: 0 !important;">Enter</p>
+                          <p style="margin-bottom: 0 !important;">Withdraw Amount</p>
+                        </div>
+                        <div>
+                            <input class="input-tag" [defaultValue]="0"/>
+                        </div>
+                         </div>
+                         <div>
+                            <button class="btn-class">WITHDRAW</button>
+                         </div>
+                         
+                       </div>
+                       <div class="modify-parent">
+                        <div  class="modify-parent modify-amount">
+                        <div style="margin-left: 0.25rem;">
+                         <p style="margin-bottom: 0 !important;">Enter</p>
+                         <p style="margin-bottom: 0 !important;">Deposit Amount</p>
+                       </div>
+                       <div>
+                           <input class="input-tag" [defaultValue]="0"/>
+                       </div>
+                        </div>
+                        <div>
+                           <button class="btn-class">DEPOSIT</button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div *ngIf="isModifyClicked" class="modified-class">
+                        <div style="display: flex; flex-direction: row;">
+                        <input type="checkbox" style="margin-top: 1.9rem; background: #EE0200;
+                        border: 0.3428570032119751px solid #FFFFFF;" [checked]="true" />
+                        <label style="margin-left: 0.25rem; margin-top: 3rem; " for="checkbox">Allow Overdraft</label>
+                        <div class="modify-parent modify-amount" style="margin-left: 1.18rem !important;">
+                            <div style="margin-left: 0.25rem;">
+                             <p style="margin-bottom: 0 !important;">Overdraft Limit</p>
+                             <p style="margin-bottom: 0 !important;">5000</p>
+                           </div>
+                           <div class="dropdown">
+                            <form>
+                                <select name="cars" id="cars" style="margin-left: 5rem; padding-left: 5rem;" aria-labelledby="">
+                                  <option value="volvo">1000</option>
+                                  <option value="saab">2000</option>
+                                  <option value="opel">3000</option>
+                                  <option value="audi">4000</option>
+                                </select>
+                              </form>
+                          </div>
+                            </div>
+                            <div>
+                                <button class="btn-class">SAVE</button>
+                             </div>
+                            </div>
+                     </div>
+                     <div class="notification">
+                        
+                        <img src="assets\savings-historyicons/Mask Group 10202.svg" class="pic">
+                        <span class="closebtn" (click)="openConfirmationModal()" >CLOSE</span>
+                        <img 
+                            src="assets\savings-historyicons/Mask Group 10203.svg" class="pic2">
+                        <span class="blockbtn" (click)="onBlock()">BLOCK </span>
+                        
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 2.5rem;">
+           <h3 style="margin-bottom: 0.75rem;">Transaction History</h3>
+        <p-table [value]="transactions" 
+        [paginator]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [scrollable]="true"
+        [scrollable]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]">
+            <ng-template pTemplate="header" class="theader">
+                <tr>
+                    <th pSortableColumn="date" class="column-width">Date <p-sortIcon field="date"></p-sortIcon></th>
+                    <th pSortableColumn="description" class="column-width">Description <p-sortIcon
+                            field="description"></p-sortIcon></th>
+                    <th pSortableColumn="amount" class="column-width">Amount <p-sortIcon field="amount"></p-sortIcon></th>
+                    <th pSortableColumn="type" class="column-width">Type <p-sortIcon field="type"></p-sortIcon></th>
+                    <th pSortableColumn="balance" class="column-width">Balance <p-sortIcon field="balance"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-transaction class="tbody">
+                <tr>
+                    <td class="column-width">{{transaction.date}}</td>
+                    <td class="column-width">{{transaction.description}}</td>
+                    <td class="column-width">{{transaction.amount}}</td>
+                    <td class="column-width" [ngClass]="transaction.type == 'Deposit' ? 'deposit' : 'withdraw'">{{transaction.type}}</td>
+                    <td class="column-width">{{transaction.balance}}</td>
+                </tr>
+            </ng-template>
+
+            <!-- <ng-template pTemplate="paginatorleft">
+                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template> -->
+        </p-table>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Header" [(visible)]="this.isModalOpen" [style]="{ width: '50vw' }" [closable]="false" class="dialog">
+    <ng-template pTemplate="header">
+        <h2 class="text-xl font-bold " style="margin-left: 2.5rem; margin-top: 2.5rem;">Are you sure you want to close?</h2>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-bottom: 2.5rem;">
+            <button class="modal-btn" style="margin-right: 0.5rem;" (click)="handleConfirmation(true)">YES</button>
+            <button  class="modal-btn"  (click)="handleConfirmation(false)">NO</button>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,30 @@
+
+.customer-accounts-bg-image{
+    background-image: url("src/assets/images/customer-account-home/customer-accounts-main.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 0;
+    min-height: 30vh;
+    border-radius: 14%;
+}
+
+.customer-accounts-image{
+    background-image: url("src/assets/images/customer-account-home/customer-accounts-inside.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+}
+
+.custom-btn {
+    background-color: white;
+    color: red;
+    text-align: center;
+    font-size: small;
+    font-weight: bolder;
+}
+
+.thin-text {
+    font-weight: 300; /* Adjust the font-weight to make text thinner */
+  }
+

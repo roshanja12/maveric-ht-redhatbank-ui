@@ -1,0 +1,6 @@
+.inside-search-box {
+  display: flex;
+  flex-direction: row;
+  /* I've used padding so you can see the edges of the elements. */
+  padding: 1px;
+}
