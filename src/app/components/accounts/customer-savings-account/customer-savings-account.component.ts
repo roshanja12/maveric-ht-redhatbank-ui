@@ -64,114 +64,6 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     
-    this.transactions = [
-      {
-        date: '2023-01-01',
-        description: 'Payment 1',
-        amount: 100.0,
-        type: 'DEPOSIT',
-        balance: 100.0,
-      },
-      {
-        date: '2023-01-02',
-        description: 'Withdrawal 1',
-        amount: -50.0,
-        type: 'WITHDRAW',
-        balance: 50.0,
-      },
-      {
-        date: '2023-01-03',
-        description: 'Payment 2',
-        amount: 75.0,
-        type: 'DEPOSIT',
-        balance: 125.0,
-      },
-      {
-        date: '2023-01-04',
-        description: 'Withdrawal 2',
-        amount: -30.0,
-        type: 'WITHDRAW',
-        balance: 95.0,
-      },
-      {
-        date: '2023-01-05',
-        description: 'Payment 3',
-        amount: 120.0,
-        type: 'DEPOSIT',
-        balance: 215.0,
-      },
-      {
-        date: '2023-01-06',
-        description: 'Withdrawal 3',
-        amount: -40.0,
-        type: 'WITHDRAW',
-        balance: 175.0,
-      },
-      {
-        date: '2023-01-07',
-        description: 'Payment 4',
-        amount: 90.0,
-        type: 'DEPOSIT',
-        balance: 265.0,
-      },
-      {
-        date: '2023-01-08',
-        description: 'Withdrawal 4',
-        amount: -60.0,
-        type: 'WITHDRAW',
-        balance: 205.0,
-      },
-      {
-        date: '2023-01-09',
-        description: 'Payment 5',
-        amount: 110.0,
-        type: 'DEPOSIT',
-        balance: 315.0,
-      },
-      {
-        date: '2023-01-10',
-        description: 'Withdrawal 5',
-        amount: -70.0,
-        type: 'WITHDRAW',
-        balance: 245.0,
-      },
-      {
-        date: '2023-01-11',
-        description: 'Payment 6',
-        amount: 80.0,
-        type: 'DEPOSIT',
-        balance: 325.0,
-      },
-      {
-        date: '2023-01-12',
-        description: 'Withdrawal 6',
-        amount: -40.0,
-        type: 'WITHDRAW',
-        balance: 285.0,
-      },
-      {
-        date: '2023-01-13',
-        description: 'Payment 7',
-        amount: 95.0,
-        type: 'DEPOSIT',
-        balance: 380.0,
-      },
-      {
-        date: '2023-01-14',
-        description: 'Withdrawal 7',
-        amount: -55.0,
-        type: 'WITHDRAW',
-        balance: 325.0,
-      },
-      {
-        date: '2023-01-15',
-        description: 'Payment 8',
-        amount: 120.0,
-        type: 'DEPOSIT',
-        balance: 445.0,
-      },
-    ];
-
     this.route.queryParams.subscribe((params) => {
       this.customerId = params['customerId'];
       this.customerName = params['customerName'];
@@ -184,7 +76,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
 
   getAllTransactions(){
      this.customerTransactionService.getTransactionsForSavingsAccount(this.savingsAccountId,1,1000).subscribe(response =>{
-       //this.transactions = response;
+       this.transactions = response;
      });
   }
 
