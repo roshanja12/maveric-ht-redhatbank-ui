@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { SavingsAccountModel } from '../models/savings-account.model';
+import { SavingsAccountDTO } from '../models/savings-account.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -21,15 +22,34 @@ export class SavingsAccountsService {
   getSavingsAccountByCustomerIdUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
 
-  getAllSavingsAccounts(): Observable<SavingsAccountModel[]> {
-    return this.http.get<SavingsAccountModel[]>(this.getAllSavingsAccountsUrl);
+  getAllSavingsAccounts(page: number, size: number): Observable<SavingsAccountDTO[]> {
+
+    //http://localhost:8080/api/v1/accounts/saving?page=1&size=11&search=
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    // Make the HTTP request with query parameters
+    return this.http.get<any>(this.getAllSavingsAccountsUrl, { params }).pipe(
+      map((response) => response.data)
+    );
   }
-  getSearchSavingsAccounts(search: string): Observable<SavingsAccountModel[]> {
-    return this.http.get<SavingsAccountModel[]>(
+  getSearchSavingsAccounts(search: string): Observable<SavingsAccountDTO[]> {
+    return this.http.get<SavingsAccountDTO[]>(
       this.getSearchSavingsAccountsUrl + '/' + search
     );
   }
-  addSavingsAccount(body: any) {
+  addSavingsAccount(file: File, body: any) {
+    let formData: FormData = new FormData();
+    if (file != undefined) {
+      formData.append('image', file, file.name);
+    }
+    formData.append(
+      'savingsAccountRequestDto',
+      JSON.stringify(body)
+    );
+    console.log(body);
+    console.log(formData);
     return this.http.post(this.addSavingsAccountUrl, body);
   }
   modifySavingsAccount(body: any) {

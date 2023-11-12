@@ -2,12 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomerModel } from 'src/app/models/customer.model';
 import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { LoanTransactionHistoryModel } from 'src/app/models/loan-transaction-history.model';
+import { SavingsAccountDTO } from 'src/app/models/savings-account.dto';
 import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 
 type Data =
   | CustomerModel
   | SavingsAccountModel
   | LoanAccountsModel
+  | SavingsAccountDTO
   | LoanTransactionHistoryModel;
 @Component({
   selector: 'app-table-template',

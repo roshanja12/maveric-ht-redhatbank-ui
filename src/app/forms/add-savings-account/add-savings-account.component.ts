@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CustomerAccountsService } from 'src/app/services/customer-accounts.service';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
+import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
+import { DialogData } from 'src/app/models/dialog-data.model';
 
 @Component({
   selector: 'app-add-savings-account',
@@ -9,6 +13,8 @@ import { SavingsAccountsService } from 'src/app/services/savings-accounts.servic
   styleUrls: ['./add-savings-account.component.css'],
 })
 export class AddSavingsAccountComponent {
+
+
   addSavingsAccountForm: FormGroup;
   minOpeningBalanceAvailable: number[] = [1000, 2000, 5000, 10000];
   interestCompoundingPeriodAvailable: string[] = [
@@ -18,17 +24,21 @@ export class AddSavingsAccountComponent {
   ];
   overdraftLimitAvailable: number[] = [1000, 2000, 5000, 10000];
   allowOverdraftToggle: boolean = false;
+  selectedFile!: File;
 
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
-    private savingsService: SavingsAccountsService
+    private savingsService: SavingsAccountsService,
+    private snackBarService: SnackbarService,
+    private modalService: BsModalService,
+    private customerService: CustomerAccountsService
   ) {
     this.addSavingsAccountForm = this.formBuilder.group({
       customerId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       name: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      minOpeningBalance: ['', [Validators.required]],
+      minOpeningBalance: [0, [Validators.required]],
       interestCompoundingPeriod: ['', [Validators.required]],
       overDraftLimit: [0],
       documentUpload: ['', [Validators.required]],
@@ -40,16 +50,72 @@ export class AddSavingsAccountComponent {
   }
 
   onSubmit() {
+
+  const formValues = this.addSavingsAccountForm.value;
+
+  // Create an object with only the required fields
+  const requiredValues = {
+    customerId: formValues.customerId,
+    customerName: formValues.name,
+    phoneNumbe: formValues.phoneNumber,
+    minOpeningBalance: formValues.minOpeningBalance,
+    interestCompoundPeriod: formValues.interestCompoundingPeriod,
+    isAllowOverDraft: formValues.overDraftLimit > 0, // Assuming overDraftLimit is a boolean value
+    overDraftLimit: formValues.overDraftLimit,
+  };
+
     this.savingsService
-      .addSavingsAccount(this.addSavingsAccountForm.value)
+      .addSavingsAccount(this.selectedFile, requiredValues)
       .subscribe(
         (response) => {
           console.log(response);
+
+          const dialogData: DialogData = {
+            message: 'Congrats! Account Created Successful',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogSkeletonComponent, { initialState });
+          this.bsModalRef.hide(); 
           return response;
+
         },
         (error) => {
           this.bsModalRef.hide();
           console.log(error);
+        }
+      );
+  }
+
+  onFileSelected(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files.length > 0) {
+      this.selectedFile = inputElement.files[0];
+    }
+  }
+
+  searchCustomer() {
+    const customerId = this.addSavingsAccountForm.get('customerId')?.value;
+    if (customerId == null) {
+      this.snackBarService.showSnackBar('Provide customerId');
+      return;
+    }
+    this.patchValuesIntoForm();
+  }
+
+  patchValuesIntoForm() {
+    this.customerService
+      .getCustomer(this.addSavingsAccountForm.value.customerId)
+      .subscribe(
+        (res) => {
+          //this.getSavingsAccounts(this.addSavingsAccountForm.value.customerId);
+        },
+        (error) => {
+          this.snackBarService.showSnackBar(
+            'Unable to get customer with that ID ' +
+              this.addSavingsAccountForm.value.customerId
+          );
         }
       );
   }

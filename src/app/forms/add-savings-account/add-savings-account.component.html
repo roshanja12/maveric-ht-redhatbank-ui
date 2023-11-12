@@ -13,15 +13,22 @@
         <form
           [formGroup]="addSavingsAccountForm"
           class="form-floating mb-3"
-          (ngSubmit)="onSubmit()"
         >
-          <div class="form-floating mb-2">
+          <div class="form-floating mb-2 inside-search-box">
             <input
               type="text"
               class="form-control"
               id="customerId"
               formControlName="customerId"
             />
+            <button
+                type="button"
+                id="searchButton"
+                class="btn btn-danger rounded text-center px-5 bold"
+                (click)="searchCustomer()"
+              >
+                SEARCH
+              </button>
             <label class="form-label" for="customerId">Customer ID</label>
             <div
               class=""
@@ -127,11 +134,13 @@
             <label for="overDraftLimit">Over Draft Limit</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="file" class="form-control-file" id="documentUpload" />
+            <input type="file" class="form-control-file" 
+            (change)="onFileSelected($event)"
+            id="documentUpload" />
           </div>
           <button
             type="submit"
-            [disabled]="addSavingsAccountForm.invalid"
+            (click)="onSubmit()"
             class="btn btn-danger w-100"
           >
             CREATE

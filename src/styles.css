@@ -15,3 +15,11 @@ body {
   background: #FCFCFC 0% 0% no-repeat padding-box;
   opacity: 1;
 }
+
+
+.inside-search-box {
+  display: flex !important;
+  flex-direction: row !important;
+  /* I've used padding so you can see the edges of the elements. */
+  padding: 1px !important;
+}
