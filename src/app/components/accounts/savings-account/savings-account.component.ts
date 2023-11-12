@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Options } from 'ngx-bootstrap/positioning/models';
 import { AddSavingsAccountComponent } from 'src/app/forms/add-savings-account/add-savings-account.component';
 import { CustomerResponse } from 'src/app/models/customer-response.model';
+import { SavingsAccountDTO } from 'src/app/models/savings-account.dto';
 import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 
@@ -15,7 +17,7 @@ import { SavingsAccountsService } from 'src/app/services/savings-accounts.servic
 export class SavingsAccountComponent {
   searchForm: FormGroup;
   modalRef!: BsModalRef;
-  currentSavingsAccounts: SavingsAccountModel[] = [];
+  currentSavingsAccounts: SavingsAccountDTO[] = [];
   tableColumns!: string[];
   visibleColumnElements!: string[];
   options!: Options;
@@ -24,10 +26,12 @@ export class SavingsAccountComponent {
   collectionSize: number = 0;
   actionIntended: string = '';
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Block', 'UnBlock'];
+ 
   constructor(
     private formBuilder: FormBuilder,
     private accountService: SavingsAccountsService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) {
     this.searchForm = this.formBuilder.group({
       searchBar: [''],
@@ -44,18 +48,18 @@ export class SavingsAccountComponent {
       'Status',
     ];
     this.visibleColumnElements = [
-      'applicationId',
+      'savingsAccountId',
       'customerId',
       'customerName',
-      'emailId',
-      'phoneNumber',
+      'customerEmail',
+      'customerPhone',
       'status',
     ];
     this.tableColumns = tableColumns;
     this.getAllSavingsAccounts();
   }
   getAllSavingsAccounts() {
-    this.accountService.getAllSavingsAccounts().subscribe((res) => {
+    this.accountService.getAllSavingsAccounts(1,1000).subscribe((res) => {
       this.currentSavingsAccounts = res;
       this.collectionSize = this.currentSavingsAccounts.length;
     });
@@ -82,6 +86,18 @@ export class SavingsAccountComponent {
   rowOptionEvent(receivedEvent: any) {
     this.actionIntended = receivedEvent[1];
     if (this.actionIntended === 'Open') {
+      const customerId = receivedEvent[0].customerId;
+      const customerName = receivedEvent[0].customerName;
+      const status = receivedEvent[0].status;
+      const savingsAccountId = receivedEvent[0].savingsAccountId;
+      const queryParams = {
+        'customerId': customerId,
+        'customerName': customerName,
+        'status': status,
+        'savingsAccountId': savingsAccountId
+      };
+
+      this.router.navigateByUrl(`/customer-savings-account?customerId=${queryParams.customerId}&customerName=${queryParams.customerName}&savingsAccountId=${queryParams.savingsAccountId}&status=${queryParams.status}`);
       console.log(this.actionIntended);
     } else if (this.actionIntended === 'Approve') {
       console.log(this.actionIntended);

@@ -17,13 +17,13 @@
                         </div>
                         <div class="parent" style="padding-top: 0 !important;">
                             <h3 class="child">
-                                1234567890
+                                {{this.customerId}}
                             </h3>
                             <h3 class="child">
-                                Senthil Kumar
+                                {{this.customerName}}
                             </h3>
                             <p class="child active">
-                                Active
+                                {{this.status}}
                             </p>
                             <span (click)="onModify()" style="color: #EE0200; margin-left: 68%; text-decoration: underline;
                             font: normal normal bold 16px/19px Wallop;">MODIFY <i *ngIf="!isModifyClicked"
@@ -41,11 +41,11 @@
                           <p style="margin-bottom: 0 !important;">Withdraw Amount</p>
                         </div>
                         <div>
-                            <input class="input-tag" [defaultValue]="0"/>
+                            <input class="input-tag" [defaultValue]="0" [(ngModel)]="withdrawAmount"/>
                         </div>
                          </div>
                          <div>
-                            <button class="btn-class">WITHDRAW</button>
+                            <button class="btn-class" (click)="onClickOfWithdraw()" >WITHDRAW</button>
                          </div>
                          
                        </div>
@@ -56,11 +56,11 @@
                          <p style="margin-bottom: 0 !important;">Deposit Amount</p>
                        </div>
                        <div>
-                           <input class="input-tag" [defaultValue]="0"/>
+                           <input class="input-tag" [defaultValue]="0" [(ngModel)]="depositAmount"/>
                        </div>
                         </div>
                         <div>
-                           <button class="btn-class">DEPOSIT</button>
+                           <button class="btn-class"(click)="onClickOfDeposit()">DEPOSIT</button>
                         </div>
                         
                       </div>
@@ -68,26 +68,26 @@
                     <div *ngIf="isModifyClicked" class="modified-class">
                         <div style="display: flex; flex-direction: row;">
                         <input type="checkbox" style="margin-top: 1.9rem; background: #EE0200;
-                        border: 0.3428570032119751px solid #FFFFFF;" [checked]="true" />
+                        border: 0.3428570032119751px solid #FFFFFF;" [checked]="true" [(ngModel)]="isOverDraftChecked"/>
                         <label style="margin-left: 0.25rem; margin-top: 3rem; " for="checkbox">Allow Overdraft</label>
                         <div class="modify-parent modify-amount" style="margin-left: 1.18rem !important;">
                             <div style="margin-left: 0.25rem;">
                              <p style="margin-bottom: 0 !important;">Overdraft Limit</p>
-                             <p style="margin-bottom: 0 !important;">5000</p>
+                             <p style="margin-bottom: 0 !important;">{{overDraftAmount}}</p>
                            </div>
                            <div class="dropdown">
                             <form>
-                                <select name="cars" id="cars" style="margin-left: 5rem; padding-left: 5rem;" aria-labelledby="">
-                                  <option value="volvo">1000</option>
-                                  <option value="saab">2000</option>
-                                  <option value="opel">3000</option>
-                                  <option value="audi">4000</option>
+                                <select name="cars" id="cars" [(ngModel)]="overDraftAmount"style="margin-left: 5rem; padding-left: 5rem;" aria-labelledby="" [disabled]="this.status !=='ACTIVE' || !this.isOverDraftChecked">
+                                  <option value="1000">1000</option>
+                                  <option value="2000">2000</option>
+                                  <option value="3000">3000</option>
+                                  <option value="4000">4000</option>
                                 </select>
                               </form>
                           </div>
                             </div>
                             <div>
-                                <button class="btn-class">SAVE</button>
+                                <button class="btn-class" [disabled]="this.status !=='ACTIVE' || !this.isOverDraftChecked" (click)="onClickOfOverDraft()">SAVE</button>
                              </div>
                             </div>
                      </div>
@@ -128,7 +128,7 @@
                     <td class="column-width">{{transaction.date}}</td>
                     <td class="column-width">{{transaction.description}}</td>
                     <td class="column-width">{{transaction.amount}}</td>
-                    <td class="column-width" [ngClass]="transaction.type == 'Deposit' ? 'deposit' : 'withdraw'">{{transaction.type}}</td>
+                    <td class="column-width" [ngClass]="transaction.type == 'DEPOSIT' ? 'deposit' : 'WITHDRAW'">{{transaction.type}}</td>
                     <td class="column-width">{{transaction.balance}}</td>
                 </tr>
             </ng-template>
