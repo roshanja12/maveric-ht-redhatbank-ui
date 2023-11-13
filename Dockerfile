@@ -1,15 +1,19 @@
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:18-alpine as build
+#FROM node:18-alpine as build
+FROM node:12.14-alpine as build
+
 # Set the working directory
 WORKDIR /app
+
+RUN npm cache clean --force
+
 COPY . .
 
 #### install angular cli
 RUN npm install -g @angular/cli
-
-RUN npm install -g npm@10.2.3
+#RUN npm install -g npm@10.2.3
 
 RUN npm install
 
