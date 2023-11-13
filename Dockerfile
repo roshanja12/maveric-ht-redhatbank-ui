@@ -13,7 +13,7 @@ COPY package*.json .
 RUN npm install -g @angular/cli
 #RUN npm install -g npm@10.2.3
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
