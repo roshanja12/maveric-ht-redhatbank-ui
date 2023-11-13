@@ -10,6 +10,9 @@ COPY . .
 RUN npm install -g @angular/cli
 
 RUN npm install -g npm@10.2.3
+
+RUN npm install
+
 # Generate the build of the application
 RUN npm run build --prod
 
