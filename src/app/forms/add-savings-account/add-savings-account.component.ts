@@ -38,9 +38,9 @@ export class AddSavingsAccountComponent {
       customerId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       name: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      minOpeningBalance: [0, [Validators.required]],
-      interestCompoundingPeriod: ['', [Validators.required]],
-      overDraftLimit: [0],
+      minOpeningBalance: [1000, [Validators.required]],
+      interestCompoundingPeriod: ['MONTHLY', [Validators.required]],
+      overDraftLimit: [1000],
       documentUpload: ['', [Validators.required]],
     });
   }
@@ -57,7 +57,7 @@ export class AddSavingsAccountComponent {
   const requiredValues = {
     customerId: formValues.customerId,
     customerName: formValues.name,
-    phoneNumbe: formValues.phoneNumber,
+    phoneNumber: formValues.phoneNumber.toString(),
     minOpeningBalance: formValues.minOpeningBalance,
     interestCompoundPeriod: formValues.interestCompoundingPeriod,
     isAllowOverDraft: formValues.overDraftLimit > 0, // Assuming overDraftLimit is a boolean value
@@ -109,6 +109,13 @@ export class AddSavingsAccountComponent {
       .getCustomer(this.addSavingsAccountForm.value.customerId)
       .subscribe(
         (res) => {
+
+          this.addSavingsAccountForm.patchValue({
+            customerId: res.customerId,
+            name: `${res.firstName} ${res.lastName}`,
+            phoneNumber: res.phoneNumber,
+          });
+         
           //this.getSavingsAccounts(this.addSavingsAccountForm.value.customerId);
         },
         (error) => {
