@@ -22,9 +22,10 @@ FROM quay.io/jitesoft/nginx:latest
 #COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx/ /etc/nginx/conf.d/
 
-WORKDIR /code
+#WORKDIR /code
+COPY --from=build /app/dist/ /usr/share/nginx/html
 
-COPY --from=build /app/dist .
+#COPY --from=build /app/dist .
 
 EXPOSE 8080:8080
 CMD ["nginx", "-g", "daemon off;"]
