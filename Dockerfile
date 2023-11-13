@@ -20,8 +20,8 @@ RUN npm run build:ssr
 # RUN ng build --prod
 
 # Stage 2: Serve the Angular app
-#FROM nginx:latest
-FROM nginxinc/nginx-unprivileged
+FROM nginx:latest
+#FROM nginxinc/nginx-unprivileged
 
 ## Copy our nginx config
 COPY nginx/ /etc/nginx/conf.d/
