@@ -10,7 +10,7 @@ RUN npm install -g npm@10.2.3
 RUN npm run build --prod
 
 # Stage 2: Serve app with nginx server
-FROM nginx:latest
+FROM quay.io/jitesoft/nginx:latest
 
 #COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx/ /etc/nginx/conf.d/
