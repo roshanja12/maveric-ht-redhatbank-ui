@@ -26,7 +26,7 @@ export class SavingsAccountComponent {
   collectionSize: number = 0;
   actionIntended: string = '';
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Block', 'UnBlock'];
- 
+
   constructor(
     private formBuilder: FormBuilder,
     private accountService: SavingsAccountsService,
@@ -59,8 +59,10 @@ export class SavingsAccountComponent {
     this.getAllSavingsAccounts();
   }
   getAllSavingsAccounts() {
-    this.accountService.getAllSavingsAccounts(1,1000).subscribe((res) => {
+    this.accountService.getAllSavingsAccounts(1, 1000).subscribe((res) => {
       this.currentSavingsAccounts = res;
+      console.log(res);
+
       this.collectionSize = this.currentSavingsAccounts.length;
     });
   }
@@ -81,6 +83,10 @@ export class SavingsAccountComponent {
   createNewSavingsAccount(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);
     this.modalRef = this.modalService.show(AddSavingsAccountComponent);
+    this.modalRef.onHidden?.subscribe(() => {
+      console.log('Modal closed. Performing additional actions.');
+      this.getAllSavingsAccounts();
+    });
   }
 
   rowOptionEvent(receivedEvent: any) {
@@ -91,29 +97,38 @@ export class SavingsAccountComponent {
       const status = receivedEvent[0].status;
       const savingsAccountId = receivedEvent[0].savingsAccountId;
       const queryParams = {
-        'customerId': customerId,
-        'customerName': customerName,
-        'status': status,
-        'savingsAccountId': savingsAccountId
+        customerId: customerId,
+        customerName: customerName,
+        status: status,
+        savingsAccountId: savingsAccountId,
       };
 
-      this.router.navigateByUrl(`/customer-savings-account?customerId=${queryParams.customerId}&customerName=${queryParams.customerName}&savingsAccountId=${queryParams.savingsAccountId}&status=${queryParams.status}`);
+      this.router.navigateByUrl(
+        `/customer-savings-account?customerId=${queryParams.customerId}&customerName=${queryParams.customerName}&savingsAccountId=${queryParams.savingsAccountId}&status=${queryParams.status}`
+      );
       console.log(this.actionIntended);
-    } else if (this.actionIntended === 'Approve') {
+    } else if (
+      this.actionIntended === 'Approve' &&
+      receivedEvent[0].status?.toLowerCase() !== 'blocked'
+    ) {
       console.log(this.actionIntended);
-      let currentSavingsAccount: SavingsAccountModel = receivedEvent[0];
-      if (currentSavingsAccount.status?.toLowerCase() === 'blocked') {
-        // not possible to change
-        return;
-      }
-      this.accountService.modifySavingsAccount(currentSavingsAccount);
       return;
-    } else if (this.actionIntended === 'Reject') {
+    } else if (
+      this.actionIntended === 'Reject' &&
+      receivedEvent[0].status?.toLowerCase() !== 'blocked'
+    ) {
       console.log(this.actionIntended);
-    } else if (this.actionIntended === 'Block') {
+      return;
+    } else if (
+      this.actionIntended === 'Block' &&
+      receivedEvent[0].status?.toLowerCase() !== 'blocked'
+    ) {
       console.log(this.actionIntended);
+      return;
     } else if (this.actionIntended === 'UnBlock') {
       console.log(this.actionIntended);
     }
+    let currentSavingsAccount: SavingsAccountModel = receivedEvent[0];
+    this.accountService.modifySavingsAccount(currentSavingsAccount);
   }
 }

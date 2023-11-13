@@ -8,7 +8,7 @@ import { LoginModel } from '../models/login-model.model';
 export class LoginService {
   constructor(private http:HttpClient) {}
 
-  apiGateWayUrl = 'http://localhost:8085';
+  apiGateWayUrl = 'https://sso-keycloak-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
   loginUrl :string = this.apiGateWayUrl+'/api/v1/login';
 
   login(data: LoginModel){

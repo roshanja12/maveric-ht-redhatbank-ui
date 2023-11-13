@@ -13,14 +13,12 @@ import { DialogData } from 'src/app/models/dialog-data.model';
   styleUrls: ['./add-savings-account.component.css'],
 })
 export class AddSavingsAccountComponent {
-
-
   addSavingsAccountForm: FormGroup;
   minOpeningBalanceAvailable: number[] = [1000, 2000, 5000, 10000];
   interestCompoundingPeriodAvailable: string[] = [
-    'Monthly',
-    'Quarterly',
-    'Annually',
+    'MONTHLY',
+    'QUARTERLY',
+    'ANNUALLY',
   ];
   overdraftLimitAvailable: number[] = [1000, 2000, 5000, 10000];
   allowOverdraftToggle: boolean = false;
@@ -39,9 +37,8 @@ export class AddSavingsAccountComponent {
       name: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       minOpeningBalance: [0, [Validators.required]],
-      interestCompoundingPeriod: ['', [Validators.required]],
+      interestCompoundPeriod: ['', [Validators.required]],
       overDraftLimit: [0],
-      documentUpload: ['', [Validators.required]],
     });
   }
 
@@ -49,37 +46,57 @@ export class AddSavingsAccountComponent {
     this.allowOverdraftToggle = !this.allowOverdraftToggle;
   }
 
+  getSavingsAccounts(customerId: number) {
+    return this.customerService.getCustomer(customerId).subscribe(
+      (res) => {
+        console.log(res);
+        return res;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
   onSubmit() {
+    let formValues = this.addSavingsAccountForm.value;
 
-  const formValues = this.addSavingsAccountForm.value;
+    // Create an object with only the required fields
+    let requiredValues: {
+      customerId: any;
+      customerName: any;
+      phoneNumbe: any;
+      minOpeningBalance: any;
+      interestCompoundPeriod: any;
+      isAllowOverDraft: boolean;
+      overDraftLimit?: any;
+    } = {
+      customerId: formValues.customerId,
+      customerName: formValues.name,
+      phoneNumbe: formValues.phoneNumber,
+      minOpeningBalance: formValues.minOpeningBalance,
+      interestCompoundPeriod: formValues.interestCompoundPeriod,
+      isAllowOverDraft: formValues.overDraftLimit > 0, // Assuming overDraftLimit is a boolean value
+    };
 
-  // Create an object with only the required fields
-  const requiredValues = {
-    customerId: formValues.customerId,
-    customerName: formValues.name,
-    phoneNumbe: formValues.phoneNumber,
-    minOpeningBalance: formValues.minOpeningBalance,
-    interestCompoundPeriod: formValues.interestCompoundingPeriod,
-    isAllowOverDraft: formValues.overDraftLimit > 0, // Assuming overDraftLimit is a boolean value
-    overDraftLimit: formValues.overDraftLimit,
-  };
+    if (requiredValues.isAllowOverDraft) {
+      requiredValues.overDraftLimit = formValues.overDraftLimit;
+    }
 
     this.savingsService
       .addSavingsAccount(this.selectedFile, requiredValues)
       .subscribe(
         (response) => {
           console.log(response);
-
           const dialogData: DialogData = {
-            message: 'Congrats! Account Created Successful',
+            message: 'Congrats! Savings Account Created Successful',
           };
           const initialState = {
             dialogData: dialogData,
           };
           this.modalService.show(DialogSkeletonComponent, { initialState });
-          this.bsModalRef.hide(); 
+          this.bsModalRef.hide();
           return response;
-
         },
         (error) => {
           this.bsModalRef.hide();
@@ -109,7 +126,13 @@ export class AddSavingsAccountComponent {
       .getCustomer(this.addSavingsAccountForm.value.customerId)
       .subscribe(
         (res) => {
-          //this.getSavingsAccounts(this.addSavingsAccountForm.value.customerId);
+          // this.getSavingsAccounts(this.addSavingsAccountForm.value.customerId);
+          this.addSavingsAccountForm.controls['name'].setValue(
+            res.firstName + ' ' + res.lastName
+          );
+          this.addSavingsAccountForm.controls['phoneNumber'].setValue(
+            res.phoneNumber
+          );
         },
         (error) => {
           this.snackBarService.showSnackBar(

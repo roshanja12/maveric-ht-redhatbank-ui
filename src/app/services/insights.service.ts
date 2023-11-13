@@ -7,8 +7,9 @@ import { Observable, map } from 'rxjs';
 })
 export class InsightsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://52.90.228.22:8082';
-  apiVersion = '/api/v1';
+  apiGateWayUrl =
+    'https://insights-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
+  apiVersion = '';
   getCustomerCountUrl: string =
     this.apiGateWayUrl +
     this.apiVersion +
@@ -24,13 +25,19 @@ export class InsightsService {
       .pipe(map((response) => response.data));
   }
   getLoanProducts(year: number): Observable<any> {
-    return this.http
-      .get<any>(this.getLoanProductsUrl + year)
-      .pipe(map((response) => response.data));
+    return this.http.get<any>(this.getLoanProductsUrl + year).pipe(
+      map((response) => {
+        return response;
+      })
+    );
   }
   getTotalCustomerPercentageByCity(city: string): Observable<any> {
     return this.http
       .get<any>(this.getTotalCustomerPercentageByCityUrl + city)
-      .pipe(map((response) => response.data));
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 }

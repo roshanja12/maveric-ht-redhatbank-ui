@@ -67,7 +67,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((params) => {
       this.customerId = params['customerId'];
       this.customerName = params['customerName'];
-      this.savingsAccountId = params['customerName'];
+      this.savingsAccountId = params['savingsAccountId'];
       this.status = params['status'];
     });
 
@@ -76,7 +76,9 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
 
   getAllTransactions(){
      this.customerTransactionService.getTransactionsForSavingsAccount(this.savingsAccountId,1,1000).subscribe(response =>{
-       this.transactions = response;
+      console.log(response);
+       
+      this.transactions = response;
      });
   }
 

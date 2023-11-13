@@ -1,8 +1,5 @@
 
 .count{
-    margin-right: 160px;
-    width: 80%;
-    min-height: 509px;
  
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 26px #00000017;
@@ -11,9 +8,6 @@
 }
 
 .header{
-    width: 340px;
-min-height: 27px;
- 
 text-align: left;
 font: normal normal bold 22px/27px Lato;
 letter-spacing: 0px;

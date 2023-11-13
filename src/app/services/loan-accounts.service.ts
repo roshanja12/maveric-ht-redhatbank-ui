@@ -9,8 +9,9 @@ import { LoanTransactionHistoryModel } from '../models/loan-transaction-history.
 })
 export class LoanAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://52.90.228.22:8083/';
-  apiVersion = 'api/v1/';
+  apiGateWayUrl =
+    'http://loan-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
+  apiVersion = '/api/v1/';
   getAllLoanAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'loan?page=0&size=10000';
   getTransActionHistoryByLoanIdUrl: string =
@@ -53,10 +54,7 @@ export class LoanAccountsService {
     if (file != undefined) {
       formData.append('supportingDoc', file, file.name);
     }
-    formData.append(
-      'loanDto',
-      JSON.stringify(body)
-    );
+    formData.append('loanDto', JSON.stringify(body));
     console.log(body);
     console.log(formData);
     return this.http.post(this.addLoanAccountUrl, formData);
