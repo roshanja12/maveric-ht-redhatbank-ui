@@ -31,6 +31,8 @@ RUN rm -rf /usr/share/nginx/html/*
 
 ## copy over the artifacts in dist folder to default nginx public folder
 COPY --from=build dist/ /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/space/browser /usr/share/nginx/html
+
 
 # Expose port 80
 EXPOSE 8080
