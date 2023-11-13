@@ -5,6 +5,10 @@ FROM node:18-alpine as build
 # Set the working directory
 WORKDIR /app
 COPY . .
+
+#### install angular cli
+RUN npm install -g @angular/cli
+
 RUN npm install -g npm@10.2.3
 # Generate the build of the application
 RUN npm run build --prod
