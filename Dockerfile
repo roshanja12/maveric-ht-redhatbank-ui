@@ -1,20 +1,27 @@
 # # Stage 1: Build the Angular app
-# FROM node:14 AS builder
+FROM node:14 AS builder
 
-# WORKDIR /app
-# COPY . .
+WORKDIR /user/src/app
+#### copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
 
-# # Install Angular CLI globally if not already installed
-# RUN npm install -g @angular/cli
+#### install angular cli
+RUN npm install -g @angular/cli
 
-# # Install project dependencies
-# RUN npm install
+#### install project dependencies
+RUN npm install
 
+#### copy things
+COPY . .
+
+#### generate build --prod
+RUN npm run build:ssr
 # # Build the Angular app for production
 # RUN ng build --prod
 
 # Stage 2: Serve the Angular app
-FROM nginx:latest
+#FROM nginx:latest
+FROM nginxinc/nginx-unprivileged
 
 ## Copy our nginx config
 COPY nginx/ /etc/nginx/conf.d/
@@ -23,7 +30,7 @@ COPY nginx/ /etc/nginx/conf.d/
 RUN rm -rf /usr/share/nginx/html/*
 
 ## copy over the artifacts in dist folder to default nginx public folder
-COPY dist/ /usr/share/nginx/html
+COPY --from=build dist/ /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 8080
