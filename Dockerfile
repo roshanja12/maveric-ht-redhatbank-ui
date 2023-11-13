@@ -5,7 +5,7 @@ FROM node:18-alpine as build
 # Set the working directory
 WORKDIR /app
 COPY . .
-RUN npm install
+RUN npm install -g npm@10.2.3
 # Generate the build of the application
 RUN npm run build --prod
 
