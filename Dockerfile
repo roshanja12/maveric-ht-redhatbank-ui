@@ -18,7 +18,8 @@ RUN npm install --legacy-peer-deps --force
 COPY . .
 
 # Generate the build of the application
-RUN npm run build --prod
+#RUN npm run build --prod
+RUN ng build
 
 # Stage 2: Serve app with nginx server
 FROM quay.io/jitesoft/nginx:latest
