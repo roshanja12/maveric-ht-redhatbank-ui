@@ -2,7 +2,7 @@
 
 # Use official node image as the base image
 #FROM node:18-alpine as build
-FROM node:16 as build
+FROM public.ecr.aws/lambda/nodejs:latest as build
 
 # Set the working directory
 WORKDIR /app
