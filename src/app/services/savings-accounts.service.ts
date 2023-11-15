@@ -9,20 +9,20 @@ import { SavingsAccountDTO } from '../models/savings-account.dto';
 })
 export class SavingsAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl = 'http://52.90.228.22:8081/';
+  apiGateWayUrl = 'http://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/';
   apiVersion = 'api/v1/';
   getAllSavingsAccountsUrl: string =
-    this.apiGateWayUrl + this.apiVersion + 'saving';
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   getSearchSavingsAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'saving';
   addSavingsAccountUrl: string =
-    this.apiGateWayUrl + this.apiVersion + 'saving';
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   modifySavingsAccountUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'saving';
   getSavingsAccountByCustomerIdUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
 
-  getAllSavingsAccounts(page: number, size: number): Observable<SavingsAccountDTO[]> {
+  getAllSavingsAccounts(page: number, size: number): Observable<any> {
 
     //http://localhost:8080/api/v1/accounts/saving?page=1&size=11&search=
     const params = new HttpParams()
@@ -30,9 +30,7 @@ export class SavingsAccountsService {
       .set('size', size);
 
     // Make the HTTP request with query parameters
-    return this.http.get<any>(this.getAllSavingsAccountsUrl, { params }).pipe(
-      map((response) => response.data)
-    );
+    return this.http.get<any>(this.getAllSavingsAccountsUrl, { params });
   }
   getSearchSavingsAccounts(search: string): Observable<SavingsAccountDTO[]> {
     return this.http.get<SavingsAccountDTO[]>(
@@ -50,7 +48,7 @@ export class SavingsAccountsService {
     );
     console.log(body);
     console.log(formData);
-    return this.http.post(this.addSavingsAccountUrl, body);
+    return this.http.post(this.addSavingsAccountUrl, formData);
   }
   modifySavingsAccount(body: any) {
     return this.http.put(this.modifySavingsAccountUrl, body);

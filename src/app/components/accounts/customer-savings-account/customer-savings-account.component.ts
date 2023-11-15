@@ -67,7 +67,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((params) => {
       this.customerId = params['customerId'];
       this.customerName = params['customerName'];
-      this.savingsAccountId = params['customerName'];
+      this.savingsAccountId = params['savingsAccountId'];
       this.status = params['status'];
     });
 
@@ -75,7 +75,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   }
 
   getAllTransactions(){
-     this.customerTransactionService.getTransactionsForSavingsAccount(this.savingsAccountId,1,1000).subscribe(response =>{
+     this.customerTransactionService.getTransactionsForSavingsAccount(this.savingsAccountId,0,1000).subscribe(response =>{
        this.transactions = response;
      });
   }
@@ -94,8 +94,9 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
           const initialState = {
             dialogData: dialogData,
           };
+          this.depositAmount = 0;
           this.modalService.show(DialogSkeletonComponent, { initialState });
-
+            
         } else {
 
           const dialogData: DialogData = {
@@ -130,6 +131,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
               const initialState = {
                 dialogData: dialogData,
               };
+              this.withdrawAmount =0;
               this.modalService.show(DialogSkeletonComponent, { initialState });
               console.log('Withdrawal successful', response);
               // Handle success, update UI, etc.\

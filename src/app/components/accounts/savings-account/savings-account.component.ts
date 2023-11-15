@@ -60,8 +60,14 @@ export class SavingsAccountComponent {
   }
   getAllSavingsAccounts() {
     this.accountService.getAllSavingsAccounts(1,1000).subscribe((res) => {
-      this.currentSavingsAccounts = res;
-      this.collectionSize = this.currentSavingsAccounts.length;
+      if(res.code === 200 && res.data) {
+          if(res.data && res.data.totalItems>0) {
+            this.currentSavingsAccounts = res.data.savingAccounts;
+            this.collectionSize = this.currentSavingsAccounts.length;
+          }
+        
+      }
+      
     });
   }
   getAllSearchAccounts(searchText: string) {
