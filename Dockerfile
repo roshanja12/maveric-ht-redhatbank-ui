@@ -18,7 +18,7 @@ RUN npm install --legacy-peer-deps --force
 COPY . .
 
 # Generate the build of the application
-RUN npm run build --prod
+RUN npm run build --omit=dev
 #RUN ng build
 
 # Stage 2: Serve app with nginx server
