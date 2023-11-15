@@ -9,9 +9,8 @@ import { SavingsAccountDTO } from '../models/savings-account.dto';
 })
 export class SavingsAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl =
-    'http://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
-  apiVersion = '/api/v1/';
+  apiGateWayUrl = 'http://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/';
+  apiVersion = 'api/v1/';
   getAllSavingsAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   getSearchSavingsAccountsUrl: string =

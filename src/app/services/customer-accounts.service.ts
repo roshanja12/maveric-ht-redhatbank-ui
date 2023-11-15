@@ -11,8 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CustomerAccountsService {
   constructor(private http: HttpClient) {}
-  apiGateWayUrl =
-    'https://customer-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
+  apiGateWayUrl = 'https://customer-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
   apiVersion = '/api/v1';
   getAllCustomersUrl: string =
     this.apiGateWayUrl + this.apiVersion + '/customers/search';
