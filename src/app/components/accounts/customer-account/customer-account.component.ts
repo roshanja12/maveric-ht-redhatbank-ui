@@ -70,6 +70,8 @@ export class CustomerAccountComponent {
       this.currentCustomers = res;
       this.collectionSize = this.currentCustomers.length;
       console.log('Getting All Customers');
+      console.log(res);
+      
     });
   }
 

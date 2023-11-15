@@ -14,23 +14,22 @@ export class SavingsAccountsService {
   getAllSavingsAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   getSearchSavingsAccountsUrl: string =
-    this.apiGateWayUrl + this.apiVersion + 'saving';
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   addSavingsAccountUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   modifySavingsAccountUrl: string =
-    this.apiGateWayUrl + this.apiVersion + 'saving';
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   getSavingsAccountByCustomerIdUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
 
-  getAllSavingsAccounts(page: number, size: number): Observable<any> {
-
-    //http://localhost:8080/api/v1/accounts/saving?page=1&size=11&search=
-    const params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
-
-    // Make the HTTP request with query parameters
-    return this.http.get<any>(this.getAllSavingsAccountsUrl, { params });
+  getAllSavingsAccounts(
+    page: number,
+    size: number
+  ): Observable<SavingsAccountDTO[]> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http
+      .get<any>(this.getAllSavingsAccountsUrl, { params })
+      .pipe(map((response) => response.data.savingAccounts));
   }
   getSearchSavingsAccounts(search: string): Observable<SavingsAccountDTO[]> {
     return this.http.get<SavingsAccountDTO[]>(
@@ -40,13 +39,11 @@ export class SavingsAccountsService {
   addSavingsAccount(file: File, body: any) {
     let formData: FormData = new FormData();
     if (file != undefined) {
+      console.log(file, file.name);
       formData.append('image', file, file.name);
     }
-    formData.append(
-      'savingsAccountRequestDto',
-      JSON.stringify(body)
-    );
     console.log(body);
+    formData.append('savingsAccountRequestDto', JSON.stringify(body));
     console.log(formData);
     return this.http.post(this.addSavingsAccountUrl, formData);
   }

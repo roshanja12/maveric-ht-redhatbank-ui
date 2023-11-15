@@ -24,7 +24,7 @@
             />
             <label class="form-label" for="firstName">First Name</label>
             <div
-              class=""
+              class="text-danger text-sm"
               *ngIf="
                 addCustomerForm.get('firstName')?.hasError('required') &&
                 addCustomerForm.get('firstName')?.touched
@@ -42,7 +42,7 @@
             />
             <label class="form-label" for="lastName">Last Name</label>
             <div
-              class=""
+              class="text-danger text-sm"
               *ngIf="
                 addCustomerForm.get('lastName')?.hasError('required') &&
                 addCustomerForm.get('lastName')?.touched
@@ -60,7 +60,7 @@
             />
             <label class="form-label" for="email">Email ID</label>
             <div
-              class=""
+              class="text-danger text-sm"
               *ngIf="
                 addCustomerForm.get('email')?.hasError('required') &&
                 addCustomerForm.get('email')?.touched
@@ -78,7 +78,7 @@
             />
             <label class="form-label" for="phoneNumber">Phone Number</label>
             <div
-              class=""
+              class="text-danger text-sm"
               *ngIf="
                 addCustomerForm.get('phoneNumber')?.hasError('required') &&
                 addCustomerForm.get('phoneNumber')?.touched

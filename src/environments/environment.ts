@@ -7,9 +7,15 @@ export const environment = {
     redirectUri: 'http://localhost:4200/home',
   },
   urls: {
-    customerServiceUrl: 'http://52.90.228.22:8080/',
-    savingsServiceUrl: 'http://52.90.228.22:8081/',
-    insightsServiceUrl: 'http://52.90.228.22:8082/',
-    loanServiceUrl: 'http://52.90.228.22:8083/',
+    customerServiceUrl:
+      'https://customer-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/',
+    savingsServiceUrl:
+      'http://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/',
+    insightsServiceUrl:
+      'https://insights-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/',
+    loanServiceUrl:
+      'http://loan-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/',
+    ssoKeyCloakUrl:
+      'https://sso-keycloak-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/',
   },
 };

@@ -9,8 +9,8 @@ import { InsightsService } from 'src/app/services/insights.service';
   styleUrls: ['./customer-count.component.css'],
 })
 export class CustomerCountComponent {
-  totalCustomerCount: number = 0;
   data: number[] = [45, 65, 22, 33, 55, 58, 23, 44, 67, 59, 60, 69];
+  totalCustomerCount: number = this.getSumOfArray(this.data);
   yearAvailable: number[] = this.createNumberArray(2019, 2024);
   currentYearChosen: number = this.yearAvailable[0];
   public lineChartOptions: ChartOptions = {
@@ -78,6 +78,7 @@ export class CustomerCountComponent {
       (res) => {
         console.log(res);
         this.data = res;
+        this.totalCustomerCount = this.getSumOfArray(res);
       },
       (error) => {
         console.log(error);
@@ -91,5 +92,8 @@ export class CustomerCountComponent {
   customerCountYearChoose(yearChosen: number) {
     this.currentYearChosen = yearChosen;
     this.updateChartData(this.currentYearChosen);
+  }
+  getSumOfArray(array: number[]) {
+    return array.reduce((partialSum, a) => partialSum + a, 0);
   }
 }

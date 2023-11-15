@@ -7,7 +7,7 @@ import { InsightsService } from 'src/app/services/insights.service';
   styleUrls: ['./total-customer.component.css'],
 })
 export class TotalCustomerComponent {
-  cities = ['Hyderabad', 'Bangalore', 'Chennai', 'Mumbai'];
+  cities = ['Hyderabad', 'Bangalore', 'Chennai', 'Pune'];
 
   currentValue = 60;
   constructor(private insightsService: InsightsService) {}
@@ -24,15 +24,17 @@ export class TotalCustomerComponent {
   }
 
   getTotalCustomerPercentageByCity(city: string) {
-    this.insightsService.getTotalCustomerPercentageByCity(city).subscribe(
-      (res) => {
-        console.log(res);
-        this.currentValue = res;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.insightsService
+      .getTotalCustomerPercentageByCity(city.toLowerCase())
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.currentValue = res;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getGraph(city: string) {
