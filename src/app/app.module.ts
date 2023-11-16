@@ -49,6 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogSkeletonComponent } from './shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 import { initializer } from './components/login-page/keycloack.login-func';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { DialogErrorSkeletonComponent } from './shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
     CustomerSavingsAccountComponent,
     CustomerPaymentHistoryComponent,
     DialogSkeletonComponent,
+    DialogErrorSkeletonComponent,
   ],
   imports: [
     BrowserModule,

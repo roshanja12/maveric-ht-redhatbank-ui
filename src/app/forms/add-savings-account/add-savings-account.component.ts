@@ -6,6 +6,7 @@ import { CustomerAccountsService } from 'src/app/services/customer-accounts.serv
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 import { DialogData } from 'src/app/models/dialog-data.model';
+import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 
 @Component({
   selector: 'app-add-savings-account',
@@ -99,8 +100,18 @@ export class AddSavingsAccountComponent {
           return response;
         },
         (error) => {
-          this.bsModalRef.hide();
           console.log(error);
+
+          const dialogData: DialogData = {
+            message: 'Unable to perform loan repayment',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
+          this.bsModalRef.hide();
         }
       );
   }

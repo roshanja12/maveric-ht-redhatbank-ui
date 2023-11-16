@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogData } from 'src/app/models/dialog-data.model';
 import { CustomerAccountsService } from 'src/app/services/customer-accounts.service';
+import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
 @Component({
@@ -65,8 +66,16 @@ export class AddCustomerComponent {
         return true;
       },
       (error) => {
-        this.bsModalRef.hide();
         console.log(error);
+
+        const dialogData: DialogData = {
+          message: 'Unable to perform loan repayment',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        this.bsModalRef.hide();
         return false;
       }
     );

@@ -70,8 +70,16 @@ export class LoanAccountComponent {
   modifyLoanAccountStatus(applicationId: number, statusUpdate: string) {
     this.accountService
       .modifyLoanAccount(applicationId, statusUpdate)
-      .subscribe((res) => console.log(res));
-    this.snackbarService.showSnackBar('Loan ' + statusUpdate);
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.snackbarService.showSnackBar('Loan ' + statusUpdate);
+        },
+        (error) => {
+          console.log(error);
+          this.snackbarService.showSnackBar('Update error');
+        }
+      );
     this.getAllLoanAccounts();
   }
 
@@ -95,12 +103,16 @@ export class LoanAccountComponent {
     if (this.actionIntended === 'Open') {
       const customerId = loanAccountDetails.customerId;
       const customerName = loanAccountDetails.customerName;
+      const loanAmt = loanAccountDetails.loanAmount;
+      const account = loanAccountDetails.savingsAccount;
       console.log('Opening loan account of customer transaction history');
       // I want to call that Transaction history and send the inputs fom here
       this.router.navigate([
         '/customer-payment-history',
         customerId,
         customerName,
+        loanAmt,
+        account,
       ]);
     } else {
       if (this.actionIntended == 'Approve') {

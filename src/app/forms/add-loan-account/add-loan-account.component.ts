@@ -8,6 +8,7 @@ import { CustomerAccountsService } from 'src/app/services/customer-accounts.serv
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
 @Component({
@@ -31,7 +32,6 @@ export class AddLoanAccountComponent {
   ) {
     this.addLoanAccountForm = this.formBuilder.group({
       customerId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-
       loanAmount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       emi: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       savingsAccount: [null, [Validators.required]],
@@ -62,12 +62,16 @@ export class AddLoanAccountComponent {
       );
   }
   getSavingsAccounts(customerId: number) {
-    this.savingsService
-      .getSavingsAccountsByCustomerId(customerId)
-      .subscribe((res) => {
+    this.savingsService.getSavingsAccountsByCustomerId(customerId).subscribe(
+      (res) => {
         this.savingsAccountsAvailable = [];
         this.savingsAccountsAvailable.push(res.savingsAccountId);
-      });
+      },
+      (error) => {
+        console.log(error);
+        this.savingsAccountsAvailable = [];
+      }
+    );
   }
 
   onFileSelected(event: Event) {
@@ -94,8 +98,18 @@ export class AddLoanAccountComponent {
           return response;
         },
         (error) => {
-          this.bsModalRef.hide();
           console.log(error);
+
+          const dialogData: DialogData = {
+            message: 'Unable To Create Loan Account',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
+          this.bsModalRef.hide();
         }
       );
   }
