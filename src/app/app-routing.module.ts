@@ -7,6 +7,7 @@ import { SavingsAccountComponent } from './components/accounts/savings-account/s
 import { LoanAccountComponent } from './components/accounts/loan-account/loan-account.component';
 import { CustomerSavingsAccountComponent } from './components/accounts/customer-savings-account/customer-savings-account.component';
 import { CustomerPaymentHistoryComponent } from './components/accounts/customer-payment-history/customer-payment-history.component';
+import { WrongPageComponentComponent } from './shared/components/wrong-page-component/wrong-page-component.component';
 
 const routes: Routes = [
   {
@@ -45,8 +46,12 @@ const routes: Routes = [
   {
     path: 'customer-payment-history/:customerId/:customerName/:loanAmt/:account',
     component: CustomerPaymentHistoryComponent,
-  }
-
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: WrongPageComponentComponent,
+  },
 ];
 
 @NgModule({

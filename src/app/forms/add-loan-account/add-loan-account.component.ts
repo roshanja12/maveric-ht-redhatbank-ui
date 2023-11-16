@@ -20,7 +20,8 @@ export class AddLoanAccountComponent {
   addLoanAccountForm: FormGroup;
   private selectedFile!: File;
   savingsAccountsAvailable: number[] = [];
-  private customerFound!: CustomerModel;
+  customerFound: boolean = true;
+  savingsAccountFound: boolean = true;
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
@@ -51,9 +52,11 @@ export class AddLoanAccountComponent {
       .getCustomer(this.addLoanAccountForm.value.customerId)
       .subscribe(
         (res) => {
+          this.customerFound = true;
           this.getSavingsAccounts(this.addLoanAccountForm.value.customerId);
         },
         (error) => {
+          this.customerFound = false;
           this.snackBarService.showSnackBar(
             'Unable to get customer with that ID ' +
               this.addLoanAccountForm.value.customerId
@@ -64,12 +67,13 @@ export class AddLoanAccountComponent {
   getSavingsAccounts(customerId: number) {
     this.savingsService.getSavingsAccountsByCustomerId(customerId).subscribe(
       (res) => {
+        this.savingsAccountFound = true;
         this.savingsAccountsAvailable = [];
         this.savingsAccountsAvailable.push(res.savingsAccountId);
       },
       (error) => {
         console.log(error);
-        this.savingsAccountsAvailable = [];
+        this.savingsAccountFound = false;
       }
     );
   }

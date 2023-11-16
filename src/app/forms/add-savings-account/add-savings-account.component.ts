@@ -24,6 +24,7 @@ export class AddSavingsAccountComponent {
   overdraftLimitAvailable: number[] = [1000, 2000, 5000, 10000];
   allowOverdraftToggle: boolean = false;
   selectedFile!: File;
+  customerFound: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,9 +52,11 @@ export class AddSavingsAccountComponent {
     return this.customerService.getCustomer(customerId).subscribe(
       (res) => {
         console.log(res);
+        this.customerFound = true;
         return res;
       },
       (err) => {
+        this.customerFound = false;
         console.log(err);
       }
     );
@@ -137,6 +140,7 @@ export class AddSavingsAccountComponent {
       .getCustomer(this.addSavingsAccountForm.value.customerId)
       .subscribe(
         (res) => {
+          this.customerFound = true;
           // this.getSavingsAccounts(this.addSavingsAccountForm.value.customerId);
           this.addSavingsAccountForm.controls['name'].setValue(
             res.firstName + ' ' + res.lastName
@@ -146,6 +150,7 @@ export class AddSavingsAccountComponent {
           );
         },
         (error) => {
+          this.customerFound = false;
           this.snackBarService.showSnackBar(
             'Unable to get customer with that ID ' +
               this.addSavingsAccountForm.value.customerId

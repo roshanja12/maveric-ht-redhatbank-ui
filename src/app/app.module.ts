@@ -50,6 +50,7 @@ import { DialogSkeletonComponent } from './shared/dialogs/dialog-skeleton/dialog
 import { initializer } from './components/login-page/keycloack.login-func';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { DialogErrorSkeletonComponent } from './shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
+import { WrongPageComponentComponent } from './shared/components/wrong-page-component/wrong-page-component.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { DialogErrorSkeletonComponent } from './shared/dialogs/dialog-error-skel
     CustomerPaymentHistoryComponent,
     DialogSkeletonComponent,
     DialogErrorSkeletonComponent,
+    WrongPageComponentComponent,
   ],
   imports: [
     BrowserModule,

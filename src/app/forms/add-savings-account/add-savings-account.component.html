@@ -29,22 +29,29 @@
             <label class="form-label" for="customerId">Customer ID</label>
           </div>
           <div
-              class="text-danger text-sm"
-              *ngIf="
-                addSavingsAccountForm.get('customerId')?.hasError('required') &&
-                addSavingsAccountForm.get('customerId')?.touched
-              "
-            >
-              Customer ID is required
-            </div>
-            <div
-              class="text-danger text-sm"
-              *ngIf="
-                addSavingsAccountForm.get('customerId')?.hasError('pattern')
-              "
-            >
-              Customer ID is number only
-            </div>
+            class="text-danger text-sm"
+            *ngIf="
+              addSavingsAccountForm.get('customerId')?.hasError('required') &&
+              addSavingsAccountForm.get('customerId')?.touched
+            "
+          >
+            Customer ID is required
+          </div>
+          <div
+            class="text-danger text-sm"
+            *ngIf="addSavingsAccountForm.get('customerId')?.hasError('pattern')"
+          >
+            Customer ID is number only
+          </div>
+          <div
+            class="text-danger text-sm"
+            *ngIf="
+              customerFound != true &&
+              addSavingsAccountForm.get('customerId')?.touched
+            "
+          >
+            Customer not found
+          </div>
           <div class="form-floating mb-2">
             <input
               type="text"

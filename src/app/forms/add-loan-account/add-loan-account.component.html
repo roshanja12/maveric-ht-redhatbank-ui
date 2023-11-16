@@ -46,11 +46,19 @@
             <div
               class="text-danger text-sm"
               *ngIf="
-                savingsAccountsAvailable.length == 0 &&
+                addLoanAccountForm.get('customerId')?.touched && !customerFound
+              "
+            >
+              Customer ID is not found
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                !savingsAccountFound &&
                 addLoanAccountForm.get('customerId')?.touched
               "
             >
-              Customer ID is Unavailable
+              Savings Account with customer Id not found
             </div>
           </div>
           <div
