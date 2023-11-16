@@ -67,6 +67,7 @@ export class CustomerAccountComponent {
 
   getAllCustomers() {
     this.customerService.getAllCustomers().subscribe((res) => {
+      res = res.reverse();
       this.currentCustomers = res;
       this.collectionSize = this.currentCustomers.length;
       console.log('Getting All Customers');

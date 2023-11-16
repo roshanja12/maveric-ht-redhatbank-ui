@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CustomerModel } from 'src/app/models/customer.model';
+import { DialogData } from 'src/app/models/dialog-data.model';
 import { CustomerAccountsService } from 'src/app/services/customer-accounts.service';
+import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
+import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
 @Component({
   selector: 'app-modify-customer',
@@ -14,12 +17,14 @@ export class ModifyCustomerComponent {
   modifyCustomerForm: FormGroup;
   customerFound!: CustomerModel;
   customerId: number = 0;
-  @Output() customerModified: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() customerModified: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
 
   citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune'];
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
+    private modalService: BsModalService,
     private customerService: CustomerAccountsService
   ) {
     this.modifyCustomerForm = this.formBuilder.group({
@@ -61,10 +66,26 @@ export class ModifyCustomerComponent {
       .subscribe(
         (response) => {
           console.log(response);
+          const dialogData: DialogData = {
+            message: 'Congrats! Customer Details Modification Successful',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogSkeletonComponent, { initialState });
           this.bsModalRef.hide();
           this.customerModified.emit(true);
         },
         (error) => {
+          const dialogData: DialogData = {
+            message: 'Unable to perform Modify Customer Details',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
           this.bsModalRef.hide();
           console.log(error);
         }

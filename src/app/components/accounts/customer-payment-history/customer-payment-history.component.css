@@ -28,3 +28,10 @@ a,
 u {
   text-decoration: none;
 }
+.repayment{
+  margin: 1rem;
+}
+.repayment-text{
+  margin-right:1rem;
+}
+

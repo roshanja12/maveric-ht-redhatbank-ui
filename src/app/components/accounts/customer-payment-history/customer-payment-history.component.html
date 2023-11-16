@@ -34,6 +34,23 @@
           </div>
         </div>
       </div>
+      <div class="form-floating mb-2 inside-search-box repayment" >
+        <input
+          type="text"
+          class="form-control repayment-text"
+          id="repaymentAmount"
+          #repaymentAmount
+        />
+        <button
+          type="button"
+          id="searchButton"
+          class="btn btn-danger rounded text-center px-5 bold"
+          (click)="submitRepayment(repaymentAmount.value)"
+        >
+          Submit
+        </button>
+        <label class="form-label" for="customerId">Enter Repayment Amount</label>
+      </div>
     </div>
     <div class="h4 pt-5">Loan Payment History</div>
     <app-table-template

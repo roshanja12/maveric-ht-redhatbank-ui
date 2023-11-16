@@ -27,7 +27,8 @@
               SEARCH
             </button>
             <label class="form-label" for="customerId">Customer ID</label>
-            <div
+          </div>
+          <div
               class="text-danger text-sm"
               *ngIf="
                 addSavingsAccountForm.get('customerId')?.hasError('required') &&
@@ -44,7 +45,6 @@
             >
               Customer ID is number only
             </div>
-          </div>
           <div class="form-floating mb-2">
             <input
               type="text"
