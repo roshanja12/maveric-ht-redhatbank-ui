@@ -10,7 +10,7 @@ import { LoanTransactionHistoryModel } from '../models/loan-transaction-history.
 export class LoanAccountsService {
   constructor(private http: HttpClient) {}
   apiGateWayUrl =
-    'http://loan-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
+    'https://loan-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com';
   apiVersion = '/api/v1/';
   getAllLoanAccountsUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'loan?page=0&size=10000';
@@ -20,6 +20,7 @@ export class LoanAccountsService {
     this.apiGateWayUrl +
     this.apiVersion +
     'loan/search?page=0&size=10000&searchValue';
+  loanRepayUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan/withdraw';
 
   addLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan';
   modifyLoanAccountUrl: string = this.apiGateWayUrl + this.apiVersion + 'loan/';
@@ -65,5 +66,9 @@ export class LoanAccountsService {
       this.modifyLoanAccountUrl + applicationId + '/' + statusUpdate,
       null
     );
+  }
+  postRepaymentAmount(body:any){
+    console.log(body);
+    return this.http.post(this.loanRepayUrl,body);
   }
 }

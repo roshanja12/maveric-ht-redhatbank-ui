@@ -1,12 +1,15 @@
+.main-header-container {
+  width: 100%;
+  padding-bottom: 70px;
+}
 
-  .main-header-container {
-    width: 100%;
-    padding-bottom: 70px;
-  }
+.main-footer-container {
+  width: 100%;
+  padding-top: 70px;
+}
 
-  
-  .main-footer-container {
-    width: 100%; 
-    padding-top: 70px;
-  }
-  
+/* styles.css or your custom stylesheet */
+::ng-deep .custom-snackbar {
+  /* Your custom styles here */
+  padding-bottom: 40px; /* Adjust the padding value as needed */
+}
