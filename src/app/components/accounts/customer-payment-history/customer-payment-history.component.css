@@ -23,15 +23,18 @@
   color: #1bb077;
   background-color: #c3eadb;
 }
+.red-pill {
+  color: #b01b1b;
+  background-color: #eac3c3;
+}
 
 a,
 u {
   text-decoration: none;
 }
-.repayment{
+.repayment {
   margin: 1rem;
 }
-.repayment-text{
-  margin-right:1rem;
+.repayment-text {
+  margin-right: 1rem;
 }
-

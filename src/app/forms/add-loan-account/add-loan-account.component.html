@@ -81,7 +81,7 @@
           <div class="form-floating mb-2">
             <input
               type="text"
-              class="form-control bg-light"
+              class="form-control"
               id="loanAmount"
               formControlName="loanAmount"
             />
@@ -92,20 +92,35 @@
             >
               Loan Amount is numeric only
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addLoanAccountForm.get('loanAmount')?.hasError('min') &&
+                addLoanAccountForm.get('loanAmount')?.touched
+              "
+            >
+              Loan Amount should be atleast 1 lakh (1,00,000)
+            </div>
           </div>
           <div class="form-floating mb-2">
             <input
               type="text"
-              class="form-control bg-light"
+              class="form-control"
               id="emi"
               formControlName="emi"
             />
-            <label class="form-label" for="emi">EMI</label>
+            <label class="form-label" for="emi">EMI (in months)</label>
             <div
               class="text-danger text-sm"
               *ngIf="addLoanAccountForm.get('emi')?.hasError('pattern')"
             >
               EMI is numeric only
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="addLoanAccountForm.get('emi')?.hasError('min')"
+            >
+              EMI has to of minimum 2 months
             </div>
           </div>
           <div class="form-floating mb-3">

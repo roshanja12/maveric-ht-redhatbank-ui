@@ -7,7 +7,8 @@ import { TransactionDto } from '../models/transations.dto';
   providedIn: 'root',
 })
 export class CustomerTransactionService {
-  apiGateWayUrl = 'https://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/';
+  apiGateWayUrl =
+    'https://saving-service-senthilkn-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com/';
   apiVersion = 'api/v1/';
   transactionBaseUrl =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving/';
