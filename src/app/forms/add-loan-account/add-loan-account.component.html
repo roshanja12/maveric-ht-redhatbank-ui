@@ -43,6 +43,23 @@
             >
               Customer ID is number only
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addLoanAccountForm.get('customerId')?.touched && !customerFound
+              "
+            >
+              Customer ID is not found
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                !savingsAccountFound &&
+                addLoanAccountForm.get('customerId')?.touched
+              "
+            >
+              Savings Account with customer Id not found
+            </div>
           </div>
           <div
             *ngIf="savingsAccountsAvailable.length != 0"
