@@ -112,7 +112,7 @@ opacity: 1;
     border-radius: 7px;
 }
 .notification{
-    text-align: end;
+    display: flex;
     background: #F5F6F8;
     box-sizing: border-box;
     height: 2rem;
