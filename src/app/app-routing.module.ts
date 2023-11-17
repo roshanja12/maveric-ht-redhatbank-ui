@@ -44,7 +44,7 @@ const routes: Routes = [
     component: SavingsAccountComponent,
   },
   {
-    path: 'customer-payment-history/:customerId/:customerName/:loanAmt/:account',
+    path: 'customer-payment-history/:customerId/:customerName/:status/:loanAmt/:account',
     component: CustomerPaymentHistoryComponent,
   },
   {

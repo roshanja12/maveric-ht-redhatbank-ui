@@ -103,6 +103,7 @@ export class LoanAccountComponent {
     if (this.actionIntended === 'Open') {
       const customerId = loanAccountDetails.customerId;
       const customerName = loanAccountDetails.customerName;
+      const status = loanAccountDetails.status;
       const loanAmt = loanAccountDetails.loanAmount;
       const account = loanAccountDetails.savingsAccount;
       console.log('Opening loan account of customer transaction history');
@@ -113,6 +114,7 @@ export class LoanAccountComponent {
         customerName,
         loanAmt,
         account,
+        status
       ]);
     } else {
       if (this.actionIntended == 'Approve') {
@@ -124,12 +126,21 @@ export class LoanAccountComponent {
       }
       console.log('Loan ' + this.actionIntended);
       console.log(loanAccountDetails.loanId, this.actionIntended);
-
-      this.modifyLoanAccountStatus(
-        loanAccountDetails.loanId,
-        this.actionIntended
-      );
-      this.getAllLoanAccounts();
+      if (loanAccountDetails.status.toLowerCase() == 'applied') {
+        this.modifyLoanAccountStatus(
+          loanAccountDetails.loanId,
+          this.actionIntended
+        );
+        this.getAllLoanAccounts();
+      } else if (loanAccountDetails.status) {
+        this.snackbarService.showSnackBar(
+          'Changing from ' +
+            loanAccountDetails.status +
+            ' to ' +
+            this.actionIntended +
+            ' is forbidden'
+        );
+      }
     }
     console.log('Row option event finished');
   }

@@ -20,9 +20,16 @@
           </div>
         </div>
         <div
+          *ngIf="activePage"
           class="h5 strong green-pill rounded-4 align-items-center my-5 px-4"
         >
           ACTIVE
+        </div>
+        <div
+          *ngIf="!activePage"
+          class="h5 strong red-pill rounded-4 align-items-center my-5 px-4"
+        >
+          INACTIVE
         </div>
 
         <div
@@ -34,7 +41,10 @@
           </div>
         </div>
       </div>
-      <div class="form-floating mb-2 inside-search-box repayment" >
+      <div
+        *ngIf="activePage"
+        class="form-floating mb-2 inside-search-box repayment"
+      >
         <input
           type="text"
           class="form-control repayment-text"
@@ -49,7 +59,9 @@
         >
           Submit
         </button>
-        <label class="form-label" for="customerId">Enter Repayment Amount</label>
+        <label class="form-label" for="customerId"
+          >Enter Repayment Amount</label
+        >
       </div>
     </div>
     <div class="h4 pt-5">Loan Payment History</div>
