@@ -49,9 +49,11 @@ export class CustomerPaymentHistoryComponent {
       this.customerName = params['customerName'];
       this.totalBalance = params['loanAmt'];
       this.account = params['account'];
-
       console.log('Customer ID:', this.customerId);
       console.log('Customer Name:', this.customerName);
+      console.log('Status:', this.status);
+      console.log('Total Balance:', this.totalBalance);
+      console.log('Account Id:', this.account);
     });
     const tableColumns = ['Date', 'Amount', 'Status', 'Balance'];
     this.tableColumns = tableColumns;
@@ -86,7 +88,7 @@ export class CustomerPaymentHistoryComponent {
       },
       (error) => {
         console.log(error);
-        if (error.error.errors.errorCode == 400) {
+        if (error.error.errors?.errorCode == 400) {
           console.log('Error due to insufficient funds');
           const dialogData: DialogData = {
             message:
@@ -120,8 +122,11 @@ export class CustomerPaymentHistoryComponent {
   setStatus(status: string) {
     console.log(status);
     switch (status) {
-      case('APPROVED'): this.activePage=true; break;
-      default: this.activePage=false;
+      case 'APPROVED':
+        this.activePage = true;
+        break;
+      default:
+        this.activePage = false;
     }
   }
   getAllTransactionHistory() {
