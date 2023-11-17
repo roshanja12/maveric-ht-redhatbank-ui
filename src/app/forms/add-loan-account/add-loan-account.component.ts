@@ -33,8 +33,22 @@ export class AddLoanAccountComponent {
   ) {
     this.addLoanAccountForm = this.formBuilder.group({
       customerId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      loanAmount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      emi: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      loanAmount: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]+$'),
+          Validators.min(100000),
+        ],
+      ],
+      emi: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]+$'),
+          Validators.min(2),
+        ],
+      ],
       savingsAccount: [null, [Validators.required]],
     });
   }
@@ -74,6 +88,7 @@ export class AddLoanAccountComponent {
       (error) => {
         console.log(error);
         this.savingsAccountFound = false;
+        this.savingsAccountsAvailable = [];
       }
     );
   }

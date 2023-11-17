@@ -22,9 +22,11 @@ import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/
 })
 export class CustomerPaymentHistoryComponent {
   customerId: number = 0;
+  status: string = 'Inactive';
   customerName: string = 'Illegal Attempt';
   totalBalance: number = 0;
   account: number = 0;
+  activePage: boolean = false;
   page = 2;
   pageSize = 4;
   collectionSize = 1;
@@ -43,6 +45,7 @@ export class CustomerPaymentHistoryComponent {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.customerId = params['customerId'];
+      this.status = params['status'];
       this.customerName = params['customerName'];
       this.totalBalance = params['loanAmt'];
       this.account = params['account'];
@@ -58,6 +61,7 @@ export class CustomerPaymentHistoryComponent {
       'paymentStatus',
       'balance',
     ];
+    this.setStatus(this.status);
     this.getAllTransactionHistory();
   }
   submitRepayment(data: string) {
@@ -77,18 +81,34 @@ export class CustomerPaymentHistoryComponent {
         };
         this.modalService.show(DialogSkeletonComponent, { initialState });
         this.bsModalRef.hide();
+        this.getAllTransactionHistory();
         return response;
       },
       (error) => {
         console.log(error);
-
-        const dialogData: DialogData = {
-          message: 'Unable to perform loan repayment',
-        };
-        const initialState = {
-          dialogData: dialogData,
-        };
-        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        if (error.error.errors.errorCode == 400) {
+          console.log('Error due to insufficient funds');
+          const dialogData: DialogData = {
+            message:
+              'Unable to perform loan repayment due to Insufficient Funds',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
+        } else {
+          const dialogData: DialogData = {
+            message: 'Unable to perform loan repayment due to Internal Error',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
+        }
         this.bsModalRef.hide();
       }
     );
@@ -97,6 +117,13 @@ export class CustomerPaymentHistoryComponent {
     this.router.navigateByUrl('/loan-accounts');
   }
 
+  setStatus(status: string) {
+    console.log(status);
+    switch (status) {
+      case('APPROVED'): this.activePage=true; break;
+      default: this.activePage=false;
+    }
+  }
   getAllTransactionHistory() {
     console.log('Started Fetching transaction History');
 

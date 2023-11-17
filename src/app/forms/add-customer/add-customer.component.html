@@ -32,6 +32,24 @@
             >
               First name is required
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('firstName')?.hasError('minlength') &&
+                addCustomerForm.get('firstName')?.touched
+              "
+            >
+              First name length is minimum 3 characters
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('firstName')?.hasError('maxlength') &&
+                addCustomerForm.get('firstName')?.touched
+              "
+            >
+              First name length is maximum 25 characters
+            </div>
           </div>
           <div class="form-floating mb-2">
             <input
@@ -49,6 +67,24 @@
               "
             >
               Last name is required
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('lastName')?.hasError('minlength') &&
+                addCustomerForm.get('lastName')?.touched
+              "
+            >
+              Last name is of minimum 3 characters
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('lastName')?.hasError('maxlength') &&
+                addCustomerForm.get('lastName')?.touched
+              "
+            >
+              Last name is of maximum 25 characters
             </div>
           </div>
           <div class="form-floating mb-2">
@@ -86,6 +122,24 @@
             >
               Phone Number is required
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('phoneNumber')?.hasError('minlength') &&
+                addCustomerForm.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is of 10 digits
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('phoneNumber')?.hasError('maxlength') &&
+                addCustomerForm.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is of 10 digits
+            </div>
           </div>
           <div class="form-floating mb-3">
             <select id="city" formControlName="city" class="form-select">
@@ -94,6 +148,7 @@
               </option>
             </select>
             <div
+              class="text-danger text-sm"
               *ngIf="
                 addCustomerForm.get('city')?.hasError('required') &&
                 addCustomerForm.get('city')?.touched
