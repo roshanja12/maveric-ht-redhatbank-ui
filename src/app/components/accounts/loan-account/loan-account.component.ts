@@ -95,6 +95,7 @@ export class LoanAccountComponent {
   createNewLoanAccount(createButtonClicked: Event) {
     console.log('Create loan account button ');
     this.modalRef = this.modalService.show(AddLoanAccountComponent);
+    this.getAllLoanAccounts();
   }
 
   rowOptionEvent(receivedEvent: any) {
@@ -114,7 +115,7 @@ export class LoanAccountComponent {
         customerName,
         loanAmt,
         account,
-        status
+        status,
       ]);
     } else {
       if (this.actionIntended == 'Approve') {
