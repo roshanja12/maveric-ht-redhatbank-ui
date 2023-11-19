@@ -12,6 +12,7 @@ import { DialogData } from 'src/app/models/dialog-data.model';
 import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { LoanTransactionHistoryModel } from 'src/app/models/loan-transaction-history.model';
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
@@ -28,6 +29,8 @@ export class CustomerPaymentHistoryComponent {
   loanId: number = 0;
   account: number = 0;
   activePage: boolean = false;
+  colorColumnName: string = '';
+  colorColumnAttributes!: Map<string, string>;
   page = 2;
   pageSize = 4;
   collectionSize = 1;
@@ -40,7 +43,8 @@ export class CustomerPaymentHistoryComponent {
     private route: ActivatedRoute,
     private loanService: LoanAccountsService,
     private modalService: BsModalService,
-    private bsModalRef: BsModalRef
+    private bsModalRef: BsModalRef,
+    private snackBarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -69,6 +73,11 @@ export class CustomerPaymentHistoryComponent {
       'balance',
     ];
     this.setStatus(this.status);
+    this.colorColumnName = 'paymentStatus';
+    this.colorColumnAttributes = new Map<string, string>([
+      ['RECEIVED', 'green-text-transform'],
+      ['NOT RECEIVED', 'red-text-transform'],
+    ]);
     this.getAllTransactionHistory();
   }
   submitRepayment(data: string) {
@@ -81,13 +90,9 @@ export class CustomerPaymentHistoryComponent {
     this.loanService.postRepaymentAmount(body).subscribe(
       (response) => {
         console.log(response);
-        const dialogData: DialogData = {
-          message: 'Congrats! Loan Repayment Done Successfully',
-        };
-        const initialState = {
-          dialogData: dialogData,
-        };
-        this.modalService.show(DialogSkeletonComponent, { initialState });
+        this.snackBarService.showSnackBar(
+          'Congrats! Loan Repayment Done Successfully'
+        );
         this.bsModalRef.hide();
         this.getAllTransactionHistory();
         return response;
@@ -95,27 +100,12 @@ export class CustomerPaymentHistoryComponent {
       (error) => {
         console.log(error);
         if (error.error.errors?.errorCode == 400) {
-          console.log('Error due to insufficient funds');
-          const dialogData: DialogData = {
-            message:
-              'Unable to perform loan repayment due to Insufficient Funds',
-          };
-          const initialState = {
-            dialogData: dialogData,
-          };
-          this.modalService.show(DialogErrorSkeletonComponent, {
-            initialState,
-          });
+          console.log(error.error.errors?.errorMessgae);
+          this.snackBarService.showSnackBar(error.error.errors?.errorMessgae);
         } else {
-          const dialogData: DialogData = {
-            message: 'Unable to perform loan repayment due to Internal Error',
-          };
-          const initialState = {
-            dialogData: dialogData,
-          };
-          this.modalService.show(DialogErrorSkeletonComponent, {
-            initialState,
-          });
+          this.snackBarService.showSnackBar(
+            'Unable to perform loan repayment due to Internal Error'
+          );
         }
         this.bsModalRef.hide();
       }

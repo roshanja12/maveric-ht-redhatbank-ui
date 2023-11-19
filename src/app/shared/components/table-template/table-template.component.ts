@@ -28,6 +28,8 @@ export class TableTemplateComponent implements OnInit {
   @Input() pageSize!: number;
   @Input() rowOptions: string[] = [];
   @Input() page: number = 1;
+  @Input() colorColumnName: string = '';
+  @Input() colorColumnAttributes!: Map<string, string>;
   @Output() onRowOptionClick = new EventEmitter<[Data, string]>();
 
   ngOnInit() {
@@ -50,5 +52,11 @@ export class TableTemplateComponent implements OnInit {
     // emit event to parent component with the item and the action performed
     console.log('Emitting event ' + item, ' action ' + action);
     this.onRowOptionClick.emit([item, action]);
+  }
+  onColumnCustomiseStyle(header: string, element: string) {
+    if (header != this.colorColumnName) {
+      return '';
+    }
+    return this.colorColumnAttributes.get(element);
   }
 }

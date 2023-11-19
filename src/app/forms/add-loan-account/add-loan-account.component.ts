@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CustomerModel } from 'src/app/models/customer.model';
 import { DialogData } from 'src/app/models/dialog-data.model';
+import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 import { CustomerAccountsService } from 'src/app/services/customer-accounts.service';
 import { LoanAccountsService } from 'src/app/services/loan-accounts.service';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
@@ -66,10 +67,12 @@ export class AddLoanAccountComponent {
       .getCustomer(this.addLoanAccountForm.value.customerId)
       .subscribe(
         (res) => {
+          console.log('Customer Found');
           this.customerFound = true;
           this.getSavingsAccounts(this.addLoanAccountForm.value.customerId);
         },
         (error) => {
+          console.log('Customer Not Found');
           this.customerFound = false;
           this.snackBarService.showSnackBar(
             'Unable to get customer with that ID ' +
@@ -80,10 +83,18 @@ export class AddLoanAccountComponent {
   }
   getSavingsAccounts(customerId: number) {
     this.savingsService.getSavingsAccountsByCustomerId(customerId).subscribe(
-      (res) => {
-        this.savingsAccountFound = true;
+      (res: SavingsAccountModel[]) => {
+        console.log(
+          'Savings Accounts active found for the customer id ' + customerId
+        );
+        this.savingsAccountFound = false;
         this.savingsAccountsAvailable = [];
-        this.savingsAccountsAvailable.push(res.savingsAccountId);
+        for (let account of res) {
+          if (account.status?.toLowerCase() == 'active') {
+            this.savingsAccountFound = true;
+            this.savingsAccountsAvailable.push(account.savingsAccountId);
+          }
+        }
       },
       (error) => {
         console.log(error);

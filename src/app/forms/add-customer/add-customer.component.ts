@@ -14,7 +14,7 @@ import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/
 export class AddCustomerComponent {
   addCustomerForm: FormGroup;
   modalRef!: BsModalRef;
-  citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune'];
+  citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune', 'Hyderabad'];
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
@@ -28,6 +28,7 @@ export class AddCustomerComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(25),
+          Validators.pattern(/^[A-Z][a-z]*$/),
         ],
       ],
       lastName: [
@@ -36,15 +37,20 @@ export class AddCustomerComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(25),
+          Validators.pattern(/^[A-Z][a-z]*$/),
         ],
       ],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)],
+      ],
       phoneNumber: [
         '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(10),
+          Validators.pattern(/^[0-9]{10}$/),
         ],
       ],
       city: ['', [Validators.required]],

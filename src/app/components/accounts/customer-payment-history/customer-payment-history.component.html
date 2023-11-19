@@ -1,21 +1,27 @@
 <div class="background-customise pt-5">
-  <a (click)="navigateToLoanAccounts()" class="btn offset-lg-1 text-muted"
+  <a (click)="navigateToLoanAccounts()" class="btn offset-md-1 text-muted"
     >Back</a
   >
   <div class="pb-2"></div>
-  <div class="account-container col-xl-10 offset-lg-1 p-4 px-5">
-    <h1 class="h1 pb-3 fw-bolder">Payment History</h1>
-    <div class="container-fluid px-4 py-3 data-container">
+  <div class="account-container col-xl-10 offset-md-1 p-4 px-5">
+    <h3 class="h3 pb-3 fw-bolder">Payment History</h3>
+    <div class="shadow-sm px-4 py-3 data-container">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column pe-5">
           <div class="h6 text-muted">Customer ID</div>
-          <div class="strong fw-bolder h1 pt-2">
+          <div class="strong fw-bolder h3 pt-2">
             {{ customerId }}
           </div>
         </div>
         <div class="d-flex flex-column pe-5">
+          <div class="h6 text-muted">Savings Account ID</div>
+          <div class="strong fw-bolder h3 pt-2">
+            {{ account }}
+          </div>
+        </div>
+        <div class="d-flex flex-column pe-5">
           <div class="h6 text-muted">Customer Name</div>
-          <div class="strong fw-bolder h1 pt-2">
+          <div class="strong fw-bolder h3 pt-2">
             {{ customerName }}
           </div>
         </div>
@@ -37,32 +43,30 @@
         >
           <div class="d-flex flex-column align-items-end">
             <div class="h6 text-muted">Balance Due</div>
-            <div class="strong fw-bolder h1">$ {{ totalBalance }}</div>
+            <div class="strong fw-bolder h3">{{ totalBalance | currency: 'USD' }}</div>
           </div>
         </div>
       </div>
-      <div
-        *ngIf="activePage"
-        class="form-floating mb-2 inside-search-box repayment"
+    </div>
+    <div
+      *ngIf="activePage"
+      class="form-floating mb-2 inside-search-box repayment"
+    >
+      <input
+        type="text"
+        class="form-control repayment-text"
+        id="repaymentAmount"
+        #repaymentAmount
+      />
+      <button
+        type="button"
+        id="searchButton"
+        class="btn btn-danger rounded text-center px-5 bold"
+        (click)="submitRepayment(repaymentAmount.value)"
       >
-        <input
-          type="text"
-          class="form-control repayment-text"
-          id="repaymentAmount"
-          #repaymentAmount
-        />
-        <button
-          type="button"
-          id="searchButton"
-          class="btn btn-danger rounded text-center px-5 bold"
-          (click)="submitRepayment(repaymentAmount.value)"
-        >
-          Submit
-        </button>
-        <label class="form-label" for="customerId"
-          >Enter Repayment Amount</label
-        >
-      </div>
+        Submit
+      </button>
+      <label class="form-label" for="customerId">Enter Repayment Amount</label>
     </div>
     <div class="h4 pt-5">Loan Payment History</div>
     <app-table-template
@@ -70,6 +74,8 @@
       [visibleColumnsElements]="visibleColumnElements"
       [dataTable]="currentTransactionHistory"
       [collectionSize]="collectionSize"
+      [colorColumnName]="colorColumnName"
+      [colorColumnAttributes]="colorColumnAttributes"
       [pageSize]="pageSize"
     />
   </div>

@@ -23,6 +23,8 @@ export class LoanAccountComponent {
   options!: Options;
   pageSize = 4;
   searchText!: string;
+  colorColumnName: string = '';
+  colorColumnAttributes!: Map<string, string>;
   actionIntended: string = '';
   collectionSize: number = 0;
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Withdraw'];
@@ -56,6 +58,13 @@ export class LoanAccountComponent {
       'phoneNumber',
       'status',
     ];
+    this.colorColumnName = 'status';
+    this.colorColumnAttributes = new Map<string, string>([
+      ['APPROVED', 'green-text-transform'],
+      ['REJECTED', 'red-text-transform'],
+      ['APPLIED', 'custom-text-transform'],
+      ['WITHDRAW', 'grey-text-transform'],
+    ]);
     this.getAllLoanAccounts();
   }
 
@@ -85,11 +94,25 @@ export class LoanAccountComponent {
 
   getSearch(searchText: string) {
     console.log('Searching for loan Accounts');
-    this.accountService.getSearchLoanAccounts(searchText).subscribe((res) => {
-      console.log(res);
-      this.currentLoanAccounts = res;
-      this.collectionSize = this.currentLoanAccounts.length;
-    });
+    this.accountService.getSearchLoanAccounts(searchText).subscribe(
+      (res) => {
+        console.log(res);
+        this.currentLoanAccounts = res;
+        this.collectionSize = this.currentLoanAccounts.length;
+      },
+      (err) => {
+        console.log(err);
+        if (err.error.code == 404) {
+          this.snackbarService.showSnackBar(
+            'No Loan Accounts found in database as per the given field'
+          );
+        } else {
+          this.snackbarService.showSnackBar(
+            '500 internal server error. Call service for assistance'
+          );
+        }
+      }
+    );
     console.log('Searched for loan accounts');
   }
   createNewLoanAccount(createButtonClicked: Event) {

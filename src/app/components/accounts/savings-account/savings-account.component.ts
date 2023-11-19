@@ -91,6 +91,7 @@ export class SavingsAccountComponent {
   
 
   rowOptionEvent(receivedEvent: any) {
+    console.log(receivedEvent);
     this.actionIntended = receivedEvent[1];
     const status = receivedEvent[0].status;
       const savingsAccountId = receivedEvent[0].savingsAccountId;

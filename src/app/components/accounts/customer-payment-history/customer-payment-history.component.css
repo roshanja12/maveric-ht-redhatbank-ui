@@ -4,14 +4,18 @@
 }
 .account-container {
   background-color: white;
-  box-shadow: 0px 0px 12px #afafaf29;
+  box-shadow: -5px -5px 10px rgba(175, 175, 175, 0.29),
+    5px 5px 10px rgba(175, 175, 175, 0.29);
   border-radius: 12px;
   opacity: 1;
+  z-index: 1;
+  overflow: hidden;
+  position: relative;
 }
 .data-container {
   background-color: white;
-  box-shadow: 0px 0px 9px #afafaf29;
-  border-radius: 4px;
+  box-shadow: -10px -10px 10px 10px #afafaf29;
+  border-radius: 7px;
   opacity: 1;
 }
 .balance-container {
