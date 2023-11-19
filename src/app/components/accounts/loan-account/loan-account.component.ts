@@ -107,6 +107,7 @@ export class LoanAccountComponent {
       const status = loanAccountDetails.status;
       const loanAmt = loanAccountDetails.loanAmount;
       const account = loanAccountDetails.savingsAccount;
+      const loanId = loanAccountDetails.loanId;
       console.log('Opening loan account of customer transaction history');
       // I want to call that Transaction history and send the inputs fom here
       this.router.navigate([
@@ -115,6 +116,7 @@ export class LoanAccountComponent {
         customerName,
         loanAmt,
         account,
+        loanId,
         status,
       ]);
     } else {
