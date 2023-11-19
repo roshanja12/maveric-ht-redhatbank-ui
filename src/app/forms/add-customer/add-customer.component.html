@@ -50,6 +50,15 @@
             >
               First name length is maximum 25 characters
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('firstName')?.hasError('pattern') &&
+                addCustomerForm.get('firstName')?.touched
+              "
+            >
+              Invalid format for name
+            </div>
           </div>
           <div class="form-floating mb-2">
             <input
@@ -85,6 +94,15 @@
               "
             >
               Last name is of maximum 25 characters
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('lastName')?.hasError('pattern') &&
+                addCustomerForm.get('lastName')?.touched
+              "
+            >
+              Invalid format for name
             </div>
           </div>
           <div class="form-floating mb-2">
@@ -131,23 +149,15 @@
             >
               Phone Number is required
             </div>
+            
             <div
               class="text-danger text-sm"
               *ngIf="
-                addCustomerForm.get('phoneNumber')?.hasError('minlength') &&
+                addCustomerForm.get('phoneNumber')?.hasError('pattern') &&
                 addCustomerForm.get('phoneNumber')?.touched
               "
             >
-              Phone Number is of 10 digits
-            </div>
-            <div
-              class="text-danger text-sm"
-              *ngIf="
-                addCustomerForm.get('phoneNumber')?.hasError('maxlength') &&
-                addCustomerForm.get('phoneNumber')?.touched
-              "
-            >
-              Phone Number is of 10 digits
+              Invalid Phone Number
             </div>
           </div>
           <div class="form-floating mb-3">

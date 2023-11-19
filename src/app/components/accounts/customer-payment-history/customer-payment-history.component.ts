@@ -29,6 +29,8 @@ export class CustomerPaymentHistoryComponent {
   loanId: number = 0;
   account: number = 0;
   activePage: boolean = false;
+  colorColumnName: string = '';
+  colorColumnAttributes!: Map<string, string>;
   page = 2;
   pageSize = 4;
   collectionSize = 1;
@@ -70,6 +72,11 @@ export class CustomerPaymentHistoryComponent {
       'balance',
     ];
     this.setStatus(this.status);
+    this.colorColumnName = 'paymentStatus';
+    this.colorColumnAttributes = new Map<string, string>([
+      ['RECEIVED', 'green-text-transform'],
+      ['NOT RECEIVED', 'red-text-transform'],
+    ]);
     this.getAllTransactionHistory();
   }
   submitRepayment(data: string) {
@@ -93,9 +100,7 @@ export class CustomerPaymentHistoryComponent {
         console.log(error);
         if (error.error.errors?.errorCode == 400) {
           console.log(error.error.errors?.errorMessgae);
-          this.snackBarService.showSnackBar(
-            error.error.errors?.errorMessgae
-          );
+          this.snackBarService.showSnackBar(error.error.errors?.errorMessgae);
         } else {
           this.snackBarService.showSnackBar(
             'Unable to perform loan repayment due to Internal Error'

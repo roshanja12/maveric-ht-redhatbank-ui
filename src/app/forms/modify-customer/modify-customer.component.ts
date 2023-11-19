@@ -35,6 +35,7 @@ export class ModifyCustomerComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(25),
+          Validators.pattern(/^[A-Z][a-z]*$/),
         ],
       ],
       lastName: [
@@ -43,6 +44,7 @@ export class ModifyCustomerComponent {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(25),
+          Validators.pattern(/^[A-Z][a-z]*$/),
         ],
       ],
       email: [
@@ -55,6 +57,7 @@ export class ModifyCustomerComponent {
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(10),
+          Validators.pattern(/^[0-9]{10}$/),
         ],
       ],
       city: ['', [Validators.required]],

@@ -23,6 +23,8 @@ export class LoanAccountComponent {
   options!: Options;
   pageSize = 4;
   searchText!: string;
+  colorColumnName: string = '';
+  colorColumnAttributes!: Map<string, string>;
   actionIntended: string = '';
   collectionSize: number = 0;
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Withdraw'];
@@ -56,6 +58,13 @@ export class LoanAccountComponent {
       'phoneNumber',
       'status',
     ];
+    this.colorColumnName = 'status';
+    this.colorColumnAttributes = new Map<string, string>([
+      ['APPROVED', 'green-text-transform'],
+      ['REJECTED', 'red-text-transform'],
+      ['APPLIED', 'custom-text-transform'],
+      ['WITHDRAW', 'grey-text-transform'],
+    ]);
     this.getAllLoanAccounts();
   }
 

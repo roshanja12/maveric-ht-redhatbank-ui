@@ -32,7 +32,7 @@
                   | slice : (page - 1) * pageSize : page * pageSize
               "
             >
-              <td *ngFor="let header of visibleColumnsElements">
+              <td *ngFor="let header of visibleColumnsElements" [class]="onColumnCustomiseStyle(header, item[header])">
                 {{ item[header] }}
               </td>
               <td *ngIf="numberOfRowOptions != 0" ngbDropdown>
