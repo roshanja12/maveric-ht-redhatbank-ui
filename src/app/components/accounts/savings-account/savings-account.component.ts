@@ -90,6 +90,7 @@ export class SavingsAccountComponent {
   }
 
   rowOptionEvent(receivedEvent: any) {
+    console.log(receivedEvent);
     this.actionIntended = receivedEvent[1];
     if (this.actionIntended === 'Open') {
       const customerId = receivedEvent[0].customerId;

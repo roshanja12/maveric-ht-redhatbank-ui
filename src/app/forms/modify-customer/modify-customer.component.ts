@@ -45,7 +45,10 @@ export class ModifyCustomerComponent {
           Validators.maxLength(25),
         ],
       ],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)],
+      ],
       phoneNumber: [
         '',
         [
@@ -62,7 +65,6 @@ export class ModifyCustomerComponent {
     console.log('Customer data fetched and patching now');
     console.log(this.customerData);
     this.customerId = this.customerData.customerId;
-    this.getCustomer(this.customerData.customerId);
     this.modifyCustomerForm.patchValue({
       customerId: this.customerData.customerId,
       firstName: this.customerData.firstName,

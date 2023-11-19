@@ -15,6 +15,7 @@ import { CustomerResponse } from 'src/app/models/customer-response.model';
 import { TableTemplateComponent } from 'src/app/shared/components/table-template/table-template.component';
 import { CustomerModel } from 'src/app/models/customer.model';
 import { ModifyCustomerComponent } from 'src/app/forms/modify-customer/modify-customer.component';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-customer-account',
@@ -37,7 +38,8 @@ export class CustomerAccountComponent {
   constructor(
     private formBuilder: FormBuilder,
     private customerService: CustomerAccountsService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private snackBarService: SnackbarService
   ) {
     this.searchForm = this.formBuilder.group({
       searchBar: [''],
@@ -72,15 +74,28 @@ export class CustomerAccountComponent {
       this.collectionSize = this.currentCustomers.length;
       console.log('Getting All Customers');
       console.log(res);
-      
     });
   }
 
   getSearchCustomers(searchText: string) {
-    this.customerService.getSearchCustomers(searchText).subscribe((res) => {
-      this.currentCustomers = res;
-      this.collectionSize = this.currentCustomers.length;
-    });
+    this.customerService.getSearchCustomers(searchText).subscribe(
+      (res) => {
+        this.currentCustomers = res;
+        this.collectionSize = this.currentCustomers.length;
+      },
+      (err) => {
+        console.log(err);
+        if (err.error.code == 404) {
+          this.snackBarService.showSnackBar(
+            'No Customers found in database as per the given field'
+          );
+        } else {
+          this.snackBarService.showSnackBar(
+            '500 internal server error. Call service for assistance'
+          );
+        }
+      }
+    );
   }
 
   getSearch(searchText: string) {

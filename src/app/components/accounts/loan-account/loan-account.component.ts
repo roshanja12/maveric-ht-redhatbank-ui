@@ -85,11 +85,25 @@ export class LoanAccountComponent {
 
   getSearch(searchText: string) {
     console.log('Searching for loan Accounts');
-    this.accountService.getSearchLoanAccounts(searchText).subscribe((res) => {
-      console.log(res);
-      this.currentLoanAccounts = res;
-      this.collectionSize = this.currentLoanAccounts.length;
-    });
+    this.accountService.getSearchLoanAccounts(searchText).subscribe(
+      (res) => {
+        console.log(res);
+        this.currentLoanAccounts = res;
+        this.collectionSize = this.currentLoanAccounts.length;
+      },
+      (err) => {
+        console.log(err);
+        if (err.error.code == 404) {
+          this.snackbarService.showSnackBar(
+            'No Loan Accounts found in database as per the given field'
+          );
+        } else {
+          this.snackbarService.showSnackBar(
+            '500 internal server error. Call service for assistance'
+          );
+        }
+      }
+    );
     console.log('Searched for loan accounts');
   }
   createNewLoanAccount(createButtonClicked: Event) {

@@ -104,6 +104,15 @@
             >
               Email ID is required
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                addCustomerForm.get('email')?.hasError('pattern') &&
+                addCustomerForm.get('email')?.touched
+              "
+            >
+              Provide a valid email id
+            </div>
           </div>
           <div class="form-floating mb-2">
             <input
@@ -143,7 +152,11 @@
           </div>
           <div class="form-floating mb-3">
             <select id="city" formControlName="city" class="form-select">
-              <option *ngFor="let city of citiesAvailable">
+              <option
+                *ngFor="let city of citiesAvailable; let first = first"
+                [value]="city"
+                [selected]="first"
+              >
                 {{ city }}
               </option>
             </select>

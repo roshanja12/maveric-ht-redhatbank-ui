@@ -53,7 +53,7 @@ export class SavingsAccountsService {
   }
   getSavingsAccountsByCustomerId(
     customerId: number
-  ): Observable<SavingsAccountModel> {
+  ): Observable<SavingsAccountModel[]> {
     return this.http
       .get<any>(this.getSavingsAccountByCustomerIdUrl + '/' + customerId)
       .pipe(map((response) => response.data));

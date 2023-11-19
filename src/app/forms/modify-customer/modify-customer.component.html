@@ -84,6 +84,15 @@
             >
               Email ID is required
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                modifyCustomerForm.get('email')?.hasError('pattern') &&
+                modifyCustomerForm.get('email')?.touched
+              "
+            >
+              Provide a valid email address
+            </div>
           </div>
           <div class="form-floating mb-2">
             <input
@@ -102,10 +111,32 @@
             >
               Phone Number is required
             </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                modifyCustomerForm.get('phoneNumber')?.hasError('minlength') &&
+                modifyCustomerForm.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is of 10 digits only
+            </div>
+            <div
+              class="text-danger text-sm"
+              *ngIf="
+                modifyCustomerForm.get('phoneNumber')?.hasError('maxlength') &&
+                modifyCustomerForm.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is of 10 digits only
+            </div>
           </div>
           <div class="form-floating mb-3">
             <select id="city" formControlName="city" class="form-select">
-              <option *ngFor="let city of citiesAvailable">
+              <option
+                *ngFor="let city of citiesAvailable; let first = first"
+                [value]="city"
+                [selected]="first"
+              >
                 {{ city }}
               </option>
             </select>
