@@ -7,7 +7,9 @@
     border-radius: 12px;
     opacity: 1;
 }
-
+.heading-p{
+    padding: 10px;
+}
 .header{
     width: 340px;
 height: 27px;
@@ -35,6 +37,7 @@ margin-top: 12px;
 
 .dropdown{
     margin-left:130px;
+    margin-top: -42px;
     width: 138px;
 min-height: 35px;
 /* UI Properties */
@@ -81,4 +84,7 @@ opacity: 1;
     margin-left: 30%;
     background-color: #E53B3B; 
     margin-top: 55px;   
+  }
+  .pad-4{
+    padding-top:10px;
   }

@@ -6,7 +6,9 @@
     border-radius: 12px;
     opacity: 1;
 }
-
+.heading-p{
+  padding: 10px;
+}
 .header{
 text-align: left;
 font: normal normal bold 22px/27px Lato;
@@ -14,6 +16,9 @@ letter-spacing: 0px;
 color: #000000;
 opacity: 1;
 padding-bottom: 40px
+}
+.pad-r{
+  margin-top: -18%;
 }
 
 .header-1{
@@ -55,7 +60,6 @@ flex-wrap: wrap;
 }
 
 .month{
-    width: 21px;
 min-height: 17px;
  
 text-align: left;

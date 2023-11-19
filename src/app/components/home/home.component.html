@@ -17,17 +17,27 @@
       <app-loan-products></app-loan-products>
     </div> -->
     
-
-    <div class="row">
-      <div class="col-xl-4 pe-1">
-        <app-customer-count />
-      </div>
-      <div class="col-xl-4 pe-1">
-        <app-total-customer />
-      </div>
-      <div class="col-xl-4">
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-flex-card">
+        <div class="col">
+          <div class="card shadow-sm">
+            <app-customer-count />
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <app-total-customer />
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
         <app-loan-products />
+            
+          </div>
+        </div>   
       </div>
     </div>
+  </div>
   </div>
 </div>

@@ -95,6 +95,7 @@ export class LoanAccountComponent {
   createNewLoanAccount(createButtonClicked: Event) {
     console.log('Create loan account button ');
     this.modalRef = this.modalService.show(AddLoanAccountComponent);
+    this.getAllLoanAccounts();
   }
 
   rowOptionEvent(receivedEvent: any) {
@@ -106,6 +107,7 @@ export class LoanAccountComponent {
       const status = loanAccountDetails.status;
       const loanAmt = loanAccountDetails.loanAmount;
       const account = loanAccountDetails.savingsAccount;
+      const loanId = loanAccountDetails.loanId;
       console.log('Opening loan account of customer transaction history');
       // I want to call that Transaction history and send the inputs fom here
       this.router.navigate([
@@ -114,7 +116,8 @@ export class LoanAccountComponent {
         customerName,
         loanAmt,
         account,
-        status
+        loanId,
+        status,
       ]);
     } else {
       if (this.actionIntended == 'Approve') {

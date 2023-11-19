@@ -25,6 +25,7 @@ export class CustomerPaymentHistoryComponent {
   status: string = 'Inactive';
   customerName: string = 'Illegal Attempt';
   totalBalance: number = 0;
+  loanId: number = 0;
   account: number = 0;
   activePage: boolean = false;
   page = 2;
@@ -49,9 +50,14 @@ export class CustomerPaymentHistoryComponent {
       this.customerName = params['customerName'];
       this.totalBalance = params['loanAmt'];
       this.account = params['account'];
+      this.loanId = params['loanId'];
 
       console.log('Customer ID:', this.customerId);
       console.log('Customer Name:', this.customerName);
+      console.log('Total Balance:', this.totalBalance);
+      console.log('Loan Account Number:', this.account);
+      console.log('Status: ', this.status);
+      console.log('Loan Id', this.loanId);
     });
     const tableColumns = ['Date', 'Amount', 'Status', 'Balance'];
     this.tableColumns = tableColumns;
@@ -68,6 +74,7 @@ export class CustomerPaymentHistoryComponent {
     let body = {
       amount: data,
       accountId: this.account,
+      loanId: this.loanId,
     };
     console.log('submitted' + body);
     this.loanService.postRepaymentAmount(body).subscribe(
@@ -86,7 +93,7 @@ export class CustomerPaymentHistoryComponent {
       },
       (error) => {
         console.log(error);
-        if (error.error.errors.errorCode == 400) {
+        if (error.error.errors?.errorCode == 400) {
           console.log('Error due to insufficient funds');
           const dialogData: DialogData = {
             message:
@@ -120,15 +127,18 @@ export class CustomerPaymentHistoryComponent {
   setStatus(status: string) {
     console.log(status);
     switch (status) {
-      case('APPROVED'): this.activePage=true; break;
-      default: this.activePage=false;
+      case 'APPROVED':
+        this.activePage = true;
+        break;
+      default:
+        this.activePage = false;
     }
   }
   getAllTransactionHistory() {
     console.log('Started Fetching transaction History');
 
     this.loanService
-      .getTransActionHistoryByLoanId(this.customerId)
+      .getTransActionHistoryByLoanId(this.loanId)
       .subscribe((res) => {
         this.currentTransactionHistory = res;
         this.collectionSize = this.currentTransactionHistory.length;
