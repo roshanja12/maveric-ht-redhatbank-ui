@@ -4,6 +4,8 @@ import { Observable, map } from 'rxjs';
 import { SavingsAccountModel } from '../models/savings-account.model';
 import { SavingsAccountDTO } from '../models/savings-account.dto';
 
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,6 +22,8 @@ export class SavingsAccountsService {
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   modifySavingsAccountUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
+    changeStatusAccountUrl: string =
+    this.apiGateWayUrl + this.apiVersion + 'accounts/saving';
   getSavingsAccountByCustomerIdUrl: string =
     this.apiGateWayUrl + this.apiVersion + 'accounts/saving/customer';
 
@@ -32,10 +36,13 @@ export class SavingsAccountsService {
       .get<any>(this.getAllSavingsAccountsUrl, { params })
       .pipe(map((response) => response.data.savingAccounts));
   }
-  getSearchSavingsAccounts(search: string): Observable<SavingsAccountDTO[]> {
-    return this.http.get<SavingsAccountDTO[]>(
-      this.getSearchSavingsAccountsUrl + '/' + search
-    );
+  getSearchSavingsAccounts(
+    page:number,
+    size:number,search: string): Observable<SavingsAccountDTO[]> {
+    const params = new HttpParams().set('page', page).set('size', size).set('search',search);
+    return this.http
+      .get<any>(this.getSearchSavingsAccountsUrl,{ params })
+      .pipe(map((response) => response.data.savingAccounts));
   }
   addSavingsAccount(file: File, body: any) {
     let formData: FormData = new FormData();
@@ -47,6 +54,24 @@ export class SavingsAccountsService {
     formData.append('savingsAccountRequestDto', JSON.stringify(body));
     console.log(formData);
     return this.http.post(this.addSavingsAccountUrl, formData);
+  }
+  
+  changeStatus( data:any,status:string):boolean{
+    let result=false;
+    const body={
+      "savingAccountId": data['savingsAccountId'],
+  "isAllowOverDraft": null,
+  "overDraftLimit": 0,
+  "status": status
+    }
+    this.http.put(this.changeStatusAccountUrl, body).subscribe((data:any) => {
+      if(data['status']=='Success')
+      {
+        result= true;
+      }
+      console.log('Data from API:', data);
+    });
+    return result;
   }
   modifySavingsAccount(body: any) {
     return this.http.put(this.modifySavingsAccountUrl, body);

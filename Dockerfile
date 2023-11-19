@@ -1,26 +1,37 @@
-# # Stage 1: Build the Angular app
-# FROM node:14 AS builder
+# Stage 1: Compile and Build angular codebase
 
-# WORKDIR /app
-# COPY . .
+# Use official node image as the base image
+#FROM node:18-alpine as build
+FROM public.ecr.aws/lambda/nodejs:latest as build
 
-# # Install Angular CLI globally if not already installed
-# RUN npm install -g @angular/cli
+# Set the working directory
+WORKDIR /app
 
-# # Install project dependencies
-# RUN npm install
+COPY package*.json .
 
-# # Build the Angular app for production
-# RUN ng build --prod
+#### install angular cli
+RUN npm install -g @angular/cli
+#RUN npm install -g npm@10.2.3
 
-# Stage 2: Serve the Angular app
-FROM nginx:latest
+RUN npm install
 
-# Copy the built Angular app from the builder stage
-COPY --from=builder ./dist/red-hat-bank /usr/share/nginx/html
+COPY . .
 
-# Expose port 80
-EXPOSE 4200
+# Generate the build of the application
+RUN npm run build --omit=dev
+#RUN ng build
 
-# Start Nginx when the container runs
+# Stage 2: Serve app with nginx server
+FROM quay.io/jitesoft/nginx:latest
+
+#COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx/default.conf /etc/nginx/conf.d/
+COPY nginx/status.conf /etc/nginx/conf.d/
+
+#WORKDIR /code
+COPY --from=build /app/dist/ /usr/share/nginx/html
+
+#COPY --from=build /app/dist .
+
+EXPOSE 8080:8080
 CMD ["nginx", "-g", "daemon off;"]

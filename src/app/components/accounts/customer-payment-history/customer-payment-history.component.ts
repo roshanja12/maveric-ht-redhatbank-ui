@@ -51,13 +51,14 @@ export class CustomerPaymentHistoryComponent {
       this.totalBalance = params['loanAmt'];
       this.account = params['account'];
       this.loanId = params['loanId'];
-
+      
       console.log('Customer ID:', this.customerId);
       console.log('Customer Name:', this.customerName);
       console.log('Total Balance:', this.totalBalance);
       console.log('Loan Account Number:', this.account);
       console.log('Status: ', this.status);
       console.log('Loan Id', this.loanId);
+
     });
     const tableColumns = ['Date', 'Amount', 'Status', 'Balance'];
     this.tableColumns = tableColumns;

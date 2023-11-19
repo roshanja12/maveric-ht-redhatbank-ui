@@ -14,6 +14,7 @@ import { Dropdown } from 'primeng/dropdown';
 import { DialogData } from 'src/app/models/dialog-data.model';
 import { TransactionDto } from 'src/app/models/transations.dto';
 import { CustomerTransactionService } from 'src/app/services/customer-transactions.service';
+import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
 @Component({
@@ -36,7 +37,8 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   depositAmount!: number;
   withdrawAmount!: number;
   overDraftAmount!: number;
-
+  close:boolean=false;
+  block:boolean=false;
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -112,12 +114,18 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
             const initialState = {
               dialogData: dialogData,
             };
-            this.modalService.show(DialogSkeletonComponent, { initialState });
+            this.modalService.show(DialogErrorSkeletonComponent, { initialState });
           }
           // Handle success, update UI, etc.
         },
         (error) => {
-          console.error('Withdrawal failed', error);
+          const dialogData: DialogData = {
+            message: 'Sorry! Deposit Failed',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
           // Handle error, show error message, etc.
         }
       );
@@ -141,17 +149,24 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
             console.log('Withdrawal successful', response);
             // Handle success, update UI, etc.\
           } else {
+            console.log('Withdrawal failed. Response:', response);
             const dialogData: DialogData = {
               message: 'Sorry! Withdraw Failed',
             };
             const initialState = {
               dialogData: dialogData,
             };
-            this.modalService.show(DialogSkeletonComponent, { initialState });
+            this.modalService.show(DialogErrorSkeletonComponent, { initialState });
           }
         },
         (error) => {
-          console.error('Withdrawal failed', error);
+          const dialogData: DialogData = {
+            message: 'Sorry! withdraw Failed',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
           // Handle error, show error message, etc.
         }
       );
@@ -177,23 +192,71 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
           };
           this.modalService.show(DialogSkeletonComponent, { initialState });
         } else {
+          console.log('Withdrawal failed. Response:', response);
           const dialogData: DialogData = {
             message: 'Sorry! OverDraft process Failed',
           };
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
         }
-      });
+      },(error)=>{
+      const dialogData: DialogData = {
+        message: 'Sorry! OverDraft process Failed',
+      };
+      const initialState = {
+        dialogData: dialogData,
+      };
+      this.modalService.show(DialogErrorSkeletonComponent, { initialState });});
   }
 
   onModify() {
     this.isModifyClicked = !this.isModifyClicked;
   }
-  onClose() {}
+  onClose() {
+    this.close=true;
+
+  }
   onBlock() {
-    this.router.navigateByUrl('/customer-payment-history');
+    const body = {
+      savingAccountId: this.savingsAccountId,
+      isAllowOverDraft: "",
+      overDraftLimit: 0,
+      status: 'BLOCKED',
+    };
+
+    this.customerTransactionService
+      .overDraftAmount(body)
+      .subscribe((response) => {
+        if (response.code === 200) {
+          this.status="BLOCKED";
+          const dialogData: DialogData = {
+            message: 'Account Blocked Successfully',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogSkeletonComponent, { initialState });
+        } else {
+          console.log('Withdrawal failed. Response:', response);
+          const dialogData: DialogData = {
+            message: 'Blocked unsuccessful',
+          };
+          const initialState = {
+            dialogData: dialogData,
+          };
+          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        }
+      },(error)=>{
+        const dialogData: DialogData = {
+          message: 'Sorry! status change got Failed',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+    });
   }
 
   routeToSavingsTable() {
