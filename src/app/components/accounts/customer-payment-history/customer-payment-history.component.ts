@@ -64,10 +64,11 @@ export class CustomerPaymentHistoryComponent {
       console.log('Loan Id', this.loanId);
 
     });
-    const tableColumns = ['Date', 'Amount', 'Status', 'Balance'];
+    const tableColumns = ['Date', 'Description', 'Amount', 'Status', 'Balance'];
     this.tableColumns = tableColumns;
     this.visibleColumnElements = [
       'paidAt',
+      'description',
       'amountPaid',
       'paymentStatus',
       'balance',
@@ -81,6 +82,13 @@ export class CustomerPaymentHistoryComponent {
     this.getAllTransactionHistory();
   }
   submitRepayment(data: string) {
+    if (!this.isPositiveNumber(data)) {
+      console.log('The variable is a positive number greater than 0.');
+      this.snackBarService.showSnackBar(
+        'Provide valid input in the field for repayment'
+      );
+      return;
+    }
     let body = {
       amount: data,
       accountId: this.account,
@@ -93,7 +101,6 @@ export class CustomerPaymentHistoryComponent {
         this.snackBarService.showSnackBar(
           'Congrats! Loan Repayment Done Successfully'
         );
-        this.bsModalRef.hide();
         this.getAllTransactionHistory();
         return response;
       },
@@ -107,7 +114,6 @@ export class CustomerPaymentHistoryComponent {
             'Unable to perform loan repayment due to Internal Error'
           );
         }
-        this.bsModalRef.hide();
       }
     );
   }
@@ -127,14 +133,20 @@ export class CustomerPaymentHistoryComponent {
   }
   getAllTransactionHistory() {
     console.log('Started Fetching transaction History');
-
     this.loanService
       .getTransActionHistoryByLoanId(this.loanId)
       .subscribe((res) => {
+        console.log('Getting All Transaction History');
+        console.log(res);
         this.currentTransactionHistory = res;
         this.collectionSize = this.currentTransactionHistory.length;
-        console.log('Getting All Transaction History');
+        if (this.currentTransactionHistory.length != 0) {
+          this.totalBalance = this.currentTransactionHistory[0].balance;
+        }
       });
     console.log('Finished Fetching Transaction History');
+  }
+  isPositiveNumber(value: any): boolean {
+    return /^[1-9]\d*(\.\d+)?$/.test(value);
   }
 }

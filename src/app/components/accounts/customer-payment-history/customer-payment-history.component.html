@@ -50,7 +50,7 @@
     </div>
     <div
       *ngIf="activePage"
-      class="form-floating mb-2 inside-search-box repayment"
+      class="form-floating mb-1 mx-4 inside-search-box repayment"
     >
       <input
         type="text"
@@ -68,7 +68,7 @@
       </button>
       <label class="form-label" for="customerId">Enter Repayment Amount</label>
     </div>
-    <div class="h4 pt-5">Loan Payment History</div>
+    <div class="h4 pt-3">Loan Payment History</div>
     <app-table-template
       [columns]="tableColumns"
       [visibleColumnsElements]="visibleColumnElements"
