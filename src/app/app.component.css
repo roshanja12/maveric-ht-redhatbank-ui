@@ -8,8 +8,6 @@
   padding-top: 70px;
 }
 
-/* styles.css or your custom stylesheet */
 ::ng-deep .custom-snackbar {
-  /* Your custom styles here */
-  padding-bottom: 40px; /* Adjust the padding value as needed */
+  padding-bottom: 10vh;
 }

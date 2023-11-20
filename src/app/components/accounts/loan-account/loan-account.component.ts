@@ -115,10 +115,13 @@ export class LoanAccountComponent {
     );
     console.log('Searched for loan accounts');
   }
+
   createNewLoanAccount(createButtonClicked: Event) {
     console.log('Create loan account button ');
     this.modalRef = this.modalService.show(AddLoanAccountComponent);
-    this.getAllLoanAccounts();
+    this.modalRef.onHidden?.subscribe(() => {
+      this.getAllLoanAccounts();
+    });
   }
 
   rowOptionEvent(receivedEvent: any) {

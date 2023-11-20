@@ -62,6 +62,7 @@ export class AddLoanAccountComponent {
     }
     this.patchValuesIntoForm();
   }
+  
   patchValuesIntoForm() {
     this.customerService
       .getCustomer(this.addLoanAccountForm.value.customerId)
@@ -81,6 +82,7 @@ export class AddLoanAccountComponent {
         }
       );
   }
+
   getSavingsAccounts(customerId: number) {
     this.savingsService.getSavingsAccountsByCustomerId(customerId).subscribe(
       (res: SavingsAccountModel[]) => {
@@ -131,7 +133,7 @@ export class AddLoanAccountComponent {
           console.log(error);
 
           const dialogData: DialogData = {
-            message: 'Unable To Create Loan Account',
+            message: 'Unable To Create Loan Account Due to Internal Error',
           };
           const initialState = {
             dialogData: dialogData,
