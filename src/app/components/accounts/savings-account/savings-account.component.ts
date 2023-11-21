@@ -10,6 +10,7 @@ import { SavingsAccountDTO } from 'src/app/models/savings-account.dto';
 import { SavingsAccountModel } from 'src/app/models/savings-account.model';
 import { CustomerTransactionService } from 'src/app/services/customer-transactions.service';
 import { SavingsAccountsService } from 'src/app/services/savings-accounts.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DialogErrorSkeletonComponent } from 'src/app/shared/dialogs/dialog-error-skeleton/dialog-error-skeleton.component';
 import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/dialog-skeleton.component';
 
@@ -38,6 +39,7 @@ export class SavingsAccountComponent {
     private formBuilder: FormBuilder,
     private accountService: SavingsAccountsService,
     private modalService: BsModalService,
+    private snackBarService: SnackbarService,
     private router: Router,
     private customerTransactionService: CustomerTransactionService
   ) {
@@ -129,28 +131,16 @@ export class SavingsAccountComponent {
         this.message =
           '  Sorry! Account Is Already Closed We Can Not Change Status';
       }
-
-      const dialogData: DialogData = {
-        message: this.message,
-      };
-      const initialState = {
-        dialogData: dialogData,
-      };
-      this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+      this.snackBarService.showSnackBar(this.message);
       return;
     } else if (status === 'ACTIVE') {
       if (this.actionIntended === 'Block') {
         this.setStatus(savingsAccountId, 'BLOCKED');
         return;
       } else {
-        const dialogData: DialogData = {
-          message:
-            '  Active Account Status Can Not Be Changed Other Than Blocked',
-        };
-        const initialState = {
-          dialogData: dialogData,
-        };
-        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        this.snackBarService.showSnackBar(
+          'Active Account Status Can Not Be Changed Other Than Blocked'
+        );
         return;
       }
     } else if (status === 'BLOCKED') {
@@ -158,13 +148,9 @@ export class SavingsAccountComponent {
         this.setStatus(savingsAccountId, 'ACTIVE');
         return;
       } else {
-        const dialogData: DialogData = {
-          message: '  Blocked Account Can Only UnBlocked',
-        };
-        const initialState = {
-          dialogData: dialogData,
-        };
-        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        this.snackBarService.showSnackBar(
+          ' Blocked Account Can Only UnBlocked'
+        );
         return;
       }
     } else if (
@@ -208,35 +194,16 @@ export class SavingsAccountComponent {
             (savingsAccount) =>
               savingsAccount.savingsAccountId === savingAccountId
           )[0].status = status;
-
-          const dialogData: DialogData = {
-            message: 'Congrats! status changed Successfully',
-          };
-          const initialState = {
-            dialogData: dialogData,
-          };
-          this.modalService.show(DialogSkeletonComponent, { initialState });
+          this.snackBarService.showSnackBar(
+            'Congrats! status changed Successfully'
+          );
         } else {
           console.log('Withdrawal failed. Response:', response);
-          const dialogData: DialogData = {
-            message: 'Sorry! status change got Failed',
-          };
-          const initialState = {
-            dialogData: dialogData,
-          };
-          this.modalService.show(DialogErrorSkeletonComponent, {
-            initialState,
-          });
+          this.snackBarService.showSnackBar('Sorry! status change got Failed');
         }
       },
       (error) => {
-        const dialogData: DialogData = {
-          message: 'Sorry! status change got Failed',
-        };
-        const initialState = {
-          dialogData: dialogData,
-        };
-        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        this.snackBarService.showSnackBar('Sorry! status change got Failed');
       }
     );
   }
