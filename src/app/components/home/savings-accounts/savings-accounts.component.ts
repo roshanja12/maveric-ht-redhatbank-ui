@@ -16,7 +16,7 @@ export class SavingsAccountsComponent {
   constructor(private router: Router){}
 
   openSavingsAccounts(){
-    this.router.navigateByUrl("/savings-accounts")
+    this.router.navigateByUrl("/savings-accounts");
   }
 
 }

@@ -30,6 +30,7 @@ export class SavingsAccountComponent {
   collectionSize: number = 0;
   actionIntended: string = '';
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Block', 'UnBlock'];
+  message!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,10 +76,11 @@ export class SavingsAccountComponent {
   getSearch(searchText: string) {
     this.searchText = searchText;
     console.log('search button clicked ' + searchText);
-    this.accountService.getSearchSavingsAccounts(1,100,searchText)
-    .subscribe((res)=>{
-      this.currentSavingsAccounts = res;
-    });
+    this.accountService
+      .getSearchSavingsAccounts(1, 100, searchText)
+      .subscribe((res) => {
+        this.currentSavingsAccounts = res;
+      });
   }
   createNewSavingsAccount(createButtonClicked: Event) {
     console.log('value emitted and  ' + createButtonClicked);
@@ -88,13 +90,12 @@ export class SavingsAccountComponent {
       this.getAllSavingsAccounts();
     });
   }
-  
 
   rowOptionEvent(receivedEvent: any) {
     console.log(receivedEvent);
     this.actionIntended = receivedEvent[1];
     const status = receivedEvent[0].status;
-      const savingsAccountId = receivedEvent[0].savingsAccountId;
+    const savingsAccountId = receivedEvent[0].savingsAccountId;
     if (this.actionIntended === 'Open') {
       const customerId = receivedEvent[0].customerId;
       const customerName = receivedEvent[0].customerName;
@@ -110,52 +111,94 @@ export class SavingsAccountComponent {
         `/customer-savings-account?customerId=${queryParams.customerId}&customerName=${queryParams.customerName}&savingsAccountId=${queryParams.savingsAccountId}&status=${queryParams.status}`
       );
       console.log(this.actionIntended);
-  } 
-  //else {
-    //   this.setStatus(savingsAccountId,status);
+    } else if (status === 'REJECTED' || status === 'CLOSED') {
+      if (status === 'REJECTED') {
+        this.message =
+          '  Sorry! Account Is Already Rejected We Can Not Change Status';
+      } else {
+        this.message =
+          '  Sorry! Account Is Already Closed We Can Not Change Status';
+      }
 
-    // }
-    else if (
-
-      this.actionIntended === 'Approve' &&
-      receivedEvent[0].status?.toLowerCase() !== 'blocked'&& receivedEvent[0].status?.toLowerCase() !== 'ACTIVE'
-      // this.accountService.changeStatus(receivedEvent[1],this.actionIntended);
-    ) {
-      this.setStatus(savingsAccountId,'ACTIVE');
+      const dialogData: DialogData = {
+        message: this.message,
+      };
+      const initialState = {
+        dialogData: dialogData,
+      };
+      this.modalService.show(DialogErrorSkeletonComponent, { initialState });
       return;
+    } else if (status === 'ACTIVE') {
+      if (this.actionIntended === 'Block') {
+        this.setStatus(savingsAccountId, 'BLOCKED');
+        return;
+      } else {
+        const dialogData: DialogData = {
+          message:
+            '  Active Account Status Can Not Be Changed Other Than Blocked',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        return;
+      }
+    } else if (status === 'BLOCKED') {
+      if (this.actionIntended === 'UnBlock') {
+        this.setStatus(savingsAccountId, 'ACTIVE');
+        return;
+      } else {
+        const dialogData: DialogData = {
+          message: '  Blocked Account Can Only UnBlocked',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+        return;
+      }
     } else if (
       this.actionIntended === 'Reject' &&
       receivedEvent[0].status?.toLowerCase() !== 'blocked'
     ) {
-      this.setStatus(savingsAccountId,'REJECTED');
+      this.setStatus(savingsAccountId, 'REJECTED');
+      return;
+    } else if (
+      this.actionIntended === 'Approve' &&
+      receivedEvent[0].status?.toLowerCase() !== 'blocked' &&
+      receivedEvent[0].status?.toLowerCase() !== 'ACTIVE'
+      // this.accountService.changeStatus(receivedEvent[1],this.actionIntended);
+    ) {
+      this.setStatus(savingsAccountId, 'ACTIVE');
       return;
     } else if (
       this.actionIntended === 'Block' &&
       receivedEvent[0].status?.toLowerCase() !== 'blocked'
     ) {
-      this.setStatus(savingsAccountId,'BLOCKED');
+      this.setStatus(savingsAccountId, 'BLOCKED');
       return;
     } else if (this.actionIntended === 'UnBlock') {
-      this.setStatus(savingsAccountId,'ACTIVE');
+      this.setStatus(savingsAccountId, 'ACTIVE');
     }
     let currentSavingsAccount: SavingsAccountModel = receivedEvent[0];
     this.accountService.modifySavingsAccount(currentSavingsAccount);
   }
-  setStatus(savingAccountId:number,status:string) {
+  setStatus(savingAccountId: number, status: string) {
     const body = {
       savingAccountId: savingAccountId,
-      isAllowOverDraft: "",
+      isAllowOverDraft: '',
       overDraftLimit: 0,
       status: status,
     };
 
-    this.customerTransactionService
-      .overDraftAmount(body)
-      .subscribe((response) => {
+    this.customerTransactionService.overDraftAmount(body).subscribe(
+      (response) => {
         if (response.code === 200) {
-          this.currentSavingsAccounts.filter(savingsAccount=>
-            savingsAccount.savingsAccountId===savingAccountId)[0].status=status;
-          
+          this.currentSavingsAccounts.filter(
+            (savingsAccount) =>
+              savingsAccount.savingsAccountId === savingAccountId
+          )[0].status = status;
+
           const dialogData: DialogData = {
             message: 'Congrats! status changed Successfully',
           };
@@ -171,16 +214,20 @@ export class SavingsAccountComponent {
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
         }
-      },(error)=>{
-          const dialogData: DialogData = {
-            message: 'Sorry! status change got Failed',
-          };
-          const initialState = {
-            dialogData: dialogData,
-          };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
-      });
+      },
+      (error) => {
+        const dialogData: DialogData = {
+          message: 'Sorry! status change got Failed',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+      }
+    );
   }
 }
