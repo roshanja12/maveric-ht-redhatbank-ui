@@ -4,4 +4,5 @@ export interface TransactionDto {
     amount: number;
     balance: number;
     type: string;
+    [key: string]: any;
   }

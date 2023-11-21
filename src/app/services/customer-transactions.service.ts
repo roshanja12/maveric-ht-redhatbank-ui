@@ -55,4 +55,14 @@ export class CustomerTransactionService {
   overDraftAmount(requestBody: any): Observable<any> {
     return this.http.put(this.transactionBaseUrl, requestBody);
   }
+
+  accountClosed(id:number): Observable<any> {
+    const body={
+      "savingAccountId": id,
+      "isAllowOverDraft": null, 
+      "overDraftLimit": 0,
+      "status": "CLOSED"
+    }
+    return this.http.put(this.transactionBaseUrl, body);
+  }
 }
