@@ -27,6 +27,8 @@ export class SavingsAccountComponent {
   options!: Options;
   pageSize = 4;
   searchText!: string;
+  colorColumnName: string = '';
+  colorColumnAttributes!: Map<string, string>;
   collectionSize: number = 0;
   actionIntended: string = '';
   rowOptions: string[] = ['Open', 'Approve', 'Reject', 'Block', 'UnBlock'];
@@ -61,6 +63,14 @@ export class SavingsAccountComponent {
       'customerPhone',
       'status',
     ];
+    this.colorColumnName = 'status';
+    this.colorColumnAttributes = new Map<string, string>([
+      ['ACTIVE', 'green-text-transform'],
+      ['REJECTED', 'red-text-transform'],
+      ['APPLIED', 'custom-text-transform'],
+      ['BLOCKED', 'blocked-text-transform'],
+      ['CLOSED', 'grey-text-transform'],
+    ]);
     this.tableColumns = tableColumns;
     this.getAllSavingsAccounts();
   }

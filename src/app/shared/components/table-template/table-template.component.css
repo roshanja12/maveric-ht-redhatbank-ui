@@ -1,6 +1,6 @@
 .my-custom-scrollbar {
   position: relative;
-  height: 50vh;
+  height: 54vh;
   overflow: auto;
 }
 
@@ -93,9 +93,12 @@ ngb-pagination ::ng-deep ul > li.active > a {
 }
 
 .grey-text-transform {
-  color: rgb(197, 197, 197)
+  color: rgb(197, 197, 197);
 }
 
-.custom-text-transform{
+.custom-text-transform {
   color: rgb(184, 20, 184);
+}
+.blocked-text-transform {
+  color: rgb(236, 236, 53);
 }

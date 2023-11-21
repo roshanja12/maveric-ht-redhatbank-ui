@@ -1,113 +1,170 @@
 <div class="main-customer">
-    <span style="margin-left: 10rem;" (click)="routeToSavingsTable()">Back</span>
-    <div class="sceond-main">
-        <div>
-            <h3 style="margin-top: 2.5rem; margin-left: 2.5rem;
-             padding-top: 2rem;">Savings Account</h3>
-            <div class="customer">
-                <div style="padding-top: 1.25rem;">
-                    <div style="background: #F5F6F8 0% 0% no-repeat padding-box; margin-top: 1.5rem;">
-                        <div class="parent">
-                            <p class="child">
-                                Customer ID
-                            </p>
-                            <p class="child">
-                                Customer Name
-                            </p>
-                        </div>
-                        <div class="parent" style="padding-top: 0 !important;">
-                            <h3 class="child">
-                                {{this.customerId}}
-                            </h3>
-                            <h3 class="child">
-                                {{this.customerName}}
-                            </h3>
-                            <p class="child active">
-                                {{this.status}}
-                            </p>
-                            <span (click)="onModify()" style="color: #EE0200; margin-left: 68%; text-decoration: underline;
-                            font: normal normal bold 16px/19px Wallop;">MODIFY <i *ngIf="!isModifyClicked"
-                                    class="bi bi-chevron-down"></i> <i *ngIf="isModifyClicked"
-                                    class="bi bi-chevron-up"></i></span>
-
-                        </div>
-                    </div>
-
-                    <div  *ngIf="!isModifyClicked" class="modify-class">
-                       <div class="modify-parent">
-                         <div class="modify-parent modify-amount">
-                         <div style="margin-left: 0.25rem;">
-                          <p style="margin-bottom: 0 !important;">Enter</p>
-                          <p style="margin-bottom: 0 !important;">Withdraw Amount</p>
-                        </div>
-                        <div>
-                            <input class="input-tag" [disabled]="this.status !=='ACTIVE'" [defaultValue]="0" [(ngModel)]="withdrawAmount"/>
-                        </div>
-                         </div>
-                         <div>
-                            <button class="btn-class"[disabled]="this.status !=='ACTIVE'" (click)="onClickOfWithdraw()" >WITHDRAW</button>
-                         </div>
-                         
-                       </div>
-                       <div class="modify-parent">
-                        <div  class="modify-parent modify-amount">
-                        <div style="margin-left: 0.25rem;">
-                         <p style="margin-bottom: 0 !important;">Enter</p>
-                         <p style="margin-bottom: 0 !important;">Deposit Amount</p>
-                       </div>
-                       <div>
-                           <input class="input-tag" [disabled]="this.status !=='ACTIVE'" [defaultValue]="0" [(ngModel)]="depositAmount"/>
-                       </div>
-                        </div>
-                        <div>
-                           <button class="btn-class" [disabled]="this.status !=='ACTIVE'"(click)="onClickOfDeposit()">DEPOSIT</button>
-                        </div>
-                        
-                      </div>
-                    </div>
-                    <div *ngIf="isModifyClicked" class="modified-class">
-                        <div style="display: flex; flex-direction: row;">
-                        <input type="checkbox" style="margin-top: 1.9rem; background: #EE0200;
-                        border: 0.3428570032119751px solid #FFFFFF;" [checked]="true" [(ngModel)]="isOverDraftChecked"/>
-                        <label style="margin-left: 0.25rem; margin-top: 3rem; " for="checkbox">Allow Overdraft</label>
-                        <div class="modify-parent modify-amount" style="margin-left: 1.18rem !important;">
-                            <div style="margin-left: 0.25rem;">
-                             <p style="margin-bottom: 0 !important;">Overdraft Limit</p>
-                             <p style="margin-bottom: 0 !important;">{{overDraftAmount}}</p>
-                           </div>
-                           <div class="dropdown">
-                            <form>
-                                <select name="cars" id="cars" [(ngModel)]="overDraftAmount"style="margin-left: 5rem; padding-left: 5rem;" aria-labelledby="" 
-                                [disabled]="this.status !=='ACTIVE' || !this.isOverDraftChecked">
-                                  <option value="1000">1000</option>
-                                  <option value="2000">2000</option>
-                                  <option value="3000">3000</option>
-                                  <option value="4000">4000</option>
-                                </select>
-                              </form>
-                          </div>
-                            </div>
-                            <div>
-                                <button class="btn-class" [disabled]="this.status !=='ACTIVE' || !this.isOverDraftChecked" (click)="onClickOfOverDraft()">SAVE</button>
-                             </div>
-                            </div>
-                     </div>
-                     <div class="notification" >
-                        <div style="margin-left: 87%;">
-                        <img src="assets\savings-historyicons/Mask Group 10202.svg" class="pic">
-                        <span class="closebtn" (click)="openConfirmationModal()" >CLOSE</span>
-                    </div>
-                        <div *ngIf="this.status!=='BLOCKED'"><img 
-                            src="assets\savings-historyicons/Mask Group 10203.svg" class="pic2">
-                        <span class="blockbtn" (click)="onBlock()">BLOCK </span>
-                    </div>
-                     </div>
-                </div>
+  <span style="margin-left: 10rem" (click)="routeToSavingsTable()">Back</span>
+  <div class="sceond-main">
+    <div>
+      <h3 style="margin-top: 2.5rem; margin-left: 2.5rem; padding-top: 2rem">
+        Savings Account
+      </h3>
+      <div class="customer">
+        <div style="padding-top: 1.25rem">
+          <div
+            style="
+              background: #f5f6f8 0% 0% no-repeat padding-box;
+              margin-top: 1.5rem;
+            "
+          >
+            <div class="parent">
+              <p class="child">Customer ID</p>
+              <p class="child">Customer Name</p>
             </div>
+            <div class="parent" style="padding-top: 0 !important">
+              <h3 class="child">
+                {{ this.customerId }}
+              </h3>
+              <h3 class="child">
+                {{ this.customerName }}
+              </h3>
+              <p class="child active">
+                {{ this.status }}
+              </p>
+              <span
+                (click)="onModify()"
+                style="
+                  color: #ee0200;
+                  margin-left: 44vw;
+                  text-decoration: underline;
+                  font: normal normal bold 16px/19px Wallop;
+                "
+                >MODIFY
+                <i *ngIf="!isModifyClicked" class="bi bi-chevron-down"></i>
+                <i *ngIf="isModifyClicked" class="bi bi-chevron-up"></i
+              ></span>
+            </div>
+          </div>
+
+          <div *ngIf="!isModifyClicked" class="modify-class d-flex py-2 px-2">
+            <!-- Withdraw Amount Section -->
+            <div class="modify-parent flex-row">
+              <div
+                class="modify-amount flex-column form-floating"
+              >
+                <input
+                  class="input-tag flex-grow-1 flex-column form-control"
+                  id="withdraw-input"
+                  [disabled]="this.status !== 'ACTIVE'"
+                  [defaultValue]="0"
+                  [(ngModel)]="withdrawAmount"
+                />
+                <label for="withdraw-input">Enter Withdraw Amount</label>
+              </div>
+
+              <div
+                class="flex-grow-1 d-flex justify-content-end align-items-end pe-2"
+              >
+                <button
+                  class="btn-class py-3"
+                  [disabled]="this.status !== 'ACTIVE'"
+                  (click)="onClickOfWithdraw()"
+                >
+                  WITHDRAW
+                </button>
+              </div>
+            </div>
+
+            <!-- Deposit Amount Section -->
+            <div class="modify-parent flex-row">
+              <div
+                class="modify-amount flex-column form-floating"
+              >
+                <input
+                  class="input-tag flex-grow-1 form-control"
+                  id="deposit-input"
+                  [disabled]="this.status !== 'ACTIVE'"
+                  [defaultValue]="0"
+                  [(ngModel)]="depositAmount"
+                />
+                <label for="deposit-input">Enter Deposit Amount</label>
+              </div>
+              <div
+                class="flex-grow-1 d-flex justify-content-end align-items-end pe-2"
+              >
+                <button
+                  class="btn-class py-3"
+                  [disabled]="this.status !== 'ACTIVE'"
+                  (click)="onClickOfDeposit()"
+                >
+                  DEPOSIT
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isModifyClicked" class="m-3">
+            <div class="d-flex flex-row">
+              <div class="form-check pe-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="check1"
+                  name="option1"
+                  value="something"
+                  [checked]="true"
+                  [(ngModel)]="isOverDraftChecked"
+                />
+                <label class="form-check-label">Allow Overdraft</label>
+              </div>
+              <div class="form-floating w-100">
+                <select
+                  name="cars"
+                  id="cars"
+                  class="form-select w-100"
+                  [(ngModel)]="overDraftAmount"
+                  [disabled]="
+                    this.status !== 'ACTIVE' || !this.isOverDraftChecked
+                  "
+                >
+                  <option value="1000">1000</option>
+                  <option value="2000">2000</option>
+                  <option value="3000">3000</option>
+                  <option value="4000">4000</option>
+                </select>
+                <label for="cars">Overdraft Limit</label>
+              </div>
+              <button
+                class="btn-class px-2"
+                [disabled]="
+                  this.status !== 'ACTIVE' || !this.isOverDraftChecked
+                "
+                (click)="onClickOfOverDraft()"
+              >
+                SAVE
+              </button>
+            </div>
+          </div>
+          <div class="notification">
+            <div style="margin-left: 87%">
+              <img
+                src="assets\savings-historyicons/Mask Group 10202.svg"
+                class="pic"
+              />
+              <span class="closebtn" (click)="openConfirmationModal()"
+                >CLOSE</span
+              >
+            </div>
+            <div *ngIf="this.status !== 'BLOCKED'">
+              <img
+                src="assets\savings-historyicons/Mask Group 10203.svg"
+                class="pic2"
+              />
+              <span class="blockbtn" (click)="onBlock()">BLOCK </span>
+            </div>
+          </div>
         </div>
-        <div style="margin-left: 2.5rem;">
-           <h3 style="margin-bottom: 0.75rem;">Transaction History</h3>
-        <!-- <p-table [value]="transactions" 
+      </div>
+    </div>
+    <div style="margin-left: 2.5rem">
+      <h3 style="margin-bottom: 0.75rem">Transaction History</h3>
+      <!-- <p-table [value]="transactions" 
         [paginator]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
@@ -135,30 +192,54 @@
                 </tr>
             </ng-template>
         </p-table> -->
-        
-        <div class="pb-2">
-            <app-table-template
-              [columns]="tableColumns"
-              [visibleColumnsElements]="visibleColumnElements"
-              [dataTable]="transactions"
-              [collectionSize]="collectionSize"
-              [pageSize]="pageSize"
-              [rowOptions]="rowOptions"
-            />
-          </div>    
+
+      <div class="pb-2">
+        <app-table-template
+          [columns]="tableColumns"
+          [visibleColumnsElements]="visibleColumnElements"
+          [dataTable]="transactions"
+          [collectionSize]="collectionSize"
+          [pageSize]="pageSize"
+          [rowOptions]="rowOptions"
+        />
+      </div>
     </div>
-    </div>
+  </div>
 </div>
 
-
-<p-dialog header="Header" [(visible)]="this.isModalOpen" [style]="{ width: '50vw' }" [closable]="false" class="dialog">
-    <ng-template pTemplate="header">
-        <h2 class="text-xl font-bold " style="margin-left: 2.5rem; margin-top: 2.5rem;">Are you sure you want to close?</h2>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-bottom: 2.5rem;">
-            <button class="modal-btn" style="margin-right: 0.5rem;" (click)="handleConfirmation(true)">YES</button>
-            <button  class="modal-btn"  (click)="handleConfirmation(false)">NO</button>
-        </div>
-    </ng-template>
+<p-dialog
+  header="Header"
+  [(visible)]="this.isModalOpen"
+  [style]="{ width: '50vw' }"
+  [closable]="false"
+  class="dialog"
+>
+  <ng-template pTemplate="header">
+    <h2
+      class="text-xl font-bold"
+      style="margin-left: 2.5rem; margin-top: 2.5rem"
+    >
+      Are you sure you want to close?
+    </h2>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2.5rem;
+      "
+    >
+      <button
+        class="modal-btn"
+        style="margin-right: 0.5rem"
+        (click)="handleConfirmation(true)"
+      >
+        YES
+      </button>
+      <button class="modal-btn" (click)="handleConfirmation(false)">NO</button>
+    </div>
+  </ng-template>
 </p-dialog>

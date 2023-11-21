@@ -25,7 +25,7 @@
       </div>
     </div>
     <!-- Bar Graph Canvas -->
-    <div>
+    <div *ngIf="chartDataAvailable">
       <canvas
         baseChart
         [datasets]="lineChartData"
@@ -35,6 +35,9 @@
         [type]="'bar'"
       >
       </canvas>
+    </div>
+    <div *ngIf="!chartDataAvailable">
+      <app-no-content-result />
     </div>
  
 

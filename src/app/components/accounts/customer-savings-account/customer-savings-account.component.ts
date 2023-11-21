@@ -27,7 +27,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   transactions!: TransactionDto[];
   dialogIsOpen = false;
   dialogMessage = '';
-  isModifyClicked: boolean = true;
+  isModifyClicked: boolean = false;
   isModalOpen: boolean = false;
   customerId!: number;
   customerName!: string;
@@ -284,7 +284,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   }
 
   routeToSavingsTable() {
-    this.router.navigateByUrl('/savings-account');
+    this.router.navigateByUrl('/savings-accounts');
   }
 
   openConfirmationModal(): void {

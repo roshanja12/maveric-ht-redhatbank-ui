@@ -40,10 +40,6 @@ const routes: Routes = [
     component: CustomerSavingsAccountComponent,
   },
   {
-    path: 'savings-account',
-    component: SavingsAccountComponent,
-  },
-  {
     path: 'customer-payment-history/:customerId/:customerName/:loanAmt/:account/:loanId/:status',
     component: CustomerPaymentHistoryComponent,
   },
