@@ -4,13 +4,16 @@ import { LoanAccountsModel } from 'src/app/models/loan-account.model';
 import { LoanTransactionHistoryModel } from 'src/app/models/loan-transaction-history.model';
 import { SavingsAccountDTO } from 'src/app/models/savings-account.dto';
 import { SavingsAccountModel } from 'src/app/models/savings-account.model';
+import { TransactionDto } from 'src/app/models/transations.dto';
 
 type Data =
   | CustomerModel
   | SavingsAccountModel
   | LoanAccountsModel
   | SavingsAccountDTO
+  | TransactionDto
   | LoanTransactionHistoryModel;
+
 @Component({
   selector: 'app-table-template',
   templateUrl: './table-template.component.html',

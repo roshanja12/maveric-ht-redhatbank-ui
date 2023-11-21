@@ -32,8 +32,14 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   customerId!: number;
   customerName!: string;
   status!: string;
+
   savingsAccountId!: number;
   isOverDraftChecked!: boolean;
+  tableColumns!: string[];
+  visibleColumnElements!: string[];
+  collectionSize: number = 0;
+  pageSize = 4;
+  rowOptions: string[] = [];
   depositAmount!: number;
   withdrawAmount!: number;
   overDraftAmount!: number;
@@ -71,6 +77,23 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnInit(): void {
+     
+    const tableColumns = [
+      'Date',
+      'Description',
+      'Amount',
+      'Type',
+      'Balance'
+    ];
+
+    this.visibleColumnElements = [
+      'date',
+      'description',
+      'amount',
+      'type',
+      'balance'
+    ];
+    this.tableColumns = tableColumns;
     this.route.queryParams.subscribe((params) => {
       this.customerId = params['customerId'];
       this.customerName = params['customerName'];
@@ -88,6 +111,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
         console.log(response);
 
         this.transactions = response;
+        this.collectionSize = this.transactions.length;
       });
   }
 
@@ -270,8 +294,15 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   handleConfirmation(isConfirmed: boolean) {
     // Handle the confirmation result
     if (isConfirmed) {
-      // Perform the desired action
+      this.customerTransactionService.accountClosed(this.savingsAccountId).
+      subscribe(res=>{
+        if(res.code==200){
+          this.status='CLOSED';
+          this.close=true;
+        console.log(res);
       this.isModalOpen = false;
+      }
+      })
     } else {
       this.isModalOpen = false;
     }

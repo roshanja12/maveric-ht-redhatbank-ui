@@ -93,7 +93,7 @@
                             </div>
                      </div>
                      <div class="notification" >
-                        <div style="margin-left: 90%;">
+                        <div style="margin-left: 87%;">
                         <img src="assets\savings-historyicons/Mask Group 10202.svg" class="pic">
                         <span class="closebtn" (click)="openConfirmationModal()" >CLOSE</span>
                     </div>
@@ -107,7 +107,7 @@
         </div>
         <div style="margin-left: 2.5rem;">
            <h3 style="margin-bottom: 0.75rem;">Transaction History</h3>
-        <p-table [value]="transactions" 
+        <!-- <p-table [value]="transactions" 
         [paginator]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
@@ -134,15 +134,19 @@
                     <td class="column-width">{{transaction.balance}}</td>
                 </tr>
             </ng-template>
-
-            <!-- <ng-template pTemplate="paginatorleft">
-                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-            </ng-template>
-            <ng-template pTemplate="paginatorright">
-                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-            </ng-template> -->
-        </p-table>
-        </div>
+        </p-table> -->
+        
+        <div class="pb-2">
+            <app-table-template
+              [columns]="tableColumns"
+              [visibleColumnsElements]="visibleColumnElements"
+              [dataTable]="transactions"
+              [collectionSize]="collectionSize"
+              [pageSize]="pageSize"
+              [rowOptions]="rowOptions"
+            />
+          </div>    
+    </div>
     </div>
 </div>
 
