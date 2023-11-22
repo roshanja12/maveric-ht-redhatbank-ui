@@ -34,7 +34,7 @@
                   margin-left: 44vw;
                   text-decoration: underline;
                   font: normal normal bold 16px/19px Wallop;
-                "
+                " *ngIf="!close"
                 >MODIFY
                 <i *ngIf="!isModifyClicked" class="bi bi-chevron-down"></i>
                 <i *ngIf="isModifyClicked" class="bi bi-chevron-up"></i
@@ -44,7 +44,7 @@
 
           <div *ngIf="!isModifyClicked" class="modify-class d-flex py-2 px-2">
             <!-- Withdraw Amount Section -->
-            <div class="modify-parent flex-row">
+            <div class="modify-parent flex-row" *ngIf="!close" >
               <div
                 class="modify-amount flex-column form-floating"
               >
@@ -72,7 +72,7 @@
             </div>
 
             <!-- Deposit Amount Section -->
-            <div class="modify-parent flex-row">
+            <div class="modify-parent flex-row" *ngIf="!close">
               <div
                 class="modify-amount flex-column form-floating"
               >
@@ -100,7 +100,7 @@
           </div>
 
           <div *ngIf="isModifyClicked" class="m-3">
-            <div class="d-flex flex-row">
+            <div class="d-flex flex-row" *ngIf="!close">
               <div class="form-check pe-3">
                 <input
                   class="form-check-input"
@@ -141,7 +141,7 @@
               </button>
             </div>
           </div>
-          <div class="notification">
+          <div class="notification" *ngIf="!close">
             <div style="margin-left: 87%">
               <img
                 src="assets\savings-historyicons/Mask Group 10202.svg"
@@ -151,10 +151,10 @@
                 >CLOSE</span
               >
             </div>
-            <div *ngIf="this.status !== 'BLOCKED'">
+            <div *ngIf="this.status !== 'BLOCKED'"  >
               <img
                 src="assets\savings-historyicons/Mask Group 10203.svg"
-                class="pic2"
+                class="pic2" 
               />
               <span class="blockbtn" (click)="onBlock()">BLOCK </span>
             </div>
@@ -162,7 +162,7 @@
         </div>
       </div>
     </div>
-    <div style="margin-left: 2.5rem">
+    <div style="margin-left: 2.5rem" *ngIf="!close" >
       <h3 style="margin-bottom: 0.75rem">Transaction History</h3>
       <!-- <p-table [value]="transactions" 
         [paginator]="true"
@@ -208,11 +208,12 @@
 </div>
 
 <p-dialog
-  header="Header"
+  header="Header" 
   [(visible)]="this.isModalOpen"
   [style]="{ width: '50vw' }"
   [closable]="false"
   class="dialog"
+  
 >
   <ng-template pTemplate="header">
     <h2
