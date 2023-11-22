@@ -58,8 +58,45 @@ export class TableTemplateComponent implements OnInit {
   }
   onColumnCustomiseStyle(header: string, element: string) {
     if (header != this.colorColumnName) {
-      return '';
+      if (this.isNumber(element)) {
+        return 'text-center';
+      }
+      return ' text-center';
     }
-    return this.colorColumnAttributes.get(element);
+
+    return this.colorColumnAttributes.get(element) + ' text-center';
+  }
+
+  isNumber(value: any): boolean {
+    return typeof value === 'number' && isFinite(value) && !isNaN(value);
+  }
+
+  formatDateTime(inputString: string): string | null {
+    // Define a regular expression for the expected format
+    const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z?$/;
+
+    // Check if the input string matches the expected format
+    if (!regex.test(inputString)) {
+      return inputString;
+    }
+
+    // If the format is correct, proceed with formatting
+    const date = new Date(inputString);
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true,
+    };
+
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+      date
+    );
+
+    return formattedDate;
   }
 }

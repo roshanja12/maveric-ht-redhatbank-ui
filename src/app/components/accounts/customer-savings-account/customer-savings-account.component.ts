@@ -27,7 +27,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   transactions!: TransactionDto[];
   dialogIsOpen = false;
   dialogMessage = '';
-  isModifyClicked: boolean = true;
+  isModifyClicked: boolean = false;
   isModalOpen: boolean = false;
   customerId!: number;
   customerName!: string;
@@ -43,8 +43,8 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   depositAmount!: number;
   withdrawAmount!: number;
   overDraftAmount!: number;
-  close:boolean=false;
-  block:boolean=false;
+  close: boolean = false;
+  block: boolean = false;
   constructor(
     private route: ActivatedRoute,
     public router: Router,
@@ -77,21 +77,14 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnInit(): void {
-     
-    const tableColumns = [
-      'Date',
-      'Description',
-      'Amount',
-      'Type',
-      'Balance'
-    ];
+    const tableColumns = ['Date', 'Description', 'Amount', 'Type', 'Balance'];
 
     this.visibleColumnElements = [
       'date',
       'description',
       'amount',
       'type',
-      'balance'
+      'balance',
     ];
     this.tableColumns = tableColumns;
     this.route.queryParams.subscribe((params) => {
@@ -138,7 +131,9 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
             const initialState = {
               dialogData: dialogData,
             };
-            this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+            this.modalService.show(DialogErrorSkeletonComponent, {
+              initialState,
+            });
           }
           // Handle success, update UI, etc.
         },
@@ -149,7 +144,9 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
           // Handle error, show error message, etc.
         }
       );
@@ -159,6 +156,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
       .withdrawAmount(this.savingsAccountId, this.withdrawAmount)
       .subscribe(
         (response) => {
+          console.log(response);
           if (response.code === 201) {
             this.getAllTransactions();
 
@@ -172,25 +170,20 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
             this.modalService.show(DialogSkeletonComponent, { initialState });
             console.log('Withdrawal successful', response);
             // Handle success, update UI, etc.\
-          } else {
-            console.log('Withdrawal failed. Response:', response);
-            const dialogData: DialogData = {
-              message: 'Sorry! Withdraw Failed',
-            };
-            const initialState = {
-              dialogData: dialogData,
-            };
-            this.modalService.show(DialogErrorSkeletonComponent, { initialState });
           }
         },
         (error) => {
+          console.log(error);
+
           const dialogData: DialogData = {
-            message: 'Sorry! withdraw Failed',
+            message: 'Sorry! withdraw Failed: ' + error.error.errors[0].message,
           };
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
           // Handle error, show error message, etc.
         }
       );
@@ -204,9 +197,8 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
       status: 'APPLIED',
     };
 
-    this.customerTransactionService
-      .overDraftAmount(body)
-      .subscribe((response) => {
+    this.customerTransactionService.overDraftAmount(body).subscribe(
+      (response) => {
         if (response.code === 200) {
           const dialogData: DialogData = {
             message: 'Congrats! OverDraft added Successfully',
@@ -218,43 +210,46 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
         } else {
           console.log('Withdrawal failed. Response:', response);
           const dialogData: DialogData = {
-            message: 'Sorry! OverDraft process Failed',
+            message: 'Sorry! OverDraft process Failed' + response,
           };
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
         }
-      },(error)=>{
-      const dialogData: DialogData = {
-        message: 'Sorry! OverDraft process Failed',
-      };
-      const initialState = {
-        dialogData: dialogData,
-      };
-      this.modalService.show(DialogErrorSkeletonComponent, { initialState });});
+      },
+      (error) => {
+        const dialogData: DialogData = {
+          message: 'Sorry! OverDraft process Failed',
+        };
+        const initialState = {
+          dialogData: dialogData,
+        };
+        this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+      }
+    );
   }
 
   onModify() {
     this.isModifyClicked = !this.isModifyClicked;
   }
   onClose() {
-    this.close=true;
-
+    this.close = true;
   }
   onBlock() {
     const body = {
       savingAccountId: this.savingsAccountId,
-      isAllowOverDraft: "",
+      isAllowOverDraft: '',
       overDraftLimit: 0,
       status: 'BLOCKED',
     };
 
-    this.customerTransactionService
-      .overDraftAmount(body)
-      .subscribe((response) => {
+    this.customerTransactionService.overDraftAmount(body).subscribe(
+      (response) => {
         if (response.code === 200) {
-          this.status="BLOCKED";
+          this.status = 'BLOCKED';
           const dialogData: DialogData = {
             message: 'Account Blocked Successfully',
           };
@@ -270,9 +265,12 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
           const initialState = {
             dialogData: dialogData,
           };
-          this.modalService.show(DialogErrorSkeletonComponent, { initialState });
+          this.modalService.show(DialogErrorSkeletonComponent, {
+            initialState,
+          });
         }
-      },(error)=>{
+      },
+      (error) => {
         const dialogData: DialogData = {
           message: 'Sorry! status change got Failed',
         };
@@ -280,11 +278,12 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
           dialogData: dialogData,
         };
         this.modalService.show(DialogErrorSkeletonComponent, { initialState });
-    });
+      }
+    );
   }
 
   routeToSavingsTable() {
-    this.router.navigateByUrl('/savings-account');
+    this.router.navigateByUrl('/savings-accounts');
   }
 
   openConfirmationModal(): void {
@@ -294,15 +293,16 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
   handleConfirmation(isConfirmed: boolean) {
     // Handle the confirmation result
     if (isConfirmed) {
-      this.customerTransactionService.accountClosed(this.savingsAccountId).
-      subscribe(res=>{
-        if(res.code==200){
-          this.status='CLOSED';
-          this.close=true;
-        console.log(res);
-      this.isModalOpen = false;
-      }
-      })
+      this.customerTransactionService
+        .accountClosed(this.savingsAccountId)
+        .subscribe((res) => {
+          if (res.code == 200) {
+            this.status = 'CLOSED';
+            this.close = true;
+            console.log(res);
+            this.isModalOpen = false;
+          }
+        });
     } else {
       this.isModalOpen = false;
     }

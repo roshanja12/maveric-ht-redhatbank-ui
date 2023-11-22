@@ -20,7 +20,7 @@ export class ModifyCustomerComponent {
   @Output() customerModified: EventEmitter<boolean> =
     new EventEmitter<boolean>();
 
-  citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune'];
+  citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune', 'Hyderabad'];
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,

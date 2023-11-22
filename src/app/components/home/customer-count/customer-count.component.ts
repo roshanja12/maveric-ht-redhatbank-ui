@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { ChartDataset, ChartOptions } from 'chart.js';
 import { InsightsService } from 'src/app/services/insights.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-customer-count',
@@ -9,10 +10,11 @@ import { InsightsService } from 'src/app/services/insights.service';
   styleUrls: ['./customer-count.component.css'],
 })
 export class CustomerCountComponent {
-  data: number[] = [45, 65, 22, 33, 55, 58, 23, 44, 67, 59, 60, 69];
+  data: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   totalCustomerCount: number = this.getSumOfArray(this.data);
-  yearAvailable: number[] = this.createNumberArray(2019, 2024);
-  currentYearChosen: number = this.yearAvailable[0];
+  yearAvailable: number[] = this.createNumberArray(2019, 2023);
+  currentYearChosen: number = this.yearAvailable[this.yearAvailable.length - 1];
+  chartDataAvailable: boolean = false;
   public lineChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -62,14 +64,17 @@ export class CustomerCountComponent {
     },
   ];
 
-  constructor(private insightsService: InsightsService) {}
+  constructor(
+    private insightsService: InsightsService,
+    private cdr: ChangeDetectorRef,
+    private snackBarService: SnackbarService
+  ) {}
 
   ngOnInit() {
-    this.updateChartData(this.yearAvailable[0]);
+    this.updateChartData(this.yearAvailable[this.yearAvailable.length - 1]);
   }
 
   createNumberArray(x: number, y: number): number[] {
-    // Use Array.from() to create an array of numbers from x to y
     return Array.from({ length: y - x + 1 }, (_, index) => index + x);
   }
 
@@ -77,17 +82,26 @@ export class CustomerCountComponent {
     this.insightsService.getCustomerCount(year).subscribe(
       (res) => {
         console.log(res);
-        this.data = res;
-        this.totalCustomerCount = this.getSumOfArray(res);
+        this.data = Object.values(res);
+        this.totalCustomerCount = this.getSumOfArray(Object.values(res));
+        this.lineChartData[0].data = this.data;
+        this.chartDataAvailable = true;
+        this.cdr.detectChanges();
       },
       (error) => {
         console.log(error);
+        this.snackBarService.showSnackBar(
+          'Customer count fetch is not available for this year'
+        );
+        this.totalCustomerCount = 0;
+        this.data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        this.chartDataAvailable = false;
+        this.cdr.detectChanges();
       }
     );
   }
   updateChartData(yearChosen: number) {
     this.getCustomerCountByYear(yearChosen);
-    this.lineChartData[0].data = this.data;
   }
   customerCountYearChoose(yearChosen: number) {
     this.currentYearChosen = yearChosen;

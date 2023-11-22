@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { InsightsService } from 'src/app/services/insights.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-total-customer',
@@ -7,20 +8,29 @@ import { InsightsService } from 'src/app/services/insights.service';
   styleUrls: ['./total-customer.component.css'],
 })
 export class TotalCustomerComponent {
-  cities = ['Hyderabad', 'Bangalore', 'Chennai', 'Pune'];
-
-  currentValue = 60;
-  constructor(private insightsService: InsightsService) {}
+  cities: string[] = ['Bangalore', 'Chennai', 'Pune', 'Hyderabad'];
+  cityChosen: string = this.cities[0];
+  currentValue!: number;
+  constructor(
+    private insightsService: InsightsService,
+    private snackBarService: SnackbarService
+  ) {}
 
   get fillPercentage(): number {
     return this.currentValue;
   }
 
+  ngOnInit() {
+    this.getTotalCustomerPercentageByCity(this.cities[0]);
+  }
+
   getBackground(count: number) {
     const percentage = count;
-    const verticalGradient = `linear-gradient(180deg, transparent ${percentage}%, #6672FA ${percentage}%)`;
-    const horizontalGradient = `linear-gradient(90deg, transparent ${percentage}%, #6672FA ${percentage}%)`;
-    return `${verticalGradient}, ${horizontalGradient}`;
+    const gradient = `conic-gradient(
+      #6672FA ${percentage}%,
+      transparent ${percentage}% 100%
+    )`;
+    return gradient;
   }
 
   getTotalCustomerPercentageByCity(city: string) {
@@ -29,10 +39,14 @@ export class TotalCustomerComponent {
       .subscribe(
         (res) => {
           console.log(res);
-          this.currentValue = res;
+          this.currentValue = parseInt(res, 10);
+          this.cityChosen = city;
         },
         (error) => {
           console.log(error);
+          this.snackBarService.showSnackBar(
+            'Unable to fetch total customer percentage by city values'
+          );
         }
       );
   }

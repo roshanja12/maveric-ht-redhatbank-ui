@@ -23,7 +23,7 @@
               </th>
             </tr>
           </thead>
-          <tbody class="px-3 text-justify text-center">
+          <tbody class="px-2">
             <tr
               scope="row"
               class="m-3"
@@ -32,12 +32,21 @@
                   | slice : (page - 1) * pageSize : page * pageSize
               "
             >
-              <td *ngFor="let header of visibleColumnsElements" [class]="onColumnCustomiseStyle(header, item[header])">
-                {{ item[header] }}
+              <td
+                *ngFor="let header of visibleColumnsElements"
+                [class]="
+                  onColumnCustomiseStyle(header, item[header]) + ' text-justify'
+                "
+              >
+                {{ formatDateTime(item[header]) }}
               </td>
               <td *ngIf="numberOfRowOptions != 0" ngbDropdown>
                 <button class="btn btn-light bi-three-dots" ngbDropdownToggle>
-                  <div ngbDropdownMenu aria-labelledby="dropdownConfig" placement="left">
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownConfig"
+                    placement="left"
+                  >
                     <button
                       *ngFor="let menuItem of rowOptions"
                       ngbDropdownItem
