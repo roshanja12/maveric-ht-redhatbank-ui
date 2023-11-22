@@ -92,6 +92,7 @@ export class CustomerSavingsAccountComponent implements OnInit, AfterViewInit {
       this.customerName = params['customerName'];
       this.savingsAccountId = params['savingsAccountId'];
       this.status = params['status'];
+      this.close=this.status=="CLOSED"?true:false;
     });
 
     this.getAllTransactions();
