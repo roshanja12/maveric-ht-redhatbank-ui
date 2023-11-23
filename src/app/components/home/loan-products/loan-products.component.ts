@@ -9,20 +9,20 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 })
 export class LoanProductsComponent {
   years = [2023, 2022, 2021, 2020];
-
+  maxProductsSold: number = 0;
   monthsData: { [key: string]: number } = {
-    January: 90,
-    February: 40,
-    March: 60,
-    April: 60,
-    May: 45,
-    June: 75,
-    July: 62,
-    August: 23,
-    September: 43,
-    October: 49,
-    Novemeber: 29,
-    December: 39,
+    January: 0,
+    February: 0,
+    March: 0,
+    April: 0,
+    May: 0,
+    June: 0,
+    July: 0,
+    August: 0,
+    September: 0,
+    October: 0,
+    Novemeber: 0,
+    December: 0,
   };
 
   constructor(
@@ -53,13 +53,15 @@ export class LoanProductsComponent {
   }
 
   getBackground(count: number) {
-    const percentage = (count / 100) * 100;
+    const percentage = (count / this.maxProductsSold) * 100;
     return `linear-gradient(to right, #00E38C ${percentage}%, #F5F6F8 ${percentage}%)`;
   }
   getLoanDataByYear(year: number) {
     this.insightsService.getLoanProducts(year).subscribe(
       (res) => {
-        console.log(res);
+        this.maxProductsSold = Number(
+          res[Object.keys(res).reduce((a, b) => (res[a] > res[b] ? a : b))]
+        );
         this.monthsData = res;
       },
       (err) => {
@@ -67,6 +69,21 @@ export class LoanProductsComponent {
           'Unable to fetch data for loan products for the year ' + year
         );
         console.log(err);
+        this.maxProductsSold = 0;
+        this.monthsData = {
+          January: 0,
+          February: 0,
+          March: 0,
+          April: 0,
+          May: 0,
+          June: 0,
+          July: 0,
+          August: 0,
+          September: 0,
+          October: 0,
+          Novemeber: 0,
+          December: 0,
+        };
       }
     );
   }
