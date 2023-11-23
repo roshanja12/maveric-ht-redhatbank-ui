@@ -14,7 +14,7 @@ import { DialogSkeletonComponent } from 'src/app/shared/dialogs/dialog-skeleton/
 export class AddCustomerComponent {
   addCustomerForm: FormGroup;
   modalRef!: BsModalRef;
-  citiesAvailable: string[] = ['Bangalore', 'Mumbai', 'Pune', 'Hyderabad'];
+  citiesAvailable: string[] = ['Bangalore', 'Chennai', 'Pune', 'Hyderabad'];
   constructor(
     private formBuilder: FormBuilder,
     private bsModalRef: BsModalRef,
